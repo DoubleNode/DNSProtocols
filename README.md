@@ -1,4 +1,4 @@
-![DoubleNode Swift Framework](https://raw.githubusercontent.com/Alamofire/Alamofire/master/alamofire.png)
+![DoubleNode Swift Framework](https://github.com/DoubleNode/DNSProtocols/raw/master/DNSFrameworkLogo.png)
 
 [![Build Status](https://app.bitrise.io/app/3bd68b47d80204de/status.svg?token=3B6hNhGUehqPn7cEY6jh2w)](https://app.bitrise.io/app/3bd68b47d80204de) 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/79d1ea4ee32b4ca6b379eaa0b88a2873)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DoubleNode/Pod_DNSProtocols&amp;utm_campaign=Badge_Grade)
