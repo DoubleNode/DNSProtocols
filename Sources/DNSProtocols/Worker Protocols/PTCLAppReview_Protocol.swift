@@ -1,6 +1,6 @@
 //
 //  PTCLAppReview_Protocol.swift
-//  DoubleNode Core - DNSProtocols
+//  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers on 2019/08/12.
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.

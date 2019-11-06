@@ -1,10 +1,22 @@
 // swift-tools-version:5.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+//
+//  Package.swift
+//  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
+//
+//  Created by Darren Ehlers on 2019/08/12.
+//  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
+//
 
 import PackageDescription
 
 let package = Package(
     name: "DNSProtocols",
+    platforms: [
+        .iOS(.v13),
+        .tvOS(.v13),
+        .macOS(.v10_15),
+        .watchOS(.v6),
+    ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
@@ -24,5 +36,6 @@ let package = Package(
         .testTarget(
             name: "DNSProtocolsTests",
             dependencies: ["DNSProtocols"]),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )
