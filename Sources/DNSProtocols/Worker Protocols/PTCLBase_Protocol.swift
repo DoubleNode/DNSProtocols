@@ -8,7 +8,7 @@
 
 import Foundation
 
-// (Int currentStep, Int totalSteps, Float precentCompleted, String statusText)
+// (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
 public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 
 public protocol PTCLBase_Protocol: class

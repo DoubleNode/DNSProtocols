@@ -8,9 +8,9 @@
 
 import Foundation
 
-// (Error? error)
+// (error: Error?)
 public typealias PTCLCacheBlockVoidError = (Error?) -> Void
-// (Any? object, Error? error)
+// (object: Any?, error: Error?)
 public typealias PTCLCacheBlockVoidAnyError = (Any?, Error?) -> Void
 
 public protocol PTCLCrash_Protocol: PTCLBase_Protocol
@@ -21,17 +21,16 @@ public protocol PTCLCrash_Protocol: PTCLBase_Protocol
     func nextCrashWorker() -> PTCLCrash_Protocol?
 
     // MARK: - Business Logic / Single Item CRUD
-    func doReadObject(for id: String,
-                      with progress: PTCLProgressBlock?,
-                      and block: PTCLCacheBlockVoidAnyError?) throws
     func doDeleteObject(for id: String,
                         with progress: PTCLProgressBlock?,
                         and block: PTCLCacheBlockVoidAnyError?) throws
+    func doReadObject(for id: String,
+                      with progress: PTCLProgressBlock?,
+                      and block: PTCLCacheBlockVoidAnyError?) throws
     func doLoadImage(for url: NSURL,
                      with progress: PTCLProgressBlock?,
                      and block: PTCLCacheBlockVoidAnyError?) throws
     func doUpdateObject(for id: String,
                         with progress: PTCLProgressBlock?,
                         and block: PTCLCacheBlockVoidAnyError?) throws
-
 }
