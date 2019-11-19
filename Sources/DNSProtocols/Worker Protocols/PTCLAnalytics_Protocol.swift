@@ -8,8 +8,13 @@
 
 import Foundation
 
-public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol where NextWorker: PTCLAnalytics_Protocol
+public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
 {
+    var nextWorker: PTCLAnalytics_Protocol { get }
+    
+    init()
+    init(nextWorker: PTCLAnalytics_Protocol)
+
     // MARK: - Identify
     func doIdentify(userId: String) throws
     func doIdentify(userId: String, traits: [String: Any]?) throws

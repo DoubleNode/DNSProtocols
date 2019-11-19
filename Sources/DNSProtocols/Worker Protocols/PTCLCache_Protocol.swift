@@ -13,8 +13,13 @@ public typealias PTCLCacheBlockVoidError = (Error?) -> Void
 // (object: Any?, error: Error?)
 public typealias PTCLCacheBlockVoidAnyError = (Any?, Error?) -> Void
 
-public protocol PTCLCrash_Protocol: PTCLBase_Protocol where NextWorker: PTCLCrash_Protocol
+public protocol PTCLCrash_Protocol: PTCLBase_Protocol
 {
+    var nextWorker: PTCLCrash_Protocol { get }
+    
+    init()
+    init(nextWorker: PTCLCrash_Protocol)
+
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
                         with progress: PTCLProgressBlock?,

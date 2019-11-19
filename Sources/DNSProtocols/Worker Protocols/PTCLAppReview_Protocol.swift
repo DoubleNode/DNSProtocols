@@ -8,8 +8,13 @@
 
 import Foundation
 
-public protocol PTCLAppReview_Protocol: PTCLBase_Protocol where NextWorker: PTCLAppReview_Protocol
+public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
 {
+    var nextWorker: PTCLAppReview_Protocol { get }
+    
+    init()
+    init(nextWorker: PTCLAppReview_Protocol)
+
     var launchedCount: UInt { get set }
     var launchedFirstTime: Date { get set }
     var launchedLastTime: Date? { get set }
