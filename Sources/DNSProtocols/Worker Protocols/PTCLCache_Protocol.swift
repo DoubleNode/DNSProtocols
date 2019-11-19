@@ -1,5 +1,5 @@
 //
-//  PTCLCrash_Protocol.swift
+//  PTCLCache_Protocol.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers on 2019/08/12.
@@ -13,12 +13,12 @@ public typealias PTCLCacheBlockVoidError = (Error?) -> Void
 // (object: Any?, error: Error?)
 public typealias PTCLCacheBlockVoidAnyError = (Any?, Error?) -> Void
 
-public protocol PTCLCrash_Protocol: PTCLBase_Protocol
+public protocol PTCLCache_Protocol: PTCLBase_Protocol
 {
-    var nextWorker: PTCLCrash_Protocol? { get }
+    var nextWorker: PTCLCache_Protocol? { get }
     
     init()
-    init(nextWorker: PTCLCrash_Protocol)
+    init(nextWorker: PTCLCache_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
