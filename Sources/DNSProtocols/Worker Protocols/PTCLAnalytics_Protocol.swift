@@ -10,7 +10,7 @@ import Foundation
 
 public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
 {
-    var nextWorker: PTCLAnalytics_Protocol { get }
+    var nextWorker: PTCLAnalytics_Protocol? { get }
     
     init()
     init(nextWorker: PTCLAnalytics_Protocol)

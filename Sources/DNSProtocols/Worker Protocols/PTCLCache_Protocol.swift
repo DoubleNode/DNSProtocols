@@ -15,7 +15,7 @@ public typealias PTCLCacheBlockVoidAnyError = (Any?, Error?) -> Void
 
 public protocol PTCLCrash_Protocol: PTCLBase_Protocol
 {
-    var nextWorker: PTCLCrash_Protocol { get }
+    var nextWorker: PTCLCrash_Protocol? { get }
     
     init()
     init(nextWorker: PTCLCrash_Protocol)
