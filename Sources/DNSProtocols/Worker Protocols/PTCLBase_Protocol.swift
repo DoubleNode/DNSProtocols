@@ -13,6 +13,13 @@ public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 
 public protocol PTCLBase_Protocol: class
 {
+    associatedtype NextWorker : PTCLBase_Protocol
+    
+    var nextWorker: Self.NextWorker { get }
+    
+    init()
+    init(nextWorker: NextWorker)
+
     func configure()
 
     func enableOption(option: String)

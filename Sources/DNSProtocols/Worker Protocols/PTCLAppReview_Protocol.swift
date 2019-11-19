@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
+public protocol PTCLAppReview_Protocol: PTCLBase_Protocol where NextWorker: PTCLAppReview_Protocol
 {
     var launchedCount: UInt { get set }
     var launchedFirstTime: Date { get set }
@@ -19,11 +19,6 @@ public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
     var daysUntilPrompt: Int { get set }
     var usesUntilPrompt: Int { get set }
     var daysBeforeReminding: Int { get set }
-
-    init()
-    init(nextAppReviewWorker: PTCLAppReview_Protocol)
-
-    func nextAppReviewWorker() -> PTCLAppReview_Protocol?
 
     // MARK: - Business Logic / Single Item CRUD
     func doReview() throws -> Bool
