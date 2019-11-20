@@ -11,7 +11,7 @@ import Foundation
 public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
 {
     var nextWorker: PTCLAppReview_Protocol? { get }
-    
+
     init()
     init(nextWorker: PTCLAppReview_Protocol)
 
