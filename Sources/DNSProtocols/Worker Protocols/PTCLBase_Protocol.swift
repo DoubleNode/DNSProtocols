@@ -17,7 +17,7 @@ public protocol PTCLBase_Protocol: class
 
     func enableOption(option: String)
     func disableOption(option: String)
-    
+
     // MARK: - UIWindowSceneDelegate methods
 
     // Called when the scene has moved from an inactive state to an active state.
