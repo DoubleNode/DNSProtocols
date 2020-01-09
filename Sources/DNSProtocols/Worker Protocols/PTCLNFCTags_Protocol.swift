@@ -6,7 +6,9 @@
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
 //
 
+#if !os(macOS)
 import CoreNFC
+#endif
 import Foundation
 
 public protocol DNSError: LocalizedError {
