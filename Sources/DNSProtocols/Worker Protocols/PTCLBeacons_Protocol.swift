@@ -24,6 +24,6 @@ public protocol PTCLBeacons_Protocol: PTCLBase_Protocol {
                         for processKey: String,
                         with progress: PTCLProgressBlock?,
                         and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
-    
+
     func doStopRangeBeacons(for processKey: String) throws
 }
