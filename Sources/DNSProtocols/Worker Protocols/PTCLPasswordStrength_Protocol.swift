@@ -9,11 +9,11 @@
 import DNSDataObjects
 import Foundation
 
-public enum PTCLPasswordStrengthType
+public enum PTCLPasswordStrengthType: Int8
 {
-    case weak
-    case moderate
-    case strong
+    case weak = 0
+    case moderate = 50
+    case strong = 100
 }
 
 public protocol PTCLPasswordStrength_Protocol: PTCLBase_Protocol {
