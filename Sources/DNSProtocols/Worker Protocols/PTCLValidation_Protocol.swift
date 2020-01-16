@@ -67,7 +67,7 @@ extension PTCLValidationError: DNSError {
 public typealias PTCLValidationBlockVoidBoolDNSError = (Bool, DNSError?) -> Void
 
 public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
-    var nextWorker: PTCLPasswordStrength_Protocol? { get }
+    var nextWorker: PTCLValidation_Protocol? { get }
 
     var minimumBirthdateAge: Int32 { get set }  // -1 = no minimum
     var maximumBirthdateAge: Int32 { get set }  // -1 = no maximum
@@ -91,7 +91,7 @@ public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
     var maximumUnsignedNumberValue: Int64 { get set }   // -1 = no maximum
 
     init()
-    init(nextWorker: PTCLPasswordStrength_Protocol)
+    init(nextWorker: PTCLValidation_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 
