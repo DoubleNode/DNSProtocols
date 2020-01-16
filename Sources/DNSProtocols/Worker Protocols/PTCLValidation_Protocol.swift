@@ -90,6 +90,8 @@ public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
     var minimumUnsignedNumberValue: Int64 { get set }   // -1 = no minimum
     var maximumUnsignedNumberValue: Int64 { get set }   // -1 = no maximum
 
+    var requiredPasswordStrength: PTCLPasswordStrengthType { get set }
+    
     init()
     init(nextWorker: PTCLValidation_Protocol)
 
