@@ -8,6 +8,10 @@
 
 import Foundation
 
+public protocol DNSError: LocalizedError {
+    var nsError: NSError! { get }
+}
+
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
 public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 

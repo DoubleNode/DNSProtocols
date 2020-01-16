@@ -11,10 +11,6 @@ import CoreNFC
 #endif
 import Foundation
 
-public protocol DNSError: LocalizedError {
-    var nsError: NSError! { get }
-}
-
 public enum PTCLNFCTagsError: Error
 {
     case notSupported(domain: String, file: String, line: String, method: String)
