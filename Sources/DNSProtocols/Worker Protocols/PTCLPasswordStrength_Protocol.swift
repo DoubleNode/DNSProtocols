@@ -19,6 +19,8 @@ public enum PTCLPasswordStrengthType
 public protocol PTCLPasswordStrength_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLPasswordStrength_Protocol? { get }
 
+    var minimumLength: Int32 { get set }
+
     init()
     init(nextWorker: PTCLPasswordStrength_Protocol)
 
