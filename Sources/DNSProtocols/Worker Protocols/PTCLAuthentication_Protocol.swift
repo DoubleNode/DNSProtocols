@@ -8,11 +8,33 @@
 
 import UIKit
 
+public enum PTCLAuthenticationError: Error
+{
+    case failure(domain: String, file: String, line: String, method: String)
+}
+
+extension PTCLAuthenticationError: DNSError {
+    public var nsError: NSError! {
+        switch self {
+        case .failure(let domain, let file, let line, let method):
+            let userInfo: [String : Any] = ["DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                                            NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"]
+            return NSError.init(domain: domain, code: -9999, userInfo: userInfo)
+        }
+    }
+    public var errorDescription: String? {
+        switch self {
+        case .failure(let domain, let file, let line, let method):
+            return NSLocalizedString("SignIn Failure (\(domain):\(file):\(line):\(method))", comment: "")
+        }
+    }
+}
+
 public protocol PTCLAuthentication_AccessData {
 }
 
-public typealias PTCLAuthenticationBlockVoidBoolError = (Bool, Error?) -> Void
-public typealias PTCLAuthenticationBlockVoidBoolAccessDataError = (Bool, PTCLAuthentication_AccessData, Error?) -> Void
+public typealias PTCLAuthenticationBlockVoidBoolDNSError = (Bool, DNSError?) -> Void
+public typealias PTCLAuthenticationBlockVoidBoolAccessDataDNSError = (Bool, PTCLAuthentication_AccessData, DNSError?) -> Void
 
 public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLAuthentication_Protocol? { get }
@@ -23,13 +45,13 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],
                                with progress: PTCLProgressBlock?,
-                               and block: PTCLAuthenticationBlockVoidBoolAccessDataError) throws
+                               and block: PTCLAuthenticationBlockVoidBoolAccessDataDNSError) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
                   with progress: PTCLProgressBlock?,
-                  and block: @escaping PTCLAuthenticationBlockVoidBoolAccessDataError) throws
+                  and block: @escaping PTCLAuthenticationBlockVoidBoolAccessDataDNSError) throws
     func doSignOut(using parameters: [String: Any],
                    with progress: PTCLProgressBlock?,
-                   and block: @escaping PTCLAuthenticationBlockVoidBoolError) throws
+                   and block: @escaping PTCLAuthenticationBlockVoidBoolDNSError) throws
 }
