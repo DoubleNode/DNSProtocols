@@ -33,8 +33,12 @@ extension PTCLAuthenticationError: DNSError {
 public protocol PTCLAuthentication_AccessData {
 }
 
+// (success: Bool, error: DNSError?)
 public typealias PTCLAuthenticationBlockVoidBoolDNSError = (Bool, DNSError?) -> Void
+// (authenticated: Bool, error: DNSError?)
 public typealias PTCLAuthenticationBlockVoidBoolAccessDataDNSError = (Bool, PTCLAuthentication_AccessData, DNSError?) -> Void
+// (authenticated: Bool, expiredAuthentication: Bool, error: DNSError?)
+public typealias PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError = (Bool, Bool, PTCLAuthentication_AccessData, DNSError?) -> Void
 
 public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLAuthentication_Protocol? { get }
@@ -45,7 +49,7 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],
                                with progress: PTCLProgressBlock?,
-                               and block: PTCLAuthenticationBlockVoidBoolAccessDataDNSError) throws
+                               and block: PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
