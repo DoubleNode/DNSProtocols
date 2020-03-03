@@ -23,14 +23,16 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
                         with progress: PTCLProgressBlock?,
-                        and block: PTCLCacheBlockVoidAnyError?) throws
+                        and block: PTCLCacheBlockVoidError?) throws
     func doReadObject(for id: String,
                       with progress: PTCLProgressBlock?,
                       and block: PTCLCacheBlockVoidAnyError?) throws
-    func doLoadImage(for url: NSURL,
+    func doLoadImage(from url: NSURL,
+                     for id: String,
                      with progress: PTCLProgressBlock?,
                      and block: PTCLCacheBlockVoidAnyError?) throws
-    func doUpdateObject(for id: String,
-                        with progress: PTCLProgressBlock?,
-                        and block: PTCLCacheBlockVoidAnyError?) throws
+    func doUpdate(object: Any,
+                  for id: String,
+                  with progress: PTCLProgressBlock?,
+                  and block: PTCLCacheBlockVoidAnyError?) throws
 }
