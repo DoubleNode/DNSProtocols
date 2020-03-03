@@ -10,7 +10,7 @@ import DNSDataObjects
 import Foundation
 
 // (geohash: String, error: Error?)
-public typealias PTCLGeolocationBlockVoidStringError = (String, DNSError?) -> Void
+public typealias PTCLGeolocationBlockVoidStringDNSError = (String, DNSError?) -> Void
 
 public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLGeolocation_Protocol? { get }
@@ -21,11 +21,11 @@ public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
 
     func doLocate(with progress: PTCLProgressBlock?,
-                  and block: PTCLGeolocationBlockVoidStringError?) throws
+                  and block: PTCLGeolocationBlockVoidStringDNSError?) throws
 
     func doTrackLocation(for processKey: String,
                          with progress: PTCLProgressBlock?,
-                         and block: PTCLGeolocationBlockVoidStringError?) throws
+                         and block: PTCLGeolocationBlockVoidStringDNSError?) throws
 
     func doStopTrackLocation(for processKey: String) throws
 }

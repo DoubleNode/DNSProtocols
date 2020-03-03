@@ -9,9 +9,9 @@
 import Foundation
 
 // (error: Error?)
-public typealias PTCLCacheBlockVoidError = (Error?) -> Void
+public typealias PTCLCacheBlockVoidDNSError = (DNSError?) -> Void
 // (object: Any?, error: Error?)
-public typealias PTCLCacheBlockVoidAnyError = (Any?, Error?) -> Void
+public typealias PTCLCacheBlockVoidAnyDNSError = (Any?, DNSError?) -> Void
 
 public protocol PTCLCache_Protocol: PTCLBase_Protocol
 {
@@ -23,16 +23,16 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
                         with progress: PTCLProgressBlock?,
-                        and block: PTCLCacheBlockVoidError?) throws
+                        and block: PTCLCacheBlockVoidDNSError?) throws
     func doReadObject(for id: String,
                       with progress: PTCLProgressBlock?,
-                      and block: PTCLCacheBlockVoidAnyError?) throws
+                      and block: PTCLCacheBlockVoidAnyDNSError?) throws
     func doLoadImage(from url: NSURL,
                      for id: String,
                      with progress: PTCLProgressBlock?,
-                     and block: PTCLCacheBlockVoidAnyError?) throws
+                     and block: PTCLCacheBlockVoidAnyDNSError?) throws
     func doUpdate(object: Any,
                   for id: String,
                   with progress: PTCLProgressBlock?,
-                  and block: PTCLCacheBlockVoidAnyError?) throws
+                  and block: PTCLCacheBlockVoidAnyDNSError?) throws
 }

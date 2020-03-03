@@ -70,7 +70,7 @@ extension PTCLNFCTagsError: DNSError {
 }
 
 // (object: Any?, error: Error?)
-public typealias PTCLNFCTagsBlockVoidArrayNFCNDEFMessageError = ([NFCNDEFMessage], DNSError?) -> Void
+public typealias PTCLNFCTagsBlockVoidArrayNFCNDEFMessageDNSError = ([NFCNDEFMessage], DNSError?) -> Void
 
 public protocol PTCLNFCTags_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLNFCTags_Protocol? { get }
@@ -81,5 +81,5 @@ public protocol PTCLNFCTags_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
     func doScanTags(for key: String,
                     with progress: PTCLProgressBlock?,
-                    and block: PTCLNFCTagsBlockVoidArrayNFCNDEFMessageError?) throws
+                    and block: PTCLNFCTagsBlockVoidArrayNFCNDEFMessageDNSError?) throws
 }

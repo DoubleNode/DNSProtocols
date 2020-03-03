@@ -21,7 +21,6 @@ public enum PTCLValidationError: Error
     case tooWeak(domain: String, file: String, line: String, method: String)
     case tooYoung(domain: String, file: String, line: String, method: String)
 }
-
 extension PTCLValidationError: DNSError {
     public var nsError: NSError! {
         switch self {
