@@ -6,6 +6,7 @@
 //  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
 //
 
+import DNSDataObjects
 import UIKit
 
 public enum PTCLAuthenticationError: Error
@@ -58,4 +59,9 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     func doSignOut(using parameters: [String: Any],
                    with progress: PTCLProgressBlock?,
                    and block: @escaping PTCLAuthenticationBlockVoidBoolDNSError) throws
+    func doSignUp(from user: DAOUser?,
+                  and password: String?,
+                  using parameters: [String: Any],
+                  with progress: PTCLProgressBlock?,
+                  and block: @escaping PTCLAuthenticationBlockVoidBoolAccessDataDNSError) throws
 }
