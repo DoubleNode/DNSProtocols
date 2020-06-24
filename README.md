@@ -10,6 +10,7 @@ DNSProtocols is a collection of protocols used for DNSFramework Workers
 -   [Features](#features)
 -   [Requirements](#requirements)
 -   [Installation](#installation)
+-   [Dependencies](#dependencies)
 -   [Credits](#credits)
 -   [License](#license)
 
