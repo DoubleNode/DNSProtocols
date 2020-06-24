@@ -1,10 +1,10 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 //
 //  Package.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
-//  Created by Darren Ehlers on 2019/08/12.
-//  Copyright © 2019 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
+//  Created by Darren Ehlers.
+//  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import PackageDescription
@@ -25,7 +25,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.0.0"),
+        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
