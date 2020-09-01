@@ -50,7 +50,7 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],
                                with progress: PTCLProgressBlock?,
-                               and block: PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError) throws
+                               and block: @escaping PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
