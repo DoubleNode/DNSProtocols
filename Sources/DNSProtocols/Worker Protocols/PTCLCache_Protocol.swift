@@ -12,6 +12,7 @@ import Foundation
 public typealias PTCLCacheBlockVoidDNSError = (DNSError?) -> Void
 // (object: Any?, error: Error?)
 public typealias PTCLCacheBlockVoidAnyDNSError = (Any?, DNSError?) -> Void
+public typealias PTCLCacheBlockVoidStringDNSError = (String?, DNSError?) -> Void
 
 public protocol PTCLCache_Protocol: PTCLBase_Protocol
 {
@@ -27,6 +28,9 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
     func doReadObject(for id: String,
                       with progress: PTCLProgressBlock?,
                       and block: PTCLCacheBlockVoidAnyDNSError?) throws
+    func doReadObject(for id: String,
+                      with progress: PTCLProgressBlock?,
+                      and block: PTCLCacheBlockVoidStringDNSError?) throws
     func doLoadImage(from url: NSURL,
                      for id: String,
                      with progress: PTCLProgressBlock?,
