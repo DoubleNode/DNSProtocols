@@ -20,10 +20,16 @@ public protocol PTCLBeacons_Protocol: PTCLBase_Protocol {
 
     // MARK: - Business Logic / Single Item CRUD
 
+    func doLoadBeacons(in center: DAOCenter,
+                       with progress: PTCLProgressBlock?,
+                       and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
+    func doLoadBeacons(in center: DAOCenter,
+                       for activity: DAOActivity,
+                       with progress: PTCLProgressBlock?,
+                       and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
     func doRangeBeacons(named uuids: [UUID],
                         for processKey: String,
                         with progress: PTCLProgressBlock?,
                         and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
-
     func doStopRangeBeacons(for processKey: String) throws
 }
