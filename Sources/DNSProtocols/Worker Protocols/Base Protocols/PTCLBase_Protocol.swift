@@ -17,6 +17,8 @@ public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 
 public protocol PTCLBase_Protocol: class
 {
+    var networkConfigurator: PTCLBase_NetworkConfigurator? { get }
+
     func configure()
 
     func enableOption(option: String)

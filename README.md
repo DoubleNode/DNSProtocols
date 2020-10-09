@@ -40,6 +40,7 @@ dependencies: [
 
 ## Dependencies
 
+-   Alamofire v5.0.2+
 -   DNSDataObjects v1.2.0+
 
 ## Credits
