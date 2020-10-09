@@ -10,6 +10,8 @@ import Foundation
 
 public protocol PTCLBase_SystemProtocol: class
 {
+    var networkConfigurator: PTCLBase_NetworkConfigurator? { get }
+
     func configure()
 
     func enableOption(option: String)
