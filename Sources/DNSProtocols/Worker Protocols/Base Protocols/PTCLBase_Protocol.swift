@@ -21,6 +21,7 @@ public protocol PTCLBase_Protocol: class
 
     func configure()
 
+    func checkOption(option: String) -> Bool
     func enableOption(option: String)
     func disableOption(option: String)
 
