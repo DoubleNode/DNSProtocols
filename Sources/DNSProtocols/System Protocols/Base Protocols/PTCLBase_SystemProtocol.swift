@@ -14,10 +14,10 @@ public protocol PTCLBase_SystemProtocol: class
 
     func configure()
 
-    func checkOption(option: String) -> Bool
-    func enableOption(option: String)
-    func disableOption(option: String)
-
+    func checkOption(_ option: String) -> Bool
+    func disableOption(_ option: String)
+    func enableOption(_ option: String)
+ 
     // MARK: - UIWindowSceneDelegate methods
 
     // Called when the scene has moved from an inactive state to an active state.

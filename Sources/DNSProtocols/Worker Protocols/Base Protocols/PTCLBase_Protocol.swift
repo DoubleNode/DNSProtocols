@@ -21,9 +21,9 @@ public protocol PTCLBase_Protocol: class
 
     func configure()
 
-    func checkOption(option: String) -> Bool
-    func enableOption(option: String)
-    func disableOption(option: String)
+    func checkOption(_ option: String) -> Bool
+    func disableOption(_ option: String)
+    func enableOption(_ option: String)
 
     // MARK: - UIWindowSceneDelegate methods
 
