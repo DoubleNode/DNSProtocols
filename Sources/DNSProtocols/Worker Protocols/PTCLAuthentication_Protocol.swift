@@ -11,22 +11,22 @@ import UIKit
 
 public enum PTCLAuthenticationError: Error
 {
-    case failure(domain: String, file: String, line: String, method: String)
+    case failure(error: Error, domain: String, file: String, line: String, method: String)
 }
 
 extension PTCLAuthenticationError: DNSError {
     public var nsError: NSError! {
         switch self {
-        case .failure(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = ["DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                                            NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"]
+        case .failure(let error, let domain, let file, let line, let method):
+            let userInfo: [String : Any] = ["Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line,
+                "DNSMethod": method, NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"]
             return NSError.init(domain: domain, code: -9999, userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
         switch self {
-        case .failure(let domain, let file, let line, let method):
-            return NSLocalizedString("SignIn Failure (\(domain):\(file):\(line):\(method))", comment: "")
+        case .failure(let error, let domain, let file, let line, let method):
+            return NSLocalizedString("SignIn Failure \(error) (\(domain):\(file):\(line):\(method))", comment: "")
         }
     }
 }
