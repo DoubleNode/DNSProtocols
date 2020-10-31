@@ -12,12 +12,14 @@ import Foundation
 public enum PTCLBaseError: Error
 {
     case unknown(domain: String, file: String, line: String, method: String)
+    case notImplemented(domain: String, file: String, line: String, method: String)
 }
 extension PTCLBaseError: DNSError {
     public static let domain = "BASE"
     public enum Code: Int
     {
         case unknown = 1001
+        case notImplemented = 1002
     }
 
     public var nsError: NSError! {
@@ -31,6 +33,15 @@ extension PTCLBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
+        case .notImplemented(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -38,11 +49,17 @@ extension PTCLBaseError: DNSError {
         case .unknown:
             return NSLocalizedString("Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+        case .notImplemented:
+            return NSLocalizedString("Not Implemented", comment: "")
+                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
+        case .notImplemented(let domain, let file, let line, let method):
             let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
