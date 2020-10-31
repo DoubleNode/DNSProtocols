@@ -6,10 +6,47 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import Foundation
 
-public protocol DNSError: LocalizedError {
-    var nsError: NSError! { get }
+public enum PTCLBaseError: Error
+{
+    case unknown(domain: String, file: String, line: String, method: String)
+}
+extension PTCLBaseError: DNSError {
+    public static let domain = "BASE"
+    public enum Code: Int
+    {
+        case unknown = 1001
+    }
+
+    public var nsError: NSError! {
+        switch self {
+        case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        }
+    }
+    public var errorDescription: String? {
+        switch self {
+        case .unknown:
+            return NSLocalizedString("Unknown Error", comment: "")
+                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+        }
+    }
+    public var failureReason: String? {
+        switch self {
+        case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
+        }
+    }
 }
 
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)

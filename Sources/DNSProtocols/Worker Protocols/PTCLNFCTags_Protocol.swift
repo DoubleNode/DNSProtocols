@@ -9,62 +9,97 @@
 #if !os(macOS)
 import CoreNFC
 #endif
+import DNSCore
 import Foundation
 
 public enum PTCLNFCTagsError: Error
 {
+    case unknown(domain: String, file: String, line: String, method: String)
     case notSupported(domain: String, file: String, line: String, method: String)
-    case system(domain: String, file: String, line: String, method: String)
+    case systemError(error: Error, domain: String, file: String, line: String, method: String)
     case timeout(domain: String, file: String, line: String, method: String)
 }
 
 extension PTCLNFCTagsError: DNSError {
+    public static let domain = "NFC"
+    public enum Code: Int
+    {
+        case unknown = 1001
+        case notSupported = 1002
+        case systemError = 1003
+        case timeout = 1004
+    }
+    
     public var nsError: NSError! {
         switch self {
+        case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
         case .notSupported(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = ["DNSDomain": domain,
-                                            "DNSFile": file,
-                                            "DNSLine": line,
-                                            "DNSMethod": method,
-                                            NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"]
-            return NSError.init(domain: domain, code: -9999, userInfo: userInfo)
-
-        case .system(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = ["DNSDomain": domain,
-                                            "DNSFile": file,
-                                            "DNSLine": line,
-                                            "DNSMethod": method,
-                                            NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"]
-            return NSError.init(domain: domain, code: -9999, userInfo: userInfo)
-
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notSupported.rawValue,
+                                userInfo: userInfo)
+        case .systemError(let error, let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.systemError.rawValue,
+                                userInfo: userInfo)
         case .timeout(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = ["DNSDomain": domain,
-                                            "DNSFile": file,
-                                            "DNSLine": line,
-                                            "DNSMethod": method,
-                                            NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"]
-            return NSError.init(domain: domain, code: -9999, userInfo: userInfo)
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.timeout.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
         switch self {
+        case .unknown:
+            return NSLocalizedString("Unknown Error", comment: "")
+                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+        case .notSupported:
+            return NSLocalizedString("Your system doesn't support NFC Tags", comment: "")
+                + " (\(Self.domain):\(Self.Code.notSupported.rawValue))"
+        case .systemError(let error, _, _, _, _):
+            return String(format: NSLocalizedString("System Error: %@", comment: ""), error.localizedDescription)
+                + " (\(Self.domain):\(Self.Code.systemError.rawValue))"
+        case .timeout:
+            return NSLocalizedString("NFC Reader Timeout", comment: "")
+                + " (\(Self.domain):\(Self.Code.timeout.rawValue))"
+        }
+    }
+    public var failureReason: String? {
+        switch self {
+        case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
         case .notSupported(let domain, let file, let line, let method):
-            return NSLocalizedString(
-                "Your system doesn't support NFC Tags (\(domain):\(file):\(line):\(method))",
-                comment: ""
-            )
-
-        case .system(let domain, let file, let line, let method):
-            return NSLocalizedString(
-                "CoreNFC System Error (\(domain):\(file):\(line):\(method))",
-                comment: ""
-            )
-
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
+        case .systemError(_, let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
         case .timeout(let domain, let file, let line, let method):
-            return NSLocalizedString(
-                "NFC Reader Timeout Error (\(domain):\(file):\(line):\(method))",
-                comment: ""
-            )
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
         }
     }
 }

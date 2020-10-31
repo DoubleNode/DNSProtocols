@@ -6,8 +6,66 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import DNSDataObjects
 import Foundation
+
+public enum PTCLGeolocationError: Error
+{
+    case unknown(domain: String, file: String, line: String, method: String)
+    case failure(error: Error, domain: String, file: String, line: String, method: String)
+}
+extension PTCLGeolocationError: DNSError {
+    public static let domain = "GEO"
+    public enum Code: Int
+    {
+        case unknown = 1001
+        case failure = 1002
+    }
+    
+    public var nsError: NSError! {
+        switch self {
+        case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .failure(let error, let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            let userInfo: [String : Any] = [
+                "Error:": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.failure.rawValue,
+                                userInfo: userInfo)
+        }
+    }
+    public var errorDescription: String? {
+        switch self {
+        case .unknown:
+            return NSLocalizedString("Unknown Error", comment: "")
+                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+        case .failure(let error, _, _, _, _):
+            return String(format: NSLocalizedString("Failure: %@", comment: ""), error.localizedDescription)
+                + " (\(Self.domain):\(Self.Code.failure.rawValue))"
+        }
+    }
+    public var failureReason: String? {
+        switch self {
+        case .unknown(let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
+        case .failure(_, let domain, let file, let line, let method):
+            let file = DNSCore.shortenErrorFilename(filename: file)
+            return "\(domain):\(file):\(line):\(method)"
+        }
+    }
+}
 
 // (geohash: String, error: Error?)
 public typealias PTCLGeolocationBlockVoidStringDNSError = (String, DNSError?) -> Void
