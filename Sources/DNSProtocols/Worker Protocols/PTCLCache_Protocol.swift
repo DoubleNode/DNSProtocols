@@ -31,7 +31,6 @@ extension PTCLCacheError: DNSError {
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -40,7 +39,6 @@ extension PTCLCacheError: DNSError {
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
         case .createError(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -49,7 +47,6 @@ extension PTCLCacheError: DNSError {
                                 code: Self.Code.createError.rawValue,
                                 userInfo: userInfo)
         case .deleteError(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -58,7 +55,6 @@ extension PTCLCacheError: DNSError {
                                 code: Self.Code.deleteError.rawValue,
                                 userInfo: userInfo)
         case .readError(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -67,7 +63,6 @@ extension PTCLCacheError: DNSError {
                                 code: Self.Code.readError.rawValue,
                                 userInfo: userInfo)
         case .writeError(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -99,19 +94,14 @@ extension PTCLCacheError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .createError(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .deleteError(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .readError(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .writeError(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
     }

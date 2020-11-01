@@ -42,7 +42,6 @@ extension PTCLValidationError: DNSError {
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -51,7 +50,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
         case .invalid(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -60,7 +58,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.invalid.rawValue,
                                 userInfo: userInfo)
         case .noValue(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -69,7 +66,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.noValue.rawValue,
                                 userInfo: userInfo)
         case .tooHigh(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -78,7 +74,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.tooHigh.rawValue,
                                 userInfo: userInfo)
         case .tooLong(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -87,7 +82,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.tooLong.rawValue,
                                 userInfo: userInfo)
         case .tooLow(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -96,7 +90,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.tooLow.rawValue,
                                 userInfo: userInfo)
         case .tooOld(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -105,7 +98,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.tooOld.rawValue,
                                 userInfo: userInfo)
         case .tooShort(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -114,7 +106,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.tooShort.rawValue,
                                 userInfo: userInfo)
         case .tooWeak(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -123,7 +114,6 @@ extension PTCLValidationError: DNSError {
                                 code: Self.Code.tooWeak.rawValue,
                                 userInfo: userInfo)
         case .tooYoung(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -170,34 +160,24 @@ extension PTCLValidationError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .invalid(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .noValue(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooHigh(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooLong(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooLow(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooOld(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooShort(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooWeak(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .tooYoung(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
     }

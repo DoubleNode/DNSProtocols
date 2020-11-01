@@ -26,7 +26,6 @@ extension PTCLGeolocationError: DNSError {
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -35,7 +34,6 @@ extension PTCLGeolocationError: DNSError {
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
         case .failure(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error:": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -58,10 +56,8 @@ extension PTCLGeolocationError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .failure(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
     }

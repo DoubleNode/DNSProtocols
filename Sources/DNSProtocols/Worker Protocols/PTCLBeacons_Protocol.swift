@@ -24,7 +24,6 @@ extension PTCLBeaconsError: DNSError {
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -44,7 +43,6 @@ extension PTCLBeaconsError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
     }

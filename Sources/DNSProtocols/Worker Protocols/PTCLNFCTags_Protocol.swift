@@ -33,7 +33,6 @@ extension PTCLNFCTagsError: DNSError {
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -42,7 +41,6 @@ extension PTCLNFCTagsError: DNSError {
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
         case .notSupported(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -51,7 +49,6 @@ extension PTCLNFCTagsError: DNSError {
                                 code: Self.Code.notSupported.rawValue,
                                 userInfo: userInfo)
         case .systemError(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -60,7 +57,6 @@ extension PTCLNFCTagsError: DNSError {
                                 code: Self.Code.systemError.rawValue,
                                 userInfo: userInfo)
         case .timeout(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -89,16 +85,12 @@ extension PTCLNFCTagsError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .notSupported(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .systemError(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .timeout(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
     }

@@ -32,7 +32,6 @@ extension PTCLBaseNetworkError: DNSError {
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -41,7 +40,6 @@ extension PTCLBaseNetworkError: DNSError {
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
         case .dataError(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -50,7 +48,6 @@ extension PTCLBaseNetworkError: DNSError {
                                 code: Self.Code.dataError.rawValue,
                                 userInfo: userInfo)
         case .invalidUrl(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -59,7 +56,6 @@ extension PTCLBaseNetworkError: DNSError {
                                 code: Self.Code.invalidUrl.rawValue,
                                 userInfo: userInfo)
         case .networkError(let error, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -68,7 +64,6 @@ extension PTCLBaseNetworkError: DNSError {
                                 code: Self.Code.networkError.rawValue,
                                 userInfo: userInfo)
         case .serverError(let statusCode, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             let userInfo: [String : Any] = [
                 "StatusCode": statusCode, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
@@ -102,13 +97,10 @@ extension PTCLBaseNetworkError: DNSError {
         case .unknown(let domain, let file, let line, let method),
              .dataError(let domain, let file, let line, let method),
              .invalidUrl(let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .networkError(_, let domain, let file, let line, let method):
-             let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         case .serverError(_, let domain, let file, let line, let method):
-            let file = DNSCore.shortenErrorFilename(filename: file)
             return "\(domain):\(file):\(line):\(method)"
         }
     }
