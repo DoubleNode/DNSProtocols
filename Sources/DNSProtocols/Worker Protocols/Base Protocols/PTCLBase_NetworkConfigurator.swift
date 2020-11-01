@@ -19,7 +19,7 @@ public enum PTCLBaseNetworkError: Error
     case serverError(statusCode: Int, domain: String, file: String, line: String, method: String)
 }
 extension PTCLBaseNetworkError: DNSError {
-    public static let domain = "NETWORk"
+    public static let domain = "NETWORK"
     public enum Code: Int
     {
         case unknown = 1001
