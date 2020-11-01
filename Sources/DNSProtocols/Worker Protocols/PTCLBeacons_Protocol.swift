@@ -36,7 +36,7 @@ extension PTCLBeaconsError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("BEACONS-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         }
     }

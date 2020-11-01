@@ -35,7 +35,7 @@ extension PTCLAnalyticsError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("ANALYTICS-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         }
     }

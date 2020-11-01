@@ -76,19 +76,20 @@ extension PTCLBaseNetworkError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("NETWORK-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .dataError:
-            return NSLocalizedString("Data Error", comment: "")
+            return NSLocalizedString("NETWORK-Data Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.dataError.rawValue))"
         case .invalidUrl:
-            return NSLocalizedString("Invalid URL", comment: "")
+            return NSLocalizedString("NETWORK-Invalid URL", comment: "")
                 + " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))"
         case .networkError(let error, _, _, _, _):
-            return String(format: NSLocalizedString("Network Error: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("NETWORK-Network Error: %@", comment: ""),
+                          error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.networkError.rawValue))"
         case .serverError(let statusCode, _, _, _, _):
-            return String(format: NSLocalizedString("Server Error: %@", comment: ""), "\(statusCode)")
+            return String(format: NSLocalizedString("NETWORK-Server Error: %@", comment: ""), "\(statusCode)")
                 + " (\(Self.domain):\(Self.Code.serverError.rawValue))"
         }
     }

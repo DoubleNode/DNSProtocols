@@ -69,16 +69,16 @@ extension PTCLNFCTagsError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("NFC-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .notSupported:
-            return NSLocalizedString("Your system doesn't support NFC Tags", comment: "")
+            return NSLocalizedString("NFC-Not Supported", comment: "")
                 + " (\(Self.domain):\(Self.Code.notSupported.rawValue))"
         case .systemError(let error, _, _, _, _):
-            return String(format: NSLocalizedString("System Error: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("NFC-System Error: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.systemError.rawValue))"
         case .timeout:
-            return NSLocalizedString("NFC Reader Timeout", comment: "")
+            return NSLocalizedString("NFC-Reader Timeout", comment: "")
                 + " (\(Self.domain):\(Self.Code.timeout.rawValue))"
         }
     }

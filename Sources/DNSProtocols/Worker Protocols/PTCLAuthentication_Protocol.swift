@@ -66,16 +66,17 @@ extension PTCLAuthenticationError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("AUTH-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .failure(let error, _, _, _, _):
-            return String(format: NSLocalizedString("SignIn Failure: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("AUTH-SignIn Failure: %@", comment: ""),
+                          error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.failure.rawValue))"
         case .lockedOut:
-            return NSLocalizedString("Locked Out", comment: "")
+            return NSLocalizedString("AUTH-Locked Out", comment: "")
                 + " (\(Self.domain):\(Self.Code.lockedOut.rawValue))"
         case .passwordExpired:
-            return NSLocalizedString("Password Expired", comment: "")
+            return NSLocalizedString("AUTH-Password Expired", comment: "")
                 + " (\(Self.domain):\(Self.Code.passwordExpired.rawValue))"
         }
     }

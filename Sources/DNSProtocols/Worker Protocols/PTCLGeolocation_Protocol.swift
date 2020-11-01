@@ -46,10 +46,10 @@ extension PTCLGeolocationError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("GEO-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .failure(let error, _, _, _, _):
-            return String(format: NSLocalizedString("Failure: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("GEO-Failure: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.failure.rawValue))"
         }
     }

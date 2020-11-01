@@ -75,19 +75,19 @@ extension PTCLCacheError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("CACHE-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .createError(let error, _, _, _, _):
-            return String(format: NSLocalizedString("Object Create Error: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("CACHE-Object Create Error: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.createError.rawValue))"
         case .deleteError(let error, _, _, _, _):
-            return String(format: NSLocalizedString("Object Delete Error: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("CACHE-Object Delete Error: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.deleteError.rawValue))"
         case .readError(let error, _, _, _, _):
-            return String(format: NSLocalizedString("Object Read Error: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("CACHE-Object Read Error: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.readError.rawValue))"
         case .writeError(let error, _, _, _, _):
-            return String(format: NSLocalizedString("Object Write Error: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("CACHE-Object Write Error: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.writeError.rawValue))"
         }
     }

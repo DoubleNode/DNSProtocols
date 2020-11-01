@@ -45,10 +45,10 @@ extension PTCLBaseError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("BASE-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .notImplemented:
-            return NSLocalizedString("Not Implemented", comment: "")
+            return NSLocalizedString("BASE-Not Implemented", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         }
     }

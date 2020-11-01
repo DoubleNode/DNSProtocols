@@ -126,34 +126,34 @@ extension PTCLValidationError: DNSError {
     public var errorDescription: String? {
         switch self {
         case .unknown:
-            return NSLocalizedString("Unknown Error", comment: "")
+            return NSLocalizedString("VALIDATE-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .invalid:
-            return NSLocalizedString("Invalid Entry", comment: "")
+            return NSLocalizedString("VALIDATE-Invalid Entry", comment: "")
                 + " (\(Self.domain):\(Self.Code.invalid.rawValue))"
         case .noValue:
-            return NSLocalizedString("No Entry", comment: "")
+            return NSLocalizedString("VALIDATE-No Entry", comment: "")
                 + " (\(Self.domain):\(Self.Code.noValue.rawValue))"
         case .tooHigh:
-            return NSLocalizedString("Entry Too High", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too High", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooHigh.rawValue))"
         case .tooLong:
-            return NSLocalizedString("Entry Too Long", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too Long", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooLong.rawValue))"
         case .tooLow:
-            return NSLocalizedString("Entry Too Low", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too Low", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooLow.rawValue))"
         case .tooOld:
-            return NSLocalizedString("Entry Too Old", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too Old", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooOld.rawValue))"
         case .tooShort:
-            return NSLocalizedString("Entry Too Short", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too Short", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooShort.rawValue))"
         case .tooWeak:
-            return NSLocalizedString("Entry Too Weak", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too Weak", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooWeak.rawValue))"
         case .tooYoung:
-            return NSLocalizedString("Entry Too Young", comment: "")
+            return NSLocalizedString("VALIDATE-Entry Too Young", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooYoung.rawValue))"
         }
     }
