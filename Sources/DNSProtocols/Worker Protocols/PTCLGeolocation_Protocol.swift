@@ -59,7 +59,7 @@ extension PTCLGeolocationError: DNSError {
             return NSLocalizedString("GEO-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .denied:
-            return String(format: NSLocalizedString("GEO-Denied: %@", comment: ""), error.localizedDescription)
+            return String(format: NSLocalizedString("GEO-Denied", comment: ""))
                 + " (\(Self.domain):\(Self.Code.failure.rawValue))"
         case .failure(let error, _, _, _, _):
             return String(format: NSLocalizedString("GEO-Failure: %@", comment: ""), error.localizedDescription)
