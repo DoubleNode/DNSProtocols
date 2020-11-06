@@ -13,6 +13,7 @@ import Foundation
 public enum PTCLGeolocationError: Error
 {
     case unknown(domain: String, file: String, line: String, method: String)
+    case denied(domain: String, file: String, line: String, method: String)
     case failure(error: Error, domain: String, file: String, line: String, method: String)
 }
 extension PTCLGeolocationError: DNSError {
@@ -20,7 +21,8 @@ extension PTCLGeolocationError: DNSError {
     public enum Code: Int
     {
         case unknown = 1001
-        case failure = 1002
+        case denied = 1002
+        case failure = 1003
     }
     
     public var nsError: NSError! {
@@ -32,6 +34,14 @@ extension PTCLGeolocationError: DNSError {
             ]
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .denied(let domain, let file, let line, let method):
+            let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.failure.rawValue,
                                 userInfo: userInfo)
         case .failure(let error, let domain, let file, let line, let method):
             let userInfo: [String : Any] = [
@@ -48,6 +58,9 @@ extension PTCLGeolocationError: DNSError {
         case .unknown:
             return NSLocalizedString("GEO-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+        case .denied:
+            return String(format: NSLocalizedString("GEO-Denied: %@", comment: ""), error.localizedDescription)
+                + " (\(Self.domain):\(Self.Code.failure.rawValue))"
         case .failure(let error, _, _, _, _):
             return String(format: NSLocalizedString("GEO-Failure: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.failure.rawValue))"
@@ -56,6 +69,8 @@ extension PTCLGeolocationError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
+            return "\(domain):\(file):\(line):\(method)"
+        case .denied(let domain, let file, let line, let method):
             return "\(domain):\(file):\(line):\(method)"
         case .failure(_, let domain, let file, let line, let method):
             return "\(domain):\(file):\(line):\(method)"
