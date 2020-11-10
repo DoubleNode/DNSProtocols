@@ -12,6 +12,7 @@ import Foundation
 public enum PTCLBaseError: Error
 {
     case unknown(domain: String, file: String, line: String, method: String)
+    case invalidParameter(parameter: String, domain: String, file: String, line: String, method: String)
     case notImplemented(domain: String, file: String, line: String, method: String)
 }
 extension PTCLBaseError: DNSError {
@@ -19,13 +20,23 @@ extension PTCLBaseError: DNSError {
     public enum Code: Int
     {
         case unknown = 1001
-        case notImplemented = 1002
+        case invalidParameter = 1002
+        case notImplemented = 1003
     }
 
     public var nsError: NSError! {
         switch self {
         case .unknown(let domain, let file, let line, let method):
             let userInfo: [String : Any] = [
+                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .invalidParameter(let parameter, let domain, let file, let line, let method):
+            let userInfo: [String : Any] = [
+                "DNSParameter": parameter,
                 "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
             ]
@@ -47,6 +58,10 @@ extension PTCLBaseError: DNSError {
         case .unknown:
             return NSLocalizedString("BASE-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+        case .invalidParameter(let parameter, _, _, _, _):
+            return String(format: NSLocalizedString("BASE-Invalid Parameter: %@", comment: ""),
+                          parameter)
+                + " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))"
         case .notImplemented:
             return NSLocalizedString("BASE-Not Implemented", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
@@ -55,6 +70,8 @@ extension PTCLBaseError: DNSError {
     public var failureReason: String? {
         switch self {
         case .unknown(let domain, let file, let line, let method):
+            return "\(domain):\(file):\(line):\(method)"
+        case .invalidParameter(_, let domain, let file, let line, let method):
             return "\(domain):\(file):\(line):\(method)"
         case .notImplemented(let domain, let file, let line, let method):
             return "\(domain):\(file):\(line):\(method)"
