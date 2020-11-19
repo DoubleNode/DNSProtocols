@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
           "branch": null,
-          "revision": "097e1f03166d49b31f824507fb85ad843b14fc13",
-          "version": "5.3.0"
+          "revision": "9e0328127dfb801cefe8ac53a13c0c90a7770448",
+          "version": "5.4.0"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "d4593178fcda9af276d69ad26621a077f3512977",
-          "version": "1.2.58"
+          "revision": "f6fc91be7f3ce81cc439511135d406996836be04",
+          "version": "1.2.69"
         }
       },
       {
@@ -60,8 +60,8 @@
         "repositoryURL": "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
         "state": {
           "branch": null,
-          "revision": "c7b2fceb3fd0095acba4792c728f3f062baf8fb9",
-          "version": "1.9.2"
+          "revision": "2c513a2e8fbfbd6495afc4a05941d8e3fdba68e9",
+          "version": "1.9.3"
         }
       }
     ]
