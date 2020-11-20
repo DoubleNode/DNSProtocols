@@ -60,9 +60,12 @@ public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
     var reviewRequestLastTime: Date? { get set }
 
     var appDidCrashLastRun: Bool { get set }
-    var daysUntilPrompt: UInt { get set }
-    var usesUntilPrompt: UInt { get set }
     var daysBeforeReminding: UInt { get set }
+    var daysUntilPrompt: UInt { get set }
+    var hoursSinceLastLaunch: UInt { get set }
+    var usesFrequency: UInt { get set }
+    var usesSinceFirstLaunch: UInt { get set }
+    var usesUntilPrompt: UInt { get set }
 
     // MARK: - Business Logic / Single Item CRUD
     func doReview() throws -> Bool
