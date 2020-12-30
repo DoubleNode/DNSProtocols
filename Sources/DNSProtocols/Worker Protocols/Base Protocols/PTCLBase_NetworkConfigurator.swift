@@ -7,7 +7,7 @@
 //
 
 import Alamofire
-import DNSCore
+import DNSCoreThreading
 import Foundation
 
 public enum PTCLBaseNetworkError: Error

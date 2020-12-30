@@ -9,7 +9,7 @@
 #if !os(macOS)
 import CoreNFC
 #endif
-import DNSCore
+import DNSCoreThreading
 import Foundation
 
 public enum PTCLNFCTagsError: Error
