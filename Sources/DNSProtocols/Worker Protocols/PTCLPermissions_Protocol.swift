@@ -7,7 +7,6 @@
 //
 
 import DNSCoreThreading
-import DNSProtocols
 import Foundation
 
 public enum PTCLPermissionsError: Error
