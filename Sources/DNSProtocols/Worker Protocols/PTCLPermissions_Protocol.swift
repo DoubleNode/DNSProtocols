@@ -80,6 +80,7 @@ public enum PTCLPermissions {
         case want
         case wouldLike
         case need
+        case present
     }
     public enum Permission: String, Codable {
         case none
