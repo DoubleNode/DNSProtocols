@@ -136,8 +136,8 @@ public enum PTCLPermissions {
 }
 
 public struct PTCLPermissionAction : Codable {
-    var permission: PTCLPermissions.Permission
-    var action: PTCLPermissions.Action
+    public var permission: PTCLPermissions.Permission
+    public var action: PTCLPermissions.Action
 }
 
 public protocol PTCLPermissions_Protocol: PTCLBase_Protocol {
