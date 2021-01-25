@@ -98,7 +98,7 @@ public enum PTCLPermissions {
         case speech
         case tracking
 
-        var localizedName: String {
+        public var localizedName: String {
             switch self {
             case .none:
                 return NSLocalizedString("PTCLPermissionsNameNone", comment: "PTCLPermissionsNameNone")
