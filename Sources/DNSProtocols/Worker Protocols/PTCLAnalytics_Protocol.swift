@@ -54,22 +54,27 @@ public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
     init()
     init(nextWorker: PTCLAnalytics_Protocol)
 
-    // MARK: - Identify
+    // MARK: - Auto-Track -
+    func doAutoTrack(class: String, method: String) throws
+    func doAutoTrack(class: String, method: String, properties: [String: Any]?) throws
+    func doAutoTrack(class: String, method: String, properties: [String: Any]?, options: [String: Any]?) throws
+
+    // MARK: - Identify -
     func doIdentify(userId: String) throws
     func doIdentify(userId: String, traits: [String: Any]?) throws
     func doIdentify(userId: String, traits: [String: Any]?, options: [String: Any]?) throws
 
-    // MARK: - Track
+    // MARK: - Track -
     func doTrack(event: String) throws
     func doTrack(event: String, properties: [String: Any]?) throws
     func doTrack(event: String, properties: [String: Any]?, options: [String: Any]?) throws
 
-    // MARK: - Screen
+    // MARK: - Screen -
     func doScreen(screenTitle: String) throws
     func doScreen(screenTitle: String, properties: [String: Any]?) throws
     func doScreen(screenTitle: String, properties: [String: Any]?, options: [String: Any]?) throws
 
-    // MARK: - Group
+    // MARK: - Group -
     func doGroup(groupId: String) throws
     func doGroup(groupId: String, traits: [String: Any]?) throws
     func doGroup(groupId: String, traits: [String: Any]?, options: [String: Any]?) throws
