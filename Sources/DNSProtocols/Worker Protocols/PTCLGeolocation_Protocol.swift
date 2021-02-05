@@ -41,7 +41,7 @@ extension PTCLGeolocationError: DNSError {
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
             ]
             return NSError.init(domain: Self.domain,
-                                code: Self.Code.failure.rawValue,
+                                code: Self.Code.denied.rawValue,
                                 userInfo: userInfo)
         case .failure(let error, let domain, let file, let line, let method):
             let userInfo: [String : Any] = [
@@ -60,7 +60,7 @@ extension PTCLGeolocationError: DNSError {
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .denied:
             return String(format: NSLocalizedString("GEO-Denied", comment: ""))
-                + " (\(Self.domain):\(Self.Code.failure.rawValue))"
+                + " (\(Self.domain):\(Self.Code.denied.rawValue))"
         case .failure(let error, _, _, _, _):
             return String(format: NSLocalizedString("GEO-Failure: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.failure.rawValue))"

@@ -14,6 +14,7 @@ public enum PTCLBaseError: Error
     case unknown(domain: String, file: String, line: String, method: String)
     case invalidParameter(parameter: String, domain: String, file: String, line: String, method: String)
     case notImplemented(domain: String, file: String, line: String, method: String)
+    case systemError(error: Error, domain: String, file: String, line: String, method: String)
 }
 extension PTCLBaseError: DNSError {
     public static let domain = "BASE"
@@ -22,6 +23,7 @@ extension PTCLBaseError: DNSError {
         case unknown = 1001
         case invalidParameter = 1002
         case notImplemented = 1003
+        case systemError = 1004
     }
 
     public var nsError: NSError! {
@@ -41,7 +43,7 @@ extension PTCLBaseError: DNSError {
                 NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
             ]
             return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
+                                code: Self.Code.invalidParameter.rawValue,
                                 userInfo: userInfo)
         case .notImplemented(let domain, let file, let line, let method):
             let userInfo: [String : Any] = [
@@ -50,6 +52,14 @@ extension PTCLBaseError: DNSError {
             ]
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
+        case .systemError(let error, let domain, let file, let line, let method):
+            let userInfo: [String : Any] = [
+                "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
+                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
+            ]
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.systemError.rawValue,
                                 userInfo: userInfo)
         }
     }
@@ -64,7 +74,11 @@ extension PTCLBaseError: DNSError {
                 + " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))"
         case .notImplemented:
             return NSLocalizedString("BASE-Not Implemented", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+                + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+        case .systemError(let error, _, _, _, _):
+            return String(format: NSLocalizedString("BASE-System Error: %@", comment: ""),
+                          error.localizedDescription)
+                + " (\(Self.domain):\(Self.Code.systemError.rawValue))"
         }
     }
     public var failureReason: String? {
@@ -74,6 +88,8 @@ extension PTCLBaseError: DNSError {
         case .invalidParameter(_, let domain, let file, let line, let method):
             return "\(domain):\(file):\(line):\(method)"
         case .notImplemented(let domain, let file, let line, let method):
+            return "\(domain):\(file):\(line):\(method)"
+        case .systemError(_, let domain, let file, let line, let method):
             return "\(domain):\(file):\(line):\(method)"
         }
     }

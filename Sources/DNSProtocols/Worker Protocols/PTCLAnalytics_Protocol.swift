@@ -59,23 +59,23 @@ public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
     func doAutoTrack(class: String, method: String, properties: [String: Any]) throws
     func doAutoTrack(class: String, method: String, properties: [String: Any], options: [String: Any]) throws
 
+    // MARK: - Group -
+    func doGroup(groupId: String) throws
+    func doGroup(groupId: String, traits: [String: Any]) throws
+    func doGroup(groupId: String, traits: [String: Any], options: [String: Any]) throws
+
     // MARK: - Identify -
     func doIdentify(userId: String) throws
     func doIdentify(userId: String, traits: [String: Any]) throws
     func doIdentify(userId: String, traits: [String: Any], options: [String: Any]) throws
 
-    // MARK: - Track -
-    func doTrack(event: String) throws
-    func doTrack(event: String, properties: [String: Any]) throws
-    func doTrack(event: String, properties: [String: Any], options: [String: Any]) throws
-
     // MARK: - Screen -
     func doScreen(screenTitle: String) throws
     func doScreen(screenTitle: String, properties: [String: Any]) throws
     func doScreen(screenTitle: String, properties: [String: Any], options: [String: Any]) throws
-
-    // MARK: - Group -
-    func doGroup(groupId: String) throws
-    func doGroup(groupId: String, traits: [String: Any]) throws
-    func doGroup(groupId: String, traits: [String: Any], options: [String: Any]) throws
+    
+    // MARK: - Track -
+    func doTrack(event: String) throws
+    func doTrack(event: String, properties: [String: Any]) throws
+    func doTrack(event: String, properties: [String: Any], options: [String: Any]) throws
 }
