@@ -8,13 +8,14 @@
 
 import DNSCoreThreading
 import DNSDataObjects
+import DNSError
 import Foundation
 
 public enum PTCLGeolocationError: Error
 {
-    case unknown(domain: String, file: String, line: String, method: String)
-    case denied(domain: String, file: String, line: String, method: String)
-    case failure(error: Error, domain: String, file: String, line: String, method: String)
+    case unknown(_ codeLocation: DNSCodeLocation)
+    case denied(_ codeLocation: DNSCodeLocation)
+    case failure(error: Error, _ codeLocation: DNSCodeLocation)
 }
 extension PTCLGeolocationError: DNSError {
     public static let domain = "GEO"
@@ -27,33 +28,31 @@ extension PTCLGeolocationError: DNSError {
     
     public var nsError: NSError! {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .unknown(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
-        case .denied(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .denied(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.denied.rawValue,
                                 userInfo: userInfo)
-        case .failure(let error, let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "Error:": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .failure(let error, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["Error"] = error
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.failure.rawValue,
                                 userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
+        return self.errorString
+    }
+    public var errorString: String {
         switch self {
         case .unknown:
             return NSLocalizedString("GEO-Unknown Error", comment: "")
@@ -61,19 +60,17 @@ extension PTCLGeolocationError: DNSError {
         case .denied:
             return String(format: NSLocalizedString("GEO-Denied", comment: ""))
                 + " (\(Self.domain):\(Self.Code.denied.rawValue))"
-        case .failure(let error, _, _, _, _):
+        case .failure(let error, _):
             return String(format: NSLocalizedString("GEO-Failure: %@", comment: ""), error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.failure.rawValue))"
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .denied(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .failure(_, let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
+        case .unknown(let codeLocation),
+             .denied(let codeLocation),
+             .failure(_, let codeLocation):
+            return codeLocation.failureReason
         }
     }
 }

@@ -8,11 +8,12 @@
 
 import DNSCoreThreading
 import DNSDataObjects
+import DNSError
 import Foundation
 
 public enum PTCLBeaconsError: Error
 {
-    case unknown(domain: String, file: String, line: String, method: String)
+    case unknown(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLBeaconsError: DNSError {
     public static let domain = "BEACONS"
@@ -23,17 +24,18 @@ extension PTCLBeaconsError: DNSError {
     
     public var nsError: NSError! {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .unknown(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
+        return self.errorString
+    }
+    public var errorString: String {
         switch self {
         case .unknown:
             return NSLocalizedString("BEACONS-Unknown Error", comment: "")
@@ -42,8 +44,8 @@ extension PTCLBeaconsError: DNSError {
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
+        case .unknown(let codeLocation):
+            return codeLocation.failureReason
         }
     }
 }

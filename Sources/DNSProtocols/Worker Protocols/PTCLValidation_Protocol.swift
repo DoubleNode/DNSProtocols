@@ -8,20 +8,21 @@
 
 import DNSCoreThreading
 import DNSDataObjects
+import DNSError
 import Foundation
 
 public enum PTCLValidationError: Error
 {
-    case unknown(domain: String, file: String, line: String, method: String)
-    case invalid(domain: String, file: String, line: String, method: String)
-    case noValue(domain: String, file: String, line: String, method: String)
-    case tooHigh(domain: String, file: String, line: String, method: String)
-    case tooLong(domain: String, file: String, line: String, method: String)
-    case tooLow(domain: String, file: String, line: String, method: String)
-    case tooOld(domain: String, file: String, line: String, method: String)
-    case tooShort(domain: String, file: String, line: String, method: String)
-    case tooWeak(domain: String, file: String, line: String, method: String)
-    case tooYoung(domain: String, file: String, line: String, method: String)
+    case unknown(_ codeLocation: DNSCodeLocation)
+    case invalid(_ codeLocation: DNSCodeLocation)
+    case noValue(_ codeLocation: DNSCodeLocation)
+    case tooHigh(_ codeLocation: DNSCodeLocation)
+    case tooLong(_ codeLocation: DNSCodeLocation)
+    case tooLow(_ codeLocation: DNSCodeLocation)
+    case tooOld(_ codeLocation: DNSCodeLocation)
+    case tooShort(_ codeLocation: DNSCodeLocation)
+    case tooWeak(_ codeLocation: DNSCodeLocation)
+    case tooYoung(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLValidationError: DNSError {
     public static let domain = "VALIDATE"
@@ -41,89 +42,72 @@ extension PTCLValidationError: DNSError {
     
     public var nsError: NSError! {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .unknown(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
-        case .invalid(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .invalid(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalid.rawValue,
                                 userInfo: userInfo)
-        case .noValue(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .noValue(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.noValue.rawValue,
                                 userInfo: userInfo)
-        case .tooHigh(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooHigh(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooHigh.rawValue,
                                 userInfo: userInfo)
-        case .tooLong(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooLong(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooLong.rawValue,
                                 userInfo: userInfo)
-        case .tooLow(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooLow(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooLow.rawValue,
                                 userInfo: userInfo)
-        case .tooOld(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooOld(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooOld.rawValue,
                                 userInfo: userInfo)
-        case .tooShort(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooShort(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooShort.rawValue,
                                 userInfo: userInfo)
-        case .tooWeak(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooWeak(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooWeak.rawValue,
                                 userInfo: userInfo)
-        case .tooYoung(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .tooYoung(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooYoung.rawValue,
                                 userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
+        return self.errorString
+    }
+    public var errorString: String {
         switch self {
         case .unknown:
             return NSLocalizedString("VALIDATE-Unknown Error", comment: "")
@@ -159,26 +143,17 @@ extension PTCLValidationError: DNSError {
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .invalid(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .noValue(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooHigh(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooLong(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooLow(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooOld(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooShort(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooWeak(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .tooYoung(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
+        case .unknown(let codeLocation),
+             .invalid(let codeLocation),
+             .noValue(let codeLocation),
+             .tooHigh(let codeLocation),
+             .tooLong(let codeLocation),
+             .tooLow(let codeLocation),
+             .tooOld(let codeLocation),
+             .tooShort(let codeLocation),
+             .tooWeak(let codeLocation),
+             .tooYoung(let codeLocation):
+            return codeLocation.failureReason
         }
     }
 }

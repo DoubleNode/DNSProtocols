@@ -8,15 +8,16 @@
 
 import Alamofire
 import DNSCoreThreading
+import DNSError
 import Foundation
 
 public enum PTCLBaseNetworkError: Error
 {
-    case unknown(domain: String, file: String, line: String, method: String)
-    case dataError(domain: String, file: String, line: String, method: String)
-    case invalidUrl(domain: String, file: String, line: String, method: String)
-    case networkError(error: Error, domain: String, file: String, line: String, method: String)
-    case serverError(statusCode: Int, domain: String, file: String, line: String, method: String)
+    case unknown(_ codeLocation: DNSCodeLocation)
+    case dataError(_ codeLocation: DNSCodeLocation)
+    case invalidUrl(_ codeLocation: DNSCodeLocation)
+    case networkError(error: Error, _ codeLocation: DNSCodeLocation)
+    case serverError(statusCode: Int, _ codeLocation: DNSCodeLocation)
 }
 extension PTCLBaseNetworkError: DNSError {
     public static let domain = "NETWORK"
@@ -31,49 +32,44 @@ extension PTCLBaseNetworkError: DNSError {
 
     public var nsError: NSError! {
         switch self {
-        case .unknown(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .unknown(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
-        case .dataError(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .dataError(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.dataError.rawValue,
                                 userInfo: userInfo)
-        case .invalidUrl(let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .invalidUrl(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidUrl.rawValue,
                                 userInfo: userInfo)
-        case .networkError(let error, let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "Error": error, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .networkError(let error, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["Error"] = error
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.networkError.rawValue,
                                 userInfo: userInfo)
-        case .serverError(let statusCode, let domain, let file, let line, let method):
-            let userInfo: [String : Any] = [
-                "StatusCode": statusCode, "DNSDomain": domain, "DNSFile": file, "DNSLine": line, "DNSMethod": method,
-                NSLocalizedDescriptionKey: self.errorDescription ?? "Unknown Error"
-            ]
+        case .serverError(let statusCode, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["StatusCode"] = statusCode
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.serverError.rawValue,
                                 userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
+        return self.errorString
+    }
+    public var errorString: String {
         switch self {
         case .unknown:
             return NSLocalizedString("NETWORK-Unknown Error", comment: "")
@@ -84,25 +80,23 @@ extension PTCLBaseNetworkError: DNSError {
         case .invalidUrl:
             return NSLocalizedString("NETWORK-Invalid URL", comment: "")
                 + " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))"
-        case .networkError(let error, _, _, _, _):
+        case .networkError(let error, _):
             return String(format: NSLocalizedString("NETWORK-Network Error: %@", comment: ""),
                           error.localizedDescription)
                 + " (\(Self.domain):\(Self.Code.networkError.rawValue))"
-        case .serverError(let statusCode, _, _, _, _):
+        case .serverError(let statusCode, _):
             return String(format: NSLocalizedString("NETWORK-Server Error: %@", comment: ""), "\(statusCode)")
                 + " (\(Self.domain):\(Self.Code.serverError.rawValue))"
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let domain, let file, let line, let method),
-             .dataError(let domain, let file, let line, let method),
-             .invalidUrl(let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .networkError(_, let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
-        case .serverError(_, let domain, let file, let line, let method):
-            return "\(domain):\(file):\(line):\(method)"
+        case .unknown(let codeLocation),
+             .dataError(let codeLocation),
+             .invalidUrl(let codeLocation),
+             .networkError(_, let codeLocation),
+             .serverError(_, let codeLocation):
+            return codeLocation.failureReason
         }
     }
 }
