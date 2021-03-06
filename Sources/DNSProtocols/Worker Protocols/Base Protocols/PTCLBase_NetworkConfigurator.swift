@@ -101,7 +101,7 @@ extension PTCLBaseNetworkError: DNSError {
     }
 }
 
-public protocol PTCLBase_NetworkConfigurator: class
+public protocol PTCLBase_NetworkConfigurator: AnyObject
 {
     func defaultHeaders() -> HTTPHeaders
 }

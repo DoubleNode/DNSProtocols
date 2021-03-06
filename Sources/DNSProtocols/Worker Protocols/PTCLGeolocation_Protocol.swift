@@ -88,10 +88,8 @@ public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
 
     func doLocate(with progress: PTCLProgressBlock?,
                   and block: PTCLGeolocationBlockVoidStringDNSError?) throws
-
+    func doStopTrackLocation(for processKey: String) throws
     func doTrackLocation(for processKey: String,
                          with progress: PTCLProgressBlock?,
                          and block: PTCLGeolocationBlockVoidStringDNSError?) throws
-
-    func doStopTrackLocation(for processKey: String) throws
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol PTCLBase_SystemProtocol: class
+public protocol PTCLBase_SystemProtocol: AnyObject
 {
     var networkConfigurator: PTCLBase_NetworkConfigurator? { get }
 

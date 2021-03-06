@@ -117,16 +117,16 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
     func doDeleteObject(for id: String,
                         with progress: PTCLProgressBlock?,
                         and block: PTCLCacheBlockVoidDNSError?) throws
+    func doLoadImage(from url: NSURL,
+                     for id: String,
+                     with progress: PTCLProgressBlock?,
+                     and block: PTCLCacheBlockVoidAnyDNSError?) throws
     func doReadObject(for id: String,
                       with progress: PTCLProgressBlock?,
                       and block: PTCLCacheBlockVoidAnyDNSError?) throws
     func doReadObject(for id: String,
                       with progress: PTCLProgressBlock?,
                       and block: PTCLCacheBlockVoidStringDNSError?) throws
-    func doLoadImage(from url: NSURL,
-                     for id: String,
-                     with progress: PTCLProgressBlock?,
-                     and block: PTCLCacheBlockVoidAnyDNSError?) throws
     func doUpdate(object: Any,
                   for id: String,
                   with progress: PTCLProgressBlock?,

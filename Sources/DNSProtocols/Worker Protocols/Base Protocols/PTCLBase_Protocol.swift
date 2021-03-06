@@ -92,7 +92,7 @@ extension PTCLBaseError: DNSError {
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
 public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 
-public protocol PTCLBase_Protocol: class
+public protocol PTCLBase_Protocol: AnyObject
 {
     var networkConfigurator: PTCLBase_NetworkConfigurator? { get }
 
