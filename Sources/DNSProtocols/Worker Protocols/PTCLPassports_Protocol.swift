@@ -64,9 +64,6 @@ extension PTCLPassportsError: DNSError {
     }
 }
 
-// (data: Data?, error: Error?)
-public typealias PTCLPassportsBlockVoidDataError = (Data?, DNSError?) -> Void
-
 public enum PTCLPassportsProtocolPassportTypes: String {
     case personalBarcode
 }

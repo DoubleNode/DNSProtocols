@@ -95,9 +95,6 @@ extension PTCLUserIdentityError: DNSError {
     }
 }
 
-// (success: Bool, error: Error?)
-public typealias PTCLUserIdentityBlockVoidBoolError = (Bool, DNSError?) -> Void
-
 public protocol PTCLUserIdentity_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLUserIdentity_Protocol? { get }
 

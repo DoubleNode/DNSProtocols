@@ -101,11 +101,6 @@ extension PTCLCacheError: DNSError {
         }
     }
 }
-// (error: Error?)
-public typealias PTCLCacheBlockVoidDNSError = (DNSError?) -> Void
-// (object: Any?, error: Error?)
-public typealias PTCLCacheBlockVoidAnyDNSError = (Any?, DNSError?) -> Void
-public typealias PTCLCacheBlockVoidStringDNSError = (String?, DNSError?) -> Void
 
 public protocol PTCLCache_Protocol: PTCLBase_Protocol
 {

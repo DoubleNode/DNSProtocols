@@ -63,9 +63,6 @@ extension PTCLSupportError: DNSError {
     }
 }
 
-// (count: Int, error: Error?)
-public typealias PTCLSupportBlockVoidIntError = (Int, Error?) -> Void
-
 public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLSupport_Protocol? { get }
 
