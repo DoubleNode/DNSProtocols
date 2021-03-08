@@ -9,7 +9,6 @@
 import Combine
 import DNSCoreThreading
 import DNSError
-import DNSProtocols
 import Foundation
 
 public enum PTCLUserIdentityError: Error

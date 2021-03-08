@@ -8,8 +8,8 @@
 
 import Combine
 import DNSCoreThreading
+import DNSDataObjects
 import DNSError
-import DNSProtocols
 import Foundation
 
 public enum PTCLBeaconDistancesError: Error
@@ -64,9 +64,9 @@ extension PTCLBeaconDistancesError: DNSError {
     }
 }
 
-// (distances: [MEEBeaconDistance], error: Error?)
+// (distances: [DAOBeaconDistance], error: Error?)
 // swiftlint:disable:next type_name
-public typealias PTCLBeaconDistancesBlockVoidArrayMEEBeaconDistanceError = ([MEEBeaconDistance], DNSError?) -> Void
+public typealias PTCLBeaconDistancesBlockVoidArrayDAOBeaconDistanceError = ([DAOBeaconDistance], DNSError?) -> Void
 
 public protocol PTCLBeaconDistances_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLBeaconDistances_Protocol? { get }
@@ -77,5 +77,5 @@ public protocol PTCLBeaconDistances_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
 
     func doLoadBeaconDistances(with progress: PTCLProgressBlock?,
-                               and block: PTCLBeaconDistancesBlockVoidArrayMEEBeaconDistanceError?) throws
+                               and block: PTCLBeaconDistancesBlockVoidArrayDAOBeaconDistanceError?) throws
 }

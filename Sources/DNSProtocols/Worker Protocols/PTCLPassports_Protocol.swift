@@ -8,9 +8,8 @@
 
 import Combine
 import DNSCore
-import DNSCoreThreading
+import DNSDataObjects
 import DNSError
-import DNSProtocols
 import Foundation
 
 public enum PTCLPassportsError: Error
@@ -81,6 +80,6 @@ public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
 
     func doLoadPassport(of passportType: PTCLPassportsProtocolPassportTypes,
-                        for account: MEEAccount,
+                        for account: DAOAccount,
                         with progress: PTCLProgressBlock?) -> AnyPublisher<Data, Error>
 }
