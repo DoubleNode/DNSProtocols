@@ -6,6 +6,7 @@
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import Combine
 import DNSCoreThreading
 import DNSError
 import Foundation
@@ -115,20 +116,15 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
 
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
-                        with progress: PTCLProgressBlock?,
-                        and block: PTCLCacheBlockVoidDNSError?) throws
+                        with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doLoadImage(from url: NSURL,
                      for id: String,
-                     with progress: PTCLProgressBlock?,
-                     and block: PTCLCacheBlockVoidAnyDNSError?) throws
+                     with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
     func doReadObject(for id: String,
-                      with progress: PTCLProgressBlock?,
-                      and block: PTCLCacheBlockVoidAnyDNSError?) throws
+                      with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
     func doReadObject(for id: String,
-                      with progress: PTCLProgressBlock?,
-                      and block: PTCLCacheBlockVoidStringDNSError?) throws
+                      with progress: PTCLProgressBlock?) -> AnyPublisher<String, Error>
     func doUpdate(object: Any,
                   for id: String,
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLCacheBlockVoidAnyDNSError?) throws
+                  with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
 }
