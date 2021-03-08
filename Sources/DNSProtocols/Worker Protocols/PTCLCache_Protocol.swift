@@ -9,7 +9,7 @@
 import Combine
 import DNSCoreThreading
 import DNSError
-import Foundation
+import UIKit
 
 public enum PTCLCacheError: Error
 {
@@ -114,7 +114,7 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
                         with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doLoadImage(from url: NSURL,
                      for id: String,
-                     with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                     with progress: PTCLProgressBlock?) -> AnyPublisher<UIImage, Error>
     func doReadObject(for id: String,
                       with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
     func doReadObject(for id: String,
