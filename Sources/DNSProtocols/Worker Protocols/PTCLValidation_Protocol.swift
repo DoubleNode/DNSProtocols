@@ -192,37 +192,15 @@ public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doValidateBirthdate(for birthdate: Date,
-                             with progress: PTCLProgressBlock?,
-                             and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateEmail(for email: String,
-                         with progress: PTCLProgressBlock?,
-                         and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateHandle(for handle: String,
-                          with progress: PTCLProgressBlock?,
-                          and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateName(for name: String,
-                        with progress: PTCLProgressBlock?,
-                        and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateNumber(for number: String,
-                          with progress: PTCLProgressBlock?,
-                          and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidatePassword(for password: String,
-                            with progress: PTCLProgressBlock?,
-                            and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidatePercentage(for percentage: String,
-                              with progress: PTCLProgressBlock?,
-                              and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidatePhone(for phone: String,
-                         with progress: PTCLProgressBlock?,
-                         and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateSearch(for search: String,
-                          with progress: PTCLProgressBlock?,
-                          and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateState(for state: String,
-                         with progress: PTCLProgressBlock?,
-                         and block: PTCLValidationBlockVoidBoolDNSError?) throws
-    func doValidateUnsignedNumber(for number: String,
-                                  with progress: PTCLProgressBlock?,
-                                  and block: PTCLValidationBlockVoidBoolDNSError?) throws
+    func doValidateBirthdate(for birthdate: Date) throws -> DNSError?
+    func doValidateEmail(for email: String) throws -> DNSError?
+    func doValidateHandle(for handle: String) throws -> DNSError?
+    func doValidateName(for name: String) throws -> DNSError?
+    func doValidateNumber(for number: String) throws -> DNSError?
+    func doValidatePassword(for password: String) throws -> DNSError?
+    func doValidatePercentage(for percentage: String) throws -> DNSError?
+    func doValidatePhone(for phone: String) throws -> DNSError?
+    func doValidateSearch(for search: String) throws -> DNSError?
+    func doValidateState(for state: String) throws -> DNSError?
+    func doValidateUnsignedNumber(for number: String) throws -> DNSError?
 }
