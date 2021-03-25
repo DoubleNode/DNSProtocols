@@ -175,27 +175,27 @@ public enum PTCLValidationRegex
 }
 
 public struct PTCLValidationBirthdateConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Birthdate"
     public var minimumAge: Int32?
     public var maximumAge: Int32?
     public var required: Bool = true
     public init() { }
 }
 public struct PTCLValidationDateConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Date"
     public var minimum: Date?
     public var maximum: Date?
     public var required: Bool = true
     public init() { }
 }
 public struct PTCLValidationEmailConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Email"
     public var regex: String? = PTCLValidationRegex.email
     public var required: Bool = true
     public init() { }
 }
 public struct PTCLValidationHandleConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Handle"
     public var minimumLength: Int32? = 6
     public var maximumLength: Int32? = 80
     public var regex: String?
@@ -203,7 +203,7 @@ public struct PTCLValidationHandleConfig {
     public init() { }
 }
 public struct PTCLValidationNameConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Name"
     public var minimumLength: Int32? = 2
     public var maximumLength: Int32? = 250
     public var regex: String?
@@ -211,14 +211,14 @@ public struct PTCLValidationNameConfig {
     public init() { }
 }
 public struct PTCLValidationNumberConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Number"
     public var minimum: Int64?
     public var maximum: Int64?
     public var required: Bool = true
     public init() { }
 }
 public struct PTCLValidationPasswordConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Password"
     public var minimumLength: Int32?
     public var maximumLength: Int32?
     public var required: Bool = true
@@ -226,14 +226,14 @@ public struct PTCLValidationPasswordConfig {
     public init() { }
 }
 public struct PTCLValidationPercentageConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Percentage"
     public var minimum: Float?
     public var maximum: Float?
     public var required: Bool = true
     public init() { }
 }
 public struct PTCLValidationPhoneConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Phone"
     public var minimumLength: Int32? = 10
     public var maximumLength: Int32? = 10
     public var regex: String? = PTCLValidationRegex.phone
@@ -241,7 +241,7 @@ public struct PTCLValidationPhoneConfig {
     public init() { }
 }
 public struct PTCLValidationSearchConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Search"
     public var minimumLength: Int32?
     public var maximumLength: Int32?
     public var regex: String?
@@ -249,7 +249,7 @@ public struct PTCLValidationSearchConfig {
     public init() { }
 }
 public struct PTCLValidationStateConfig {
-    public var fieldName: String?
+    public var fieldName: String = "State"
     public var minimumLength: Int32? = 2
     public var maximumLength: Int32? = 2
     public var regex: String?
@@ -257,7 +257,7 @@ public struct PTCLValidationStateConfig {
     public init() { }
 }
 public struct PTCLValidationUnsignedNumberConfig {
-    public var fieldName: String?
+    public var fieldName: String = "Unsigned Number"
     public var minimum: Int64?
     public var maximum: Int64?
     public var required: Bool = true
