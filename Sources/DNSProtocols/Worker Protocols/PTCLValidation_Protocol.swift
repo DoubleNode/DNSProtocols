@@ -23,6 +23,7 @@ public enum PTCLValidationError: Error
     case tooShort(_ codeLocation: DNSCodeLocation)
     case tooWeak(_ codeLocation: DNSCodeLocation)
     case tooYoung(_ codeLocation: DNSCodeLocation)
+    case required(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLValidationError: DNSError {
     public static let domain = "VALIDATE"
@@ -38,6 +39,7 @@ extension PTCLValidationError: DNSError {
         case tooShort = 1008
         case tooWeak = 1009
         case tooYoung = 1010
+        case required = 1011
     }
     
     public var nsError: NSError! {
@@ -102,6 +104,12 @@ extension PTCLValidationError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.tooYoung.rawValue,
                                 userInfo: userInfo)
+        case .required(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.required.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -139,6 +147,9 @@ extension PTCLValidationError: DNSError {
         case .tooYoung:
             return NSLocalizedString("VALIDATE-Entry Too Young", comment: "")
                 + " (\(Self.domain):\(Self.Code.tooYoung.rawValue))"
+        case .required:
+            return NSLocalizedString("VALIDATE-Entry Required", comment: "")
+                + " (\(Self.domain):\(Self.Code.required.rawValue))"
         }
     }
     public var failureReason: String? {
@@ -152,7 +163,8 @@ extension PTCLValidationError: DNSError {
              .tooOld(let codeLocation),
              .tooShort(let codeLocation),
              .tooWeak(let codeLocation),
-             .tooYoung(let codeLocation):
+             .tooYoung(let codeLocation),
+             .required(let codeLocation):
             return codeLocation.failureReason
         }
     }
