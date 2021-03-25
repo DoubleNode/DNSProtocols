@@ -177,69 +177,69 @@ public enum PTCLValidationRegex
 }
 
 public struct PTCLValidationBirthdateConfig {
-    var minimumAge: Int32?
-    var maximumAge: Int32?
-    var required: Bool = true
+    public var minimumAge: Int32?
+    public var maximumAge: Int32?
+    public var required: Bool = true
 }
 public struct PTCLValidationDateConfig {
-    var minimum: Date?
-    var maximum: Date?
-    var required: Bool = true
+    public var minimum: Date?
+    public var maximum: Date?
+    public var required: Bool = true
 }
 public struct PTCLValidationEmailConfig {
-    var regex: String? = PTCLValidationRegex.email
-    var required: Bool = true
+    public var regex: String? = PTCLValidationRegex.email
+    public var required: Bool = true
 }
 public struct PTCLValidationHandleConfig {
-    var minimumLength: Int32? = 6
-    var maximumLength: Int32? = 80
-    var regex: String?
-    var required: Bool = true
+    public var minimumLength: Int32? = 6
+    public var maximumLength: Int32? = 80
+    public var regex: String?
+    public var required: Bool = true
 }
 public struct PTCLValidationNameConfig {
-    var minimumLength: Int32? = 2
-    var maximumLength: Int32? = 250
-    var regex: String?
-    var required: Bool = true
+    public var minimumLength: Int32? = 2
+    public var maximumLength: Int32? = 250
+    public var regex: String?
+    public var required: Bool = true
 }
 public struct PTCLValidationNumberConfig {
-    var minimum: Int64?
-    var maximum: Int64?
-    var required: Bool = true
+    public var minimum: Int64?
+    public var maximum: Int64?
+    public var required: Bool = true
 }
 public struct PTCLValidationPasswordConfig {
-    var minimumLength: Int32?
-    var maximumLength: Int32?
-    var required: Bool = true
-    var strength: PTCLPasswordStrengthType = .strong
+    public var minimumLength: Int32?
+    public var maximumLength: Int32?
+    public var required: Bool = true
+    public var strength: PTCLPasswordStrengthType = .strong
 }
 public struct PTCLValidationPercentageConfig {
-    var minimum: Float?
-    var maximum: Float?
-    var required: Bool = true
+    public var minimum: Float?
+    public var maximum: Float?
+    public var required: Bool = true
 }
 public struct PTCLValidationPhoneConfig {
-    var minimumLength: Int32? = 10
-    var maximumLength: Int32? = 10
-    var regex: String? = PTCLValidationRegex.phone
-    var required: Bool = true
+    public var minimumLength: Int32? = 10
+    public var maximumLength: Int32? = 10
+    public var regex: String? = PTCLValidationRegex.phone
+    public var required: Bool = true
 }
 public struct PTCLValidationSearchConfig {
-    var minimumLength: Int32?
-    var maximumLength: Int32?
-    var regex: String?
-    var required: Bool = true
+    public var minimumLength: Int32?
+    public var maximumLength: Int32?
+    public var regex: String?
+    public var required: Bool = true
 }
 public struct PTCLValidationStateConfig {
-    var minimumLength: Int32? = 2
-    var maximumLength: Int32? = 2
-    var regex: String?
-    var required: Bool = true
+    public var minimumLength: Int32? = 2
+    public var maximumLength: Int32? = 2
+    public var regex: String?
+    public var required: Bool = true
 }
 public struct PTCLValidationUnsignedNumberConfig {
-    var minimum: Int64?
-    var maximum: Int64?
-    var required: Bool = true
+    public var minimum: Int64?
+    public var maximum: Int64?
+    public var required: Bool = true
 }
 
 public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
