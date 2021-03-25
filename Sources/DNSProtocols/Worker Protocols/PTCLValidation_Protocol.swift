@@ -170,49 +170,96 @@ extension PTCLValidationError: DNSError {
     }
 }
 
-// (valid: Bool, error: DNSError?)
-public typealias PTCLValidationBlockVoidBoolDNSError = (Bool, DNSError?) -> Void
+public enum PTCLValidationRegex
+{
+    static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    static let phone = "^[0-9]{10}$"
+}
+
+public struct PTCLValidationBirthdayConfig {
+    var minimumAge: Int32?
+    var maximumAge: Int32?
+    var required: Bool = true
+}
+public struct PTCLValidationDateConfig {
+    var minimum: Date?
+    var maximum: Date?
+    var required: Bool = true
+}
+public struct PTCLValidationEmailConfig {
+    var regex: String? = PTCLValidationRegex.email
+    var required: Bool = true
+}
+public struct PTCLValidationHandleConfig {
+    var minimumLength: Int32? = 6
+    var maximumLength: Int32? = 80
+    var regex: String?
+    var required: Bool = true
+}
+public struct PTCLValidationNameConfig {
+    var minimumLength: Int32? = 2
+    var maximumLength: Int32? = 250
+    var regex: String?
+    var required: Bool = true
+}
+public struct PTCLValidationNumberConfig {
+    var minimum: Int64?
+    var maximum: Int64?
+    var required: Bool = true
+}
+public struct PTCLValidationPasswordConfig {
+    var minimumLength: Int32?
+    var maximumLength: Int32?
+    var required: Bool = true
+    var strength: PTCLPasswordStrengthType = .strong
+}
+public struct PTCLValidationPercentageConfig {
+    var minimum: Float?
+    var maximum: Float?
+    var required: Bool = true
+}
+public struct PTCLValidationPhoneConfig {
+    var minimumLength: Int32? = 10
+    var maximumLength: Int32? = 10
+    var regex: String? = PTCLValidationRegex.phone
+    var required: Bool = true
+}
+public struct PTCLValidationSearchConfig {
+    var minimumLength: Int32?
+    var maximumLength: Int32?
+    var regex: String?
+    var required: Bool = true
+}
+public struct PTCLValidationStateConfig {
+    var minimumLength: Int32? = 2
+    var maximumLength: Int32? = 2
+    var regex: String?
+    var required: Bool = true
+}
+public struct PTCLValidationUnsignedNumberConfig {
+    var minimum: Int64?
+    var maximum: Int64?
+    var required: Bool = true
+}
 
 public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLValidation_Protocol? { get }
 
-    var minimumBirthdateAge: Int32 { get set }  // -1 = no minimum
-    var maximumBirthdateAge: Int32 { get set }  // -1 = no maximum
-
-    var minimumHandleLength: Int32 { get set }  // -1 = no minimum
-    var maximumHandleLength: Int32 { get set }  // -1 = no maximum
-
-    var minimumNameLength: Int32 { get set }    // -1 = no minimum
-    var maximumNameLength: Int32 { get set }    // -1 = no maximum
-
-    var minimumNumberValue: Int64 { get set }   // -1 = no minimum
-    var maximumNumberValue: Int64 { get set }   // -1 = no maximum
-
-    var minimumPercentageValue: Float { get set }   // <0 = no minimum
-    var maximumPercentageValue: Float { get set }   // <0 = no maximum
-
-    var minimumPhoneLength: Int32 { get set }   // -1 = no minimum
-    var maximumPhoneLength: Int32 { get set }   // -1 = no maximum
-
-    var minimumUnsignedNumberValue: Int64 { get set }   // -1 = no minimum
-    var maximumUnsignedNumberValue: Int64 { get set }   // -1 = no maximum
-
-    var requiredPasswordStrength: PTCLPasswordStrengthType { get set }
-    
     init()
     init(nextWorker: PTCLValidation_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doValidateBirthdate(for birthdate: Date) throws -> DNSError?
-    func doValidateEmail(for email: String) throws -> DNSError?
-    func doValidateHandle(for handle: String) throws -> DNSError?
-    func doValidateName(for name: String) throws -> DNSError?
-    func doValidateNumber(for number: String) throws -> DNSError?
-    func doValidatePassword(for password: String) throws -> DNSError?
-    func doValidatePercentage(for percentage: String) throws -> DNSError?
-    func doValidatePhone(for phone: String) throws -> DNSError?
-    func doValidateSearch(for search: String) throws -> DNSError?
-    func doValidateState(for state: String) throws -> DNSError?
-    func doValidateUnsignedNumber(for number: String) throws -> DNSError?
+    func doValidateBirthdate(for birthdate: Date?, with config: PTCLValidationBirthdayConfig) throws -> DNSError?
+    func doValidateDate(for date: Date?, with config: PTCLValidationDateConfig) throws -> DNSError?
+    func doValidateEmail(for email: String?, with config: PTCLValidationEmailConfig) throws -> DNSError?
+    func doValidateHandle(for handle: String?, with config: PTCLValidationHandleConfig) throws -> DNSError?
+    func doValidateName(for name: String?, with config: PTCLValidationNameConfig) throws -> DNSError?
+    func doValidateNumber(for number: String?, with config: PTCLValidationNumberConfig) throws -> DNSError?
+    func doValidatePassword(for password: String?, with config: PTCLValidationPasswordConfig) throws -> DNSError?
+    func doValidatePercentage(for percentage: String?, with config: PTCLValidationPercentageConfig) throws -> DNSError?
+    func doValidatePhone(for phone: String?, with config: PTCLValidationPhoneConfig) throws -> DNSError?
+    func doValidateSearch(for search: String?, with config: PTCLValidationSearchConfig) throws -> DNSError?
+    func doValidateState(for state: String?, with config: PTCLValidationStateConfig) throws -> DNSError?
+    func doValidateUnsignedNumber(for number: String?, with config: PTCLValidationUnsignedNumberConfig) throws -> DNSError?
 }
