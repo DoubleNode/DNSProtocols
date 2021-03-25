@@ -176,7 +176,7 @@ public enum PTCLValidationRegex
     static let phone = "^[0-9]{10}$"
 }
 
-public struct PTCLValidationBirthdayConfig {
+public struct PTCLValidationBirthdateConfig {
     var minimumAge: Int32?
     var maximumAge: Int32?
     var required: Bool = true
@@ -250,7 +250,7 @@ public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doValidateBirthdate(for birthdate: Date?, with config: PTCLValidationBirthdayConfig) throws -> DNSError?
+    func doValidateBirthdate(for birthdate: Date?, with config: PTCLValidationBirthdateConfig) throws -> DNSError?
     func doValidateDate(for date: Date?, with config: PTCLValidationDateConfig) throws -> DNSError?
     func doValidateEmail(for email: String?, with config: PTCLValidationEmailConfig) throws -> DNSError?
     func doValidateHandle(for handle: String?, with config: PTCLValidationHandleConfig) throws -> DNSError?
