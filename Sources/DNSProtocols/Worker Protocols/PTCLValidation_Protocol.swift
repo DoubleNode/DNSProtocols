@@ -14,16 +14,16 @@ import Foundation
 public enum PTCLValidationError: Error
 {
     case unknown(_ codeLocation: DNSCodeLocation)
-    case invalid(_ codeLocation: DNSCodeLocation)
-    case noValue(_ codeLocation: DNSCodeLocation)
-    case tooHigh(_ codeLocation: DNSCodeLocation)
-    case tooLong(_ codeLocation: DNSCodeLocation)
-    case tooLow(_ codeLocation: DNSCodeLocation)
-    case tooOld(_ codeLocation: DNSCodeLocation)
-    case tooShort(_ codeLocation: DNSCodeLocation)
-    case tooWeak(_ codeLocation: DNSCodeLocation)
-    case tooYoung(_ codeLocation: DNSCodeLocation)
-    case required(_ codeLocation: DNSCodeLocation)
+    case invalid(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case noValue(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooHigh(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooLong(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooLow(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooOld(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooShort(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooWeak(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case tooYoung(fieldName: String, _ codeLocation: DNSCodeLocation)
+    case required(fieldName: String, _ codeLocation: DNSCodeLocation)
 }
 extension PTCLValidationError: DNSError {
     public static let domain = "VALIDATE"
@@ -41,75 +41,63 @@ extension PTCLValidationError: DNSError {
         case tooYoung = 1010
         case required = 1011
     }
-    
+
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .invalid(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.unknown.rawValue, userInfo: userInfo)
+        case .invalid(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.invalid.rawValue,
-                                userInfo: userInfo)
-        case .noValue(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.invalid.rawValue, userInfo: userInfo)
+        case .noValue(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.noValue.rawValue,
-                                userInfo: userInfo)
-        case .tooHigh(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.noValue.rawValue, userInfo: userInfo)
+        case .tooHigh(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooHigh.rawValue,
-                                userInfo: userInfo)
-        case .tooLong(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooHigh.rawValue, userInfo: userInfo)
+        case .tooLong(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooLong.rawValue,
-                                userInfo: userInfo)
-        case .tooLow(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooLong.rawValue, userInfo: userInfo)
+        case .tooLow(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooLow.rawValue,
-                                userInfo: userInfo)
-        case .tooOld(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooLow.rawValue, userInfo: userInfo)
+        case .tooOld(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooOld.rawValue,
-                                userInfo: userInfo)
-        case .tooShort(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooOld.rawValue, userInfo: userInfo)
+        case .tooShort(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooShort.rawValue,
-                                userInfo: userInfo)
-        case .tooWeak(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooShort.rawValue, userInfo: userInfo)
+        case .tooWeak(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooWeak.rawValue,
-                                userInfo: userInfo)
-        case .tooYoung(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooWeak.rawValue, userInfo: userInfo)
+        case .tooYoung(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.tooYoung.rawValue,
-                                userInfo: userInfo)
-        case .required(let codeLocation):
+            return NSError.init(domain: Self.domain, code: Self.Code.tooYoung.rawValue, userInfo: userInfo)
+        case .required(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["fieldName"] = fieldName
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.required.rawValue,
-                                userInfo: userInfo)
+            return NSError.init(domain: Self.domain, code: Self.Code.required.rawValue, userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -120,51 +108,61 @@ extension PTCLValidationError: DNSError {
         case .unknown:
             return NSLocalizedString("VALIDATE-Unknown Error", comment: "")
                 + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
-        case .invalid:
-            return NSLocalizedString("VALIDATE-Invalid Entry", comment: "")
+        case .invalid(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Invalid Entry: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.invalid.rawValue))"
-        case .noValue:
-            return NSLocalizedString("VALIDATE-No Entry", comment: "")
+        case .noValue(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-No Entry: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.noValue.rawValue))"
-        case .tooHigh:
-            return NSLocalizedString("VALIDATE-Entry Too High", comment: "")
+        case .tooHigh(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too High: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooHigh.rawValue))"
-        case .tooLong:
-            return NSLocalizedString("VALIDATE-Entry Too Long", comment: "")
+        case .tooLong(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Long: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooLong.rawValue))"
-        case .tooLow:
-            return NSLocalizedString("VALIDATE-Entry Too Low", comment: "")
+        case .tooLow(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Low: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooLow.rawValue))"
-        case .tooOld:
-            return NSLocalizedString("VALIDATE-Entry Too Old", comment: "")
+        case .tooOld(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Old: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooOld.rawValue))"
-        case .tooShort:
-            return NSLocalizedString("VALIDATE-Entry Too Short", comment: "")
+        case .tooShort(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Short: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooShort.rawValue))"
-        case .tooWeak:
-            return NSLocalizedString("VALIDATE-Entry Too Weak", comment: "")
+        case .tooWeak(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Weak: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooWeak.rawValue))"
-        case .tooYoung:
-            return NSLocalizedString("VALIDATE-Entry Too Young", comment: "")
+        case .tooYoung(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Young: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.tooYoung.rawValue))"
-        case .required:
-            return NSLocalizedString("VALIDATE-Entry Required", comment: "")
+        case .required(let fieldName, _):
+            return String(format: NSLocalizedString("VALIDATE-Entry Required: %@", comment: ""),
+                          fieldName)
                 + " (\(Self.domain):\(Self.Code.required.rawValue))"
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
-             .invalid(let codeLocation),
-             .noValue(let codeLocation),
-             .tooHigh(let codeLocation),
-             .tooLong(let codeLocation),
-             .tooLow(let codeLocation),
-             .tooOld(let codeLocation),
-             .tooShort(let codeLocation),
-             .tooWeak(let codeLocation),
-             .tooYoung(let codeLocation),
-             .required(let codeLocation):
+             .invalid(_, let codeLocation),
+             .noValue(_, let codeLocation),
+             .tooHigh(_, let codeLocation),
+             .tooLong(_, let codeLocation),
+             .tooLow(_, let codeLocation),
+             .tooOld(_, let codeLocation),
+             .tooShort(_, let codeLocation),
+             .tooWeak(_, let codeLocation),
+             .tooYoung(_, let codeLocation),
+             .required(_, let codeLocation):
             return codeLocation.failureReason
         }
     }
@@ -177,69 +175,93 @@ public enum PTCLValidationRegex
 }
 
 public struct PTCLValidationBirthdateConfig {
+    public var fieldName: String?
     public var minimumAge: Int32?
     public var maximumAge: Int32?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationDateConfig {
+    public var fieldName: String?
     public var minimum: Date?
     public var maximum: Date?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationEmailConfig {
+    public var fieldName: String?
     public var regex: String? = PTCLValidationRegex.email
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationHandleConfig {
+    public var fieldName: String?
     public var minimumLength: Int32? = 6
     public var maximumLength: Int32? = 80
     public var regex: String?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationNameConfig {
+    public var fieldName: String?
     public var minimumLength: Int32? = 2
     public var maximumLength: Int32? = 250
     public var regex: String?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationNumberConfig {
+    public var fieldName: String?
     public var minimum: Int64?
     public var maximum: Int64?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationPasswordConfig {
+    public var fieldName: String?
     public var minimumLength: Int32?
     public var maximumLength: Int32?
     public var required: Bool = true
     public var strength: PTCLPasswordStrengthType = .strong
+    public init() { }
 }
 public struct PTCLValidationPercentageConfig {
+    public var fieldName: String?
     public var minimum: Float?
     public var maximum: Float?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationPhoneConfig {
+    public var fieldName: String?
     public var minimumLength: Int32? = 10
     public var maximumLength: Int32? = 10
     public var regex: String? = PTCLValidationRegex.phone
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationSearchConfig {
+    public var fieldName: String?
     public var minimumLength: Int32?
     public var maximumLength: Int32?
     public var regex: String?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationStateConfig {
+    public var fieldName: String?
     public var minimumLength: Int32? = 2
     public var maximumLength: Int32? = 2
     public var regex: String?
     public var required: Bool = true
+    public init() { }
 }
 public struct PTCLValidationUnsignedNumberConfig {
+    public var fieldName: String?
     public var minimum: Int64?
     public var maximum: Int64?
     public var required: Bool = true
+    public init() { }
 }
 
 public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
