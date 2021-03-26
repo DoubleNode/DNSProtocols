@@ -49,6 +49,29 @@ extension PTCLAnalyticsError: DNSError {
     }
 }
 
+public enum PTCLAnalyticsEvents: Int8, CaseIterable, Codable {
+    case addToCart
+    case appInCenter
+    case applyPromoToCart
+    case beginCheckout
+    case login
+    case logout
+    case purchase
+    case screenView
+    case search
+    case selectContent
+    case selectItem
+    case selectPromotion
+    case signUp
+    case viewCart
+    case viewCategory
+    case viewItem
+    case viewItemList
+    case viewPromotion
+    case viewSearchResults
+    case other
+}
+
 public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
 {
     var nextWorker: PTCLAnalytics_Protocol? { get }
@@ -77,7 +100,7 @@ public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
     func doScreen(screenTitle: String, properties: [String: Any], options: [String: Any]) throws
     
     // MARK: - Track -
-    func doTrack(event: String) throws
-    func doTrack(event: String, properties: [String: Any]) throws
-    func doTrack(event: String, properties: [String: Any], options: [String: Any]) throws
+    func doTrack(event: PTCLAnalyticsEvents) throws
+    func doTrack(event: PTCLAnalyticsEvents, properties: [String: Any]) throws
+    func doTrack(event: PTCLAnalyticsEvents, properties: [String: Any], options: [String: Any]) throws
 }
