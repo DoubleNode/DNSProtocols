@@ -14,12 +14,14 @@ import Foundation
 public enum PTCLBeaconsError: Error
 {
     case unknown(_ codeLocation: DNSCodeLocation)
+    case notImplemented(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLBeaconsError: DNSError {
     public static let domain = "BEACONS"
     public enum Code: Int
     {
         case unknown = 1001
+        case notImplemented = 1002
     }
     
     public var nsError: NSError! {
@@ -30,6 +32,12 @@ extension PTCLBeaconsError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
+        case .notImplemented(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -38,13 +46,17 @@ extension PTCLBeaconsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("BEACONS-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("BEACONS-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
+        case .notImplemented:
+            return String(format: NSLocalizedString("BEACONS-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation):
+        case .unknown(let codeLocation),
+             .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }

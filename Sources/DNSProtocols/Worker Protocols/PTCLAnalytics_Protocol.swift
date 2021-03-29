@@ -13,12 +13,14 @@ import Foundation
 public enum PTCLAnalyticsError: Error
 {
     case unknown(_ codeLocation: DNSCodeLocation)
+    case notImplemented(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLAnalyticsError: DNSError {
     public static let domain = "ANALYTICS"
     public enum Code: Int
     {
         case unknown = 1001
+        case notImplemented = 1002
     }
     
     public var nsError: NSError! {
@@ -29,6 +31,12 @@ extension PTCLAnalyticsError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
+        case .notImplemented(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -37,13 +45,17 @@ extension PTCLAnalyticsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("ANALYTICS-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("ANALYTICS-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
+        case .notImplemented:
+            return String(format: NSLocalizedString("ANALYTICS-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation):
+        case .unknown(let codeLocation),
+             .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }

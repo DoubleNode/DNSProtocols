@@ -66,30 +66,27 @@ extension PTCLUserIdentityError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("USERID-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("USERID-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return NSLocalizedString("USERID-Not Implemented", comment: "")
-                + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+            return String(format: NSLocalizedString("USERID-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .unableToJoin(let group, let error, _):
-            return String(format: NSLocalizedString("USERID-Unable to Join Group: %@", comment: ""),
-                          group, error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.unableToJoin.rawValue))"
+            return String(format: NSLocalizedString("USERID-Unable to Join Group: %@%@%@", comment: ""),
+                          group, error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.unableToJoin.rawValue))")
         case .unableToLeave(let group, let error, _):
-            return String(format: NSLocalizedString("USERID-Unable to Leave Group: %@", comment: ""),
-                          group, error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.unableToLeave.rawValue))"
+            return String(format: NSLocalizedString("USERID-Unable to Leave Group: %@%@%@", comment: ""),
+                          group, error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.unableToLeave.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
-            return codeLocation.failureReason
-        case .unableToJoin(_, _, let codeLocation):
-            return codeLocation.failureReason
-        case .unableToLeave(_, _, let codeLocation):
+        case .unknown(let codeLocation),
+             .notImplemented(let codeLocation),
+             .unableToJoin(_, _, let codeLocation),
+             .unableToLeave(_, _, let codeLocation):
             return codeLocation.failureReason
         }
     }

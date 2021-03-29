@@ -46,18 +46,17 @@ extension PTCLSupportError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("SUPPORT-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("SUPPORT-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return NSLocalizedString("SUPPORT-Not Implemented", comment: "")
-                + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+            return String(format: NSLocalizedString("SUPPORT-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
+        case .unknown(let codeLocation),
+             .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }

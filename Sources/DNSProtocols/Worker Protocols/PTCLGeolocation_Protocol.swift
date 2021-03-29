@@ -14,6 +14,7 @@ import Foundation
 public enum PTCLGeolocationError: Error
 {
     case unknown(_ codeLocation: DNSCodeLocation)
+    case notImplemented(_ codeLocation: DNSCodeLocation)
     case denied(_ codeLocation: DNSCodeLocation)
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
 }
@@ -22,8 +23,9 @@ extension PTCLGeolocationError: DNSError {
     public enum Code: Int
     {
         case unknown = 1001
-        case denied = 1002
-        case failure = 1003
+        case notImplemented = 1002
+        case denied = 1003
+        case failure = 1004
     }
     
     public var nsError: NSError! {
@@ -33,6 +35,12 @@ extension PTCLGeolocationError: DNSError {
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .notImplemented(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
         case .denied(let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -55,19 +63,24 @@ extension PTCLGeolocationError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("GEO-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("GEO-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
+        case .notImplemented:
+            return String(format: NSLocalizedString("GEO-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .denied:
-            return String(format: NSLocalizedString("GEO-Denied", comment: ""))
-                + " (\(Self.domain):\(Self.Code.denied.rawValue))"
+            return String(format: NSLocalizedString("GEO-Denied%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.denied.rawValue))")
         case .failure(let error, _):
-            return String(format: NSLocalizedString("GEO-Failure: %@", comment: ""), error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.failure.rawValue))"
+            return String(format: NSLocalizedString("GEO-Failure: %@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.failure.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
+             .notImplemented(let codeLocation),
              .denied(let codeLocation),
              .failure(_, let codeLocation):
             return codeLocation.failureReason

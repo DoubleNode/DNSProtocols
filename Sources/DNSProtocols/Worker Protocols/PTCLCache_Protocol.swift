@@ -14,6 +14,7 @@ import UIKit
 public enum PTCLCacheError: Error
 {
     case unknown(_ codeLocation: DNSCodeLocation)
+    case notImplemented(_ codeLocation: DNSCodeLocation)
     case createError(error: Error, _ codeLocation: DNSCodeLocation)
     case deleteError(error: Error, _ codeLocation: DNSCodeLocation)
     case readError(error: Error, _ codeLocation: DNSCodeLocation)
@@ -24,10 +25,11 @@ extension PTCLCacheError: DNSError {
     public enum Code: Int
     {
         case unknown = 1001
-        case createError = 1002
-        case deleteError = 1003
-        case readError = 1004
-        case writeError = 1005
+        case notImplemented = 1002
+        case createError = 1003
+        case deleteError = 1004
+        case readError = 1005
+        case writeError = 1006
     }
     
     public var nsError: NSError! {
@@ -37,6 +39,12 @@ extension PTCLCacheError: DNSError {
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .notImplemented(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
         case .createError(let error, let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -74,25 +82,33 @@ extension PTCLCacheError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("CACHE-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("CACHE-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
+        case .notImplemented:
+            return String(format: NSLocalizedString("CACHE-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .createError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Create Error: %@", comment: ""), error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.createError.rawValue))"
+            return String(format: NSLocalizedString("CACHE-Object Create Error: %@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.createError.rawValue))")
         case .deleteError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Delete Error: %@", comment: ""), error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.deleteError.rawValue))"
+            return String(format: NSLocalizedString("CACHE-Object Delete Error: %@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.deleteError.rawValue))")
         case .readError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Read Error: %@", comment: ""), error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.readError.rawValue))"
+            return String(format: NSLocalizedString("CACHE-Object Read Error: %@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.readError.rawValue))")
         case .writeError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Write Error: %@", comment: ""), error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.writeError.rawValue))"
+            return String(format: NSLocalizedString("CACHE-Object Write Error: %@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.writeError.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
+             .notImplemented(let codeLocation),
              .createError(_, let codeLocation),
              .deleteError(_, let codeLocation),
              .readError(_, let codeLocation),

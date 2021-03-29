@@ -45,11 +45,11 @@ extension PTCLPermissionsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("PERMISSIONS-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("PERMISSIONS-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return NSLocalizedString("PERMISSIONS-Not Implemented", comment: "")
-                + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+            return String(format: NSLocalizedString("PERMISSIONS-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {

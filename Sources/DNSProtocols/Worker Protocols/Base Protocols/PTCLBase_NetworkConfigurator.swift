@@ -14,6 +14,7 @@ import Foundation
 public enum PTCLBaseNetworkError: Error
 {
     case unknown(_ codeLocation: DNSCodeLocation)
+    case notImplemented(_ codeLocation: DNSCodeLocation)
     case dataError(_ codeLocation: DNSCodeLocation)
     case invalidUrl(_ codeLocation: DNSCodeLocation)
     case networkError(error: Error, _ codeLocation: DNSCodeLocation)
@@ -24,10 +25,11 @@ extension PTCLBaseNetworkError: DNSError {
     public enum Code: Int
     {
         case unknown = 1001
-        case dataError = 1002
-        case invalidUrl = 1003
-        case networkError = 1004
-        case serverError = 1005
+        case notImplemented = 1002
+        case dataError = 1003
+        case invalidUrl = 1004
+        case networkError = 1005
+        case serverError = 1006
     }
 
     public var nsError: NSError! {
@@ -37,6 +39,12 @@ extension PTCLBaseNetworkError: DNSError {
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .notImplemented(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
         case .dataError(let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -72,26 +80,31 @@ extension PTCLBaseNetworkError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("NETWORK-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("NETWORK-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
+        case .notImplemented:
+            return String(format: NSLocalizedString("NETWORK-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .dataError:
-            return NSLocalizedString("NETWORK-Data Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.dataError.rawValue))"
+            return String(format: NSLocalizedString("NETWORK-Data Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.dataError.rawValue))")
         case .invalidUrl:
-            return NSLocalizedString("NETWORK-Invalid URL", comment: "")
-                + " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))"
+            return String(format: NSLocalizedString("NETWORK-Invalid URL%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))")
         case .networkError(let error, _):
-            return String(format: NSLocalizedString("NETWORK-Network Error: %@", comment: ""),
-                          error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.networkError.rawValue))"
+            return String(format: NSLocalizedString("NETWORK-Network Error: %@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.networkError.rawValue))")
         case .serverError(let statusCode, _):
-            return String(format: NSLocalizedString("NETWORK-Server Error: %@", comment: ""), "\(statusCode)")
-                + " (\(Self.domain):\(Self.Code.serverError.rawValue))"
+            return String(format: NSLocalizedString("NETWORK-Server Error: %@%@", comment: ""),
+                          "\(statusCode)",
+                          " (\(Self.domain):\(Self.Code.serverError.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
+             .notImplemented(let codeLocation),
              .dataError(let codeLocation),
              .invalidUrl(let codeLocation),
              .networkError(_, let codeLocation),

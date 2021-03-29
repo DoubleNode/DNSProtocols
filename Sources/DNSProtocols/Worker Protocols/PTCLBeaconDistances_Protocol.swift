@@ -47,18 +47,17 @@ extension PTCLBeaconDistancesError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("BECNDIST-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("BECNDIST-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return NSLocalizedString("BECNDIST-Not Implemented", comment: "")
-                + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+            return String(format: NSLocalizedString("BECNDIST-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
+        case .unknown(let codeLocation),
+             .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }
