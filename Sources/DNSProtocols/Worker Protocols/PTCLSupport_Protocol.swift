@@ -78,8 +78,11 @@ extension PTCLSupportError: DNSError {
 
 public struct PTCLSupportAttachment {
     public var attachment: Any?
-    public var token: String
+    public var token: String = ""
     public var image: UIImage
+    public init(image: UIImage) {
+        self.image = image
+    }
 }
 public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLSupport_Protocol? { get }
