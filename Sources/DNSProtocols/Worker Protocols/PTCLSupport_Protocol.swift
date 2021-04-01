@@ -16,6 +16,7 @@ public enum PTCLSupportError: Error
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
+    case timeout(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLSupportError: DNSError {
     public static let domain = "SUPPORT"
@@ -24,6 +25,7 @@ extension PTCLSupportError: DNSError {
         case unknown = 1001
         case notImplemented = 1002
         case systemError = 1003
+        case timeout = 1004
     }
 
     public var nsError: NSError! {
@@ -47,6 +49,12 @@ extension PTCLSupportError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.systemError.rawValue,
                                 userInfo: userInfo)
+        case .timeout(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.timeout.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -64,13 +72,17 @@ extension PTCLSupportError: DNSError {
             return String(format: NSLocalizedString("SUPPORT-System Error: %@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.systemError.rawValue))")
+        case .timeout:
+            return String(format: NSLocalizedString("SUPPORT-Timeout%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.timeout.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
-             .systemError(_, let codeLocation):
+             .systemError(_, let codeLocation),
+             .timeout(let codeLocation):
             return codeLocation.failureReason
         }
     }
