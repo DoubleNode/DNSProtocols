@@ -88,12 +88,15 @@ extension PTCLSupportError: DNSError {
     }
 }
 
-public struct PTCLSupportAttachment {
-    public var attachment: Any?
+public struct PTCLSupportAttachment: Hashable {
+    public var attachment: AnyHashable?
     public var token: String = ""
     public var image: UIImage
     public init(image: UIImage) {
         self.image = image
+    }
+    public static func == (lhs: PTCLSupportAttachment, rhs: PTCLSupportAttachment) -> Bool {
+        return lhs.image == rhs.image
     }
 }
 public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
