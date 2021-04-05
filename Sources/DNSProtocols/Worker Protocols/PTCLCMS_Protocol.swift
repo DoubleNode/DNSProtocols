@@ -75,5 +75,5 @@ public protocol PTCLCMS_Protocol: PTCLBase_Protocol {
 
     func doLoad(for group: String,
                 with progress: PTCLProgressBlock?,
-                and block: @escaping PTCLCMSBlockVoidArrayDNSError) throws
+                and block: PTCLCMSBlockVoidArrayDNSError?) throws
 }

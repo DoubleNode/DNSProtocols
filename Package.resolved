@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/Alamofire/Alamofire.git",
         "state": {
           "branch": null,
-          "revision": "eaf6e622dd41b07b251d8f01752eab31bc811493",
-          "version": "5.4.1"
+          "revision": "4d19ad82f80cc71ff829b941ded114c56f4f604c",
+          "version": "5.4.2"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/DoubleNode/DNSCore.git",
         "state": {
           "branch": null,
-          "revision": "9f802671553e111a1c7de0da90ea7bd0f3a1c8e5",
-          "version": "1.4.12"
+          "revision": "d21347ca3c054df55c33db1eb47f8dc821a5e704",
+          "version": "1.4.13"
         }
       },
       {

@@ -119,18 +119,18 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],
                                with progress: PTCLProgressBlock?,
-                               and block: @escaping PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError) throws
+                               and block: PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError?) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
                   with progress: PTCLProgressBlock?,
-                  and block: @escaping PTCLAuthenticationBlockVoidBoolAccessDataDNSError) throws
+                  and block: PTCLAuthenticationBlockVoidBoolAccessDataDNSError?) throws
     func doSignOut(using parameters: [String: Any],
                    with progress: PTCLProgressBlock?,
-                   and block: @escaping PTCLAuthenticationBlockVoidBoolDNSError) throws
+                   and block: PTCLAuthenticationBlockVoidBoolDNSError?) throws
     func doSignUp(from user: DAOUser?,
                   and password: String?,
                   using parameters: [String: Any],
                   with progress: PTCLProgressBlock?,
-                  and block: @escaping PTCLAuthenticationBlockVoidBoolAccessDataDNSError) throws
+                  and block: PTCLAuthenticationBlockVoidBoolAccessDataDNSError?) throws
 }

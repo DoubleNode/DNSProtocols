@@ -157,15 +157,15 @@ public protocol PTCLPermissions_Protocol: PTCLBase_Protocol {
     func doRequest(_ desire: PTCLPermissions.Desire,
                    _ permission: PTCLPermissions.Permission,
                    with progress: PTCLProgressBlock?,
-                   and block: @escaping PTCLPermissionsBlockVoidPTCLPermissionActionError) throws
+                   and block: PTCLPermissionsBlockVoidPTCLPermissionActionError?) throws
     func doRequest(_ desire: PTCLPermissions.Desire,
                    _ permissions: [PTCLPermissions.Permission],
                    with progress: PTCLProgressBlock?,
-                   and block: @escaping PTCLPermissionsBlockVoidArrayPTCLPermissionActionError) throws
+                   and block: PTCLPermissionsBlockVoidArrayPTCLPermissionActionError?) throws
     func doStatus(of permissions: [PTCLPermissions.Permission],
                   with progress: PTCLProgressBlock?,
-                  and block: @escaping PTCLPermissionsBlockVoidArrayPTCLPermissionActionError) throws
+                  and block: PTCLPermissionsBlockVoidArrayPTCLPermissionActionError?) throws
     func doWait(for permission: PTCLPermissions.Permission,
                 with progress: PTCLProgressBlock?,
-                and block: @escaping PTCLPermissionsBlockVoidPTCLPermissionActionError) throws
+                and block: PTCLPermissionsBlockVoidPTCLPermissionActionError?) throws
 }
