@@ -19,6 +19,7 @@ public enum PTCLBaseNetworkError: Error
     case invalidUrl(_ codeLocation: DNSCodeLocation)
     case networkError(error: Error, _ codeLocation: DNSCodeLocation)
     case serverError(statusCode: Int, _ codeLocation: DNSCodeLocation)
+    case unauthorized(_ codeLocation: DNSCodeLocation)
 }
 extension PTCLBaseNetworkError: DNSError {
     public static let domain = "NETWORK"
@@ -30,6 +31,7 @@ extension PTCLBaseNetworkError: DNSError {
         case invalidUrl = 1004
         case networkError = 1005
         case serverError = 1006
+        case unauthorized = 1007
     }
 
     public var nsError: NSError! {
@@ -72,6 +74,12 @@ extension PTCLBaseNetworkError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.serverError.rawValue,
                                 userInfo: userInfo)
+        case .unauthorized(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unauthorized.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -99,6 +107,9 @@ extension PTCLBaseNetworkError: DNSError {
             return String(format: NSLocalizedString("NETWORK-Server Error: %@%@", comment: ""),
                           "\(statusCode)",
                           " (\(Self.domain):\(Self.Code.serverError.rawValue))")
+        case .unauthorized:
+            return String(format: NSLocalizedString("NETWORK-Unauthorized%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unauthorized.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -108,7 +119,8 @@ extension PTCLBaseNetworkError: DNSError {
              .dataError(let codeLocation),
              .invalidUrl(let codeLocation),
              .networkError(_, let codeLocation),
-             .serverError(_, let codeLocation):
+             .serverError(_, let codeLocation),
+             .unauthorized(let codeLocation):
             return codeLocation.failureReason
         }
     }
