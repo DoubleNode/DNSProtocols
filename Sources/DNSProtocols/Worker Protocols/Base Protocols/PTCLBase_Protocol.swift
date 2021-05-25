@@ -89,6 +89,13 @@ extension PTCLBaseError: DNSError {
     }
 }
 
+public enum PTCLCallNextWhen
+{
+    case always
+    case whenNotFound
+    case whenUnhandled
+}
+
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
 public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 

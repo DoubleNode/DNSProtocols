@@ -111,10 +111,12 @@ public typealias PTCLAuthenticationBlockVoidBoolAccessDataDNSError = (Bool, PTCL
 public typealias PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError = (Bool, Bool, PTCLAuthentication_AccessData, DNSError?) -> Void
 
 public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLAuthentication_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLAuthentication_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLAuthentication_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],

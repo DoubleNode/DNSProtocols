@@ -147,10 +147,12 @@ public struct PTCLPermissionAction : Codable {
 }
 
 public protocol PTCLPermissions_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLPermissions_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLPermissions_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLPermissions_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

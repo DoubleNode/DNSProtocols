@@ -92,10 +92,12 @@ extension PTCLGeolocationError: DNSError {
 public typealias PTCLGeolocationBlockVoidStringDNSError = (String, DNSError?) -> Void
 
 public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLGeolocation_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLGeolocation_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLGeolocation_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

@@ -93,10 +93,12 @@ extension PTCLUserIdentityError: DNSError {
 }
 
 public protocol PTCLUserIdentity_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLUserIdentity_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLUserIdentity_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLUserIdentity_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

@@ -66,10 +66,12 @@ extension PTCLCMSError: DNSError {
 public typealias PTCLCMSBlockVoidArrayDNSError = ([Any], DNSError?) -> Void
 
 public protocol PTCLCMS_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLCMS_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLCMS_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLCMS_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

@@ -68,10 +68,12 @@ public enum PTCLPassportsProtocolPassportTypes: String {
 }
 
 public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLPassports_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLPassports_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLPassports_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

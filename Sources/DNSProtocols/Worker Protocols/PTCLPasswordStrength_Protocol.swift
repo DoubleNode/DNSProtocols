@@ -70,12 +70,14 @@ public enum PTCLPasswordStrengthType: Int8
 }
 
 public protocol PTCLPasswordStrength_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLPasswordStrength_Protocol? { get }
 
     var minimumLength: Int32 { get set }
 
     init()
-    init(nextWorker: PTCLPasswordStrength_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLPasswordStrength_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

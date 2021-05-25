@@ -86,10 +86,12 @@ public enum PTCLAnalyticsEvents: Int8, CaseIterable, Codable {
 
 public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
 {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLAnalytics_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLAnalytics_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLAnalytics_Protocol)
 
     // MARK: - Auto-Track -
     func doAutoTrack(class: String, method: String) throws

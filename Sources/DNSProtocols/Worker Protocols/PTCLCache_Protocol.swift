@@ -120,10 +120,12 @@ extension PTCLCacheError: DNSError {
 
 public protocol PTCLCache_Protocol: PTCLBase_Protocol
 {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLCache_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLCache_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLCache_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,

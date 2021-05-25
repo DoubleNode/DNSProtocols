@@ -275,10 +275,12 @@ public struct PTCLValidationUnsignedNumberConfig {
 }
 
 public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLValidation_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLValidation_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLValidation_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

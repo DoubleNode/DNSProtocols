@@ -63,10 +63,12 @@ extension PTCLAppReviewError: DNSError {
 
 public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
 {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLAppReview_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLAppReview_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLAppReview_Protocol)
 
     var launchedCount: UInt { get set }
     var launchedFirstTime: Date { get set }

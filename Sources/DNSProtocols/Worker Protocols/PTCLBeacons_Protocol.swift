@@ -66,10 +66,12 @@ extension PTCLBeaconsError: DNSError {
 public typealias PTCLBeaconsBlockVoidArrayDAOBeaconError = ([DAOBeacon], DNSError?) -> Void
 
 public protocol PTCLBeacons_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLBeacons_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLBeacons_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLBeacons_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 

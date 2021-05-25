@@ -100,10 +100,12 @@ public struct PTCLSupportAttachment: Hashable {
     }
 }
 public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
+    var callNextWhen: PTCLCallNextWhen { get }
     var nextWorker: PTCLSupport_Protocol? { get }
 
     init()
-    init(nextWorker: PTCLSupport_Protocol)
+    init(call: PTCLCallNextWhen,
+         nextWorker: PTCLSupport_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
 
