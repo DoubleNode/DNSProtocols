@@ -72,7 +72,7 @@ public protocol PTCLBeaconDistances_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLBeaconDistances_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLBeaconDistances_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

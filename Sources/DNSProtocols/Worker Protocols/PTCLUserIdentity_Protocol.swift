@@ -97,7 +97,7 @@ public protocol PTCLUserIdentity_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLUserIdentity_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLUserIdentity_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

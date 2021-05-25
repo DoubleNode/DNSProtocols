@@ -92,6 +92,7 @@ extension PTCLBaseError: DNSError {
 public enum PTCLCallNextWhen
 {
     case always
+    case whenError
     case whenNotFound
     case whenUnhandled
 }

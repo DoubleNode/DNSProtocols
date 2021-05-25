@@ -104,7 +104,7 @@ public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLSupport_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLSupport_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

@@ -124,7 +124,7 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
     var nextWorker: PTCLCache_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLCache_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

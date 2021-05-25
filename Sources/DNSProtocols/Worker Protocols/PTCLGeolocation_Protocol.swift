@@ -96,7 +96,7 @@ public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLGeolocation_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLGeolocation_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

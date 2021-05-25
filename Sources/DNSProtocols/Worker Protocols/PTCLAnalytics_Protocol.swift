@@ -90,7 +90,7 @@ public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
     var nextWorker: PTCLAnalytics_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLAnalytics_Protocol)
 
     // MARK: - Auto-Track -

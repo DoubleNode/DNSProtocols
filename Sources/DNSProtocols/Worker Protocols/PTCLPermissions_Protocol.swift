@@ -151,7 +151,7 @@ public protocol PTCLPermissions_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLPermissions_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLPermissions_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

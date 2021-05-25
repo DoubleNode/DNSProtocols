@@ -70,7 +70,7 @@ public protocol PTCLBeacons_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLBeacons_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLBeacons_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

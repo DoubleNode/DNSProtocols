@@ -70,7 +70,7 @@ public protocol PTCLCMS_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLCMS_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLCMS_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

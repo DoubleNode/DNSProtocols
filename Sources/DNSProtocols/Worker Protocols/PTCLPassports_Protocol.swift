@@ -72,7 +72,7 @@ public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLPassports_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLPassports_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD

@@ -67,7 +67,7 @@ public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
     var nextWorker: PTCLAppReview_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLAppReview_Protocol)
 
     var launchedCount: UInt { get set }

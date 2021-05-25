@@ -115,7 +115,7 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLAuthentication_Protocol? { get }
 
     init()
-    init(call: PTCLCallNextWhen,
+    init(call callNextWhen: PTCLCallNextWhen,
          nextWorker: PTCLAuthentication_Protocol)
 
     // MARK: - Business Logic / Single Item CRUD
