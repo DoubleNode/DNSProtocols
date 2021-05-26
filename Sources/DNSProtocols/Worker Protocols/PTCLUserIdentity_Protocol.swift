@@ -97,8 +97,8 @@ public protocol PTCLUserIdentity_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLUserIdentity_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLUserIdentity_Protocol)
+    func register(nextWorker: PTCLUserIdentity_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

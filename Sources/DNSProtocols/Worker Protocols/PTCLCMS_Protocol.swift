@@ -70,8 +70,8 @@ public protocol PTCLCMS_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLCMS_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLCMS_Protocol)
+    func register(nextWorker: PTCLCMS_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

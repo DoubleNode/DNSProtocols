@@ -115,8 +115,8 @@ public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLAuthentication_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLAuthentication_Protocol)
+    func register(nextWorker: PTCLAuthentication_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],

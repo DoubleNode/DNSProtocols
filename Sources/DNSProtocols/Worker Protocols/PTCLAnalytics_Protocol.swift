@@ -90,8 +90,8 @@ public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
     var nextWorker: PTCLAnalytics_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLAnalytics_Protocol)
+    func register(nextWorker: PTCLAnalytics_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Auto-Track -
     func doAutoTrack(class: String, method: String) throws

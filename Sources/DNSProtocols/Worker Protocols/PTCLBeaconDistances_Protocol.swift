@@ -72,8 +72,8 @@ public protocol PTCLBeaconDistances_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLBeaconDistances_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLBeaconDistances_Protocol)
+    func register(nextWorker: PTCLBeaconDistances_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

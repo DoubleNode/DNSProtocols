@@ -104,8 +104,8 @@ public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLSupport_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLSupport_Protocol)
+    func register(nextWorker: PTCLSupport_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

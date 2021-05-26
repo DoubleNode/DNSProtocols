@@ -124,8 +124,8 @@ public protocol PTCLCache_Protocol: PTCLBase_Protocol
     var nextWorker: PTCLCache_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLCache_Protocol)
+    func register(nextWorker: PTCLCache_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,

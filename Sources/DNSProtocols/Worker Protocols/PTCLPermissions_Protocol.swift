@@ -151,8 +151,8 @@ public protocol PTCLPermissions_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLPermissions_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLPermissions_Protocol)
+    func register(nextWorker: PTCLPermissions_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

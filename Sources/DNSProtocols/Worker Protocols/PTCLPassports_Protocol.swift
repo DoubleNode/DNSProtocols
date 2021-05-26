@@ -72,8 +72,8 @@ public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLPassports_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLPassports_Protocol)
+    func register(nextWorker: PTCLPassports_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

@@ -96,8 +96,8 @@ public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLGeolocation_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLGeolocation_Protocol)
+    func register(nextWorker: PTCLGeolocation_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

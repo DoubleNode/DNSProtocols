@@ -279,8 +279,8 @@ public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLValidation_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLValidation_Protocol)
+    func register(nextWorker: PTCLValidation_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

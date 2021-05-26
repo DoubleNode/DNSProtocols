@@ -70,8 +70,8 @@ public protocol PTCLBeacons_Protocol: PTCLBase_Protocol {
     var nextWorker: PTCLBeacons_Protocol? { get }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLBeacons_Protocol)
+    func register(nextWorker: PTCLBeacons_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

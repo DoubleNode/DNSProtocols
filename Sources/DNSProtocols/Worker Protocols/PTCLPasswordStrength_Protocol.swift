@@ -76,8 +76,8 @@ public protocol PTCLPasswordStrength_Protocol: PTCLBase_Protocol {
     var minimumLength: Int32 { get set }
 
     init()
-    init(call callNextWhen: PTCLCallNextWhen,
-         nextWorker: PTCLPasswordStrength_Protocol)
+    func register(nextWorker: PTCLPasswordStrength_Protocol,
+                  for callNextWhen: PTCLCallNextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 
