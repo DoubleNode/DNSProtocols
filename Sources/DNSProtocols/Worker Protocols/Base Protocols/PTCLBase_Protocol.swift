@@ -104,7 +104,7 @@ public enum PTCLCallResult
     case unhandled
 }
 public typealias PTCLCallBlock = () throws -> Void
-public typealias PTCLCallResultBlockThrows = (PTCLResultBlock?) throws -> Bool
+public typealias PTCLCallResultBlockThrows = (PTCLResultBlock?) throws -> Any?
 public typealias PTCLResultBlock = (PTCLCallResult) -> Void
 
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
