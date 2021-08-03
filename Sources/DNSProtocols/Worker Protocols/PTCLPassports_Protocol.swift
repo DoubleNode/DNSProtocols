@@ -16,6 +16,7 @@ public enum PTCLPassportsError: Error
 {
     case unknown(_ codeLocation: CodeLocation)
     case notImplemented(_ codeLocation: CodeLocation)
+    case unknownType(passportType: String, _ codeLocation: CodeLocation)
 }
 extension PTCLPassportsError: DNSError {
     public static let domain = "PASSPORTS"
@@ -23,6 +24,7 @@ extension PTCLPassportsError: DNSError {
     {
         case unknown = 1001
         case notImplemented = 1002
+        case unknownType = 1003
     }
 
     public var nsError: NSError! {
@@ -39,6 +41,13 @@ extension PTCLPassportsError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
+        case .unknownType(let passportType, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["passportType"] = passportType
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknownType.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -52,19 +61,19 @@ extension PTCLPassportsError: DNSError {
         case .notImplemented:
             return String(format: NSLocalizedString("PASSPORTS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        case .unknownType(let passportType, _):
+            return String(format: NSLocalizedString("PASSPORTS-Unknown Type: %@%@", comment: ""),
+                          passportType) + " (\(Self.domain):\(Self.Code.unknownType.rawValue))"
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
-             .notImplemented(let codeLocation):
+             .notImplemented(let codeLocation),
+             .unknownType(_, let codeLocation):
             return codeLocation.failureReason
         }
     }
-}
-
-public enum PTCLPassportsProtocolPassportTypes: String {
-    case personalBarcode
 }
 
 public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
@@ -77,7 +86,7 @@ public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doLoadPassport(of passportType: PTCLPassportsProtocolPassportTypes,
+    func doLoadPassport(of passportType: String,
                         for account: DAOAccount,
                         with progress: PTCLProgressBlock?) -> AnyPublisher<Data, Error>
 }
