@@ -86,7 +86,8 @@ public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doLoadPassport(of passportType: String,
-                        for account: DAOAccount,
-                        with progress: PTCLProgressBlock?) -> AnyPublisher<Data, Error>
+    func doBuildPassport(type passportType: String,
+                         using data: [String: String],
+                         for account: DAOAccount,
+                         with progress: PTCLProgressBlock?) -> AnyPublisher<Data, Error>
 }
