@@ -85,7 +85,7 @@ public enum PTCLPermissionsData {
         case need
         case present
     }
-    public enum Permission: String, Codable {
+    public enum System: String, Codable {
         case none
         case bluetooth
         case calendar
@@ -140,17 +140,20 @@ public enum PTCLPermissionsData {
 }
 
 public struct PTCLPermissionAction : Codable {
-    public var permission: PTCLPermissionsData.Permission
-    public var action: PTCLPermissionsData.Action
+    public var permission: PTCLPermissions.Data.System
+    public var action: PTCLPermissions.Data.Action
 
-    public init(_ permission: PTCLPermissionsData.Permission,
-                _ action: PTCLPermissionsData.Action) {
+    public init(_ permission: PTCLPermissions.Data.System,
+                _ action: PTCLPermissions.Data.Action) {
         self.permission = permission
         self.action = action
     }
 }
 
 public protocol PTCLPermissions: PTCLProtocolBase {
+    typealias Data = PTCLPermissionsData
+    typealias Action = PTCLPermissionAction
+    
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLPermissions? { get }
 
@@ -160,18 +163,18 @@ public protocol PTCLPermissions: PTCLProtocolBase {
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doRequest(_ desire: PTCLPermissionsData.Desire,
-                   _ permission: PTCLPermissionsData.Permission,
+    func doRequest(_ desire: PTCLPermissions.Data.Desire,
+                   _ permission: PTCLPermissions.Data.System,
                    with progress: PTCLProgressBlock?,
                    and block: PTCLPermissionsBlockVoidPermissionAction?) throws
-    func doRequest(_ desire: PTCLPermissionsData.Desire,
-                   _ permissions: [PTCLPermissionsData.Permission],
+    func doRequest(_ desire: PTCLPermissions.Data.Desire,
+                   _ permissions: [PTCLPermissions.Data.System],
                    with progress: PTCLProgressBlock?,
                    and block: PTCLPermissionsBlockVoidArrayPermissionAction?) throws
-    func doStatus(of permissions: [PTCLPermissionsData.Permission],
+    func doStatus(of permissions: [PTCLPermissions.Data.System],
                   with progress: PTCLProgressBlock?,
                   and block: PTCLPermissionsBlockVoidArrayPermissionAction?) throws
-    func doWait(for permission: PTCLPermissionsData.Permission,
+    func doWait(for permission: PTCLPermissions.Data.System,
                 with progress: PTCLProgressBlock?,
                 and block: PTCLPermissionsBlockVoidPermissionAction?) throws
 }
