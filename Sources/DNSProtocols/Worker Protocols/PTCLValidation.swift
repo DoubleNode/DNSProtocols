@@ -270,8 +270,8 @@ public struct PTCLValidationData {
         }
         public struct UnsignedNumber {
             public var fieldName: String = "Unsigned Number"
-            public var minimum: Int64?
-            public var maximum: Int64?
+            public var minimum: UInt64?
+            public var maximum: UInt64?
             public var required: Bool = true
             public init() { }
         }
@@ -292,7 +292,7 @@ public protocol PTCLValidation: PTCLProtocolBase {
 
     func doValidateBirthdate(for birthdate: Date?,
                              with config: PTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
-    func doValidateCalendarDate(for date: Date?,
+    func doValidateCalendarDate(for calendarDate: Date?,
                                 with config: PTCLValidation.Data.Config.CalendarDate) throws -> DNSError.Validation?
     func doValidateEmail(for email: String?,
                          with config: PTCLValidation.Data.Config.Email) throws -> DNSError.Validation?
@@ -300,11 +300,11 @@ public protocol PTCLValidation: PTCLProtocolBase {
                           with config: PTCLValidation.Data.Config.Handle) throws -> DNSError.Validation?
     func doValidateName(for name: String?,
                         with config: PTCLValidation.Data.Config.Name) throws -> DNSError.Validation?
-    func doValidateNumber(for number: String?,
+    func doValidateNumber(for numberString: String?,
                           with config: PTCLValidation.Data.Config.Number) throws -> DNSError.Validation?
     func doValidatePassword(for password: String?,
                             with config: PTCLValidation.Data.Config.Password) throws -> DNSError.Validation?
-    func doValidatePercentage(for percentage: String?,
+    func doValidatePercentage(for percentageString: String?,
                               with config: PTCLValidation.Data.Config.Percentage) throws -> DNSError.Validation?
     func doValidatePhone(for phone: String?,
                          with config: PTCLValidation.Data.Config.Phone) throws -> DNSError.Validation?
@@ -312,6 +312,6 @@ public protocol PTCLValidation: PTCLProtocolBase {
                           with config: PTCLValidation.Data.Config.Search) throws -> DNSError.Validation?
     func doValidateState(for state: String?,
                          with config: PTCLValidation.Data.Config.State) throws -> DNSError.Validation?
-    func doValidateUnsignedNumber(for number: String?,
+    func doValidateUnsignedNumber(for numberString: String?,
                                   with config: PTCLValidation.Data.Config.UnsignedNumber) throws -> DNSError.Validation?
 }
