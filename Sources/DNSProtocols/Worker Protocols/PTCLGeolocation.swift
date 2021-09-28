@@ -1,5 +1,5 @@
 //
-//  PTCLGeolocation_Protocol.swift
+//  PTCLGeolocation.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,14 +11,15 @@ import DNSDataObjects
 import DNSError
 import Foundation
 
-public enum PTCLGeolocationError: Error
-{
+public extension DNSError {
+    typealias Geolocation = PTCLGeolocationError
+}
+public enum PTCLGeolocationError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case denied(_ codeLocation: DNSCodeLocation)
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
-}
-extension PTCLGeolocationError: DNSError {
+
     public static let domain = "GEO"
     public enum Code: Int
     {
@@ -88,23 +89,26 @@ extension PTCLGeolocationError: DNSError {
     }
 }
 
-// (geohash: String, error: Error?)
-public typealias PTCLGeolocationBlockVoidStringDNSError = (String, DNSError?) -> Void
+public typealias PTCLGeolocationResultString =
+    Result<String, DNSError.Geolocation>
 
-public protocol PTCLGeolocation_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLGeolocation_Protocol? { get }
+public typealias PTCLGeolocationBlockVoidString =
+    (PTCLGeolocationResultString) -> Void
+
+public protocol PTCLGeolocation: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLGeolocation? { get }
 
     init()
-    func register(nextWorker: PTCLGeolocation_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLGeolocation,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 
     func doLocate(with progress: PTCLProgressBlock?,
-                  and block: PTCLGeolocationBlockVoidStringDNSError?) throws
+                  and block: PTCLGeolocationBlockVoidString?) throws
     func doStopTrackLocation(for processKey: String) throws
     func doTrackLocation(for processKey: String,
                          with progress: PTCLProgressBlock?,
-                         and block: PTCLGeolocationBlockVoidStringDNSError?) throws
+                         and block: PTCLGeolocationBlockVoidString?) throws
 }

@@ -1,5 +1,5 @@
 //
-//  PTCLBase_NetworkConfigurator.swift
+//  PTCLNetworkConfigurator.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,8 +11,10 @@ import DNSCoreThreading
 import DNSError
 import Foundation
 
-public enum PTCLBaseNetworkError: Error
-{
+public extension DNSError {
+    typealias Network = PTCLNetworkError
+}
+public enum PTCLNetworkError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case dataError(_ codeLocation: DNSCodeLocation)
@@ -20,8 +22,7 @@ public enum PTCLBaseNetworkError: Error
     case networkError(error: Error, _ codeLocation: DNSCodeLocation)
     case serverError(statusCode: Int, _ codeLocation: DNSCodeLocation)
     case unauthorized(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLBaseNetworkError: DNSError {
+
     public static let domain = "NETWORK"
     public enum Code: Int
     {
@@ -126,7 +127,7 @@ extension PTCLBaseNetworkError: DNSError {
     }
 }
 
-public protocol PTCLBase_NetworkConfigurator: AnyObject
+public protocol PTCLNetworkConfigurator: AnyObject
 {
     func defaultHeaders() -> HTTPHeaders
 }

@@ -1,5 +1,5 @@
 //
-//  PTCLAuthentication_Protocol.swift
+//  PTCLAuthentication.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,15 +11,16 @@ import DNSDataObjects
 import DNSError
 import UIKit
 
-public enum PTCLAuthenticationError: Error
-{
+public extension DNSError {
+    typealias Authentication = PTCLAuthenticationError
+}
+public enum PTCLAuthenticationError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
     case lockedOut(_ codeLocation: DNSCodeLocation)
     case passwordExpired(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLAuthenticationError: DNSError {
+
     public static let domain = "AUTH"
     public enum Code: Int
     {
@@ -100,39 +101,43 @@ extension PTCLAuthenticationError: DNSError {
     }
 }
 
-public protocol PTCLAuthentication_AccessData {
-}
+public protocol PTCLAuthenticationAccessData { }
 
-// (success: Bool, error: DNSError?)
-public typealias PTCLAuthenticationBlockVoidBoolDNSError = (Bool, DNSError?) -> Void
-// (authenticated: Bool, error: DNSError?)
-public typealias PTCLAuthenticationBlockVoidBoolAccessDataDNSError = (Bool, PTCLAuthentication_AccessData, DNSError?) -> Void
-// (authenticated: Bool, expiredAuthentication: Bool, error: DNSError?)
-public typealias PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError = (Bool, Bool, PTCLAuthentication_AccessData, DNSError?) -> Void
+public typealias PTCLAuthenticationResultBool =
+    Result<Bool, DNSError.Authentication>
+public typealias PTCLAuthenticationResultBoolAccessData =
+    Result<(Bool, PTCLAuthenticationAccessData), DNSError.Authentication>
+public typealias PTCLAuthenticationResultBoolBoolAccessData =
+    Result<(Bool, Bool, PTCLAuthenticationAccessData), DNSError.Authentication>
 
-public protocol PTCLAuthentication_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLAuthentication_Protocol? { get }
+public typealias PTCLAuthenticationBlockVoidBool =
+    (PTCLAuthenticationResultBool) -> Void
+public typealias PTCLAuthenticationBlockVoidBoolAccessData = (PTCLAuthenticationResultBoolAccessData) -> Void
+public typealias PTCLAuthenticationBlockVoidBoolBoolAccessData = (PTCLAuthenticationResultBoolBoolAccessData) -> Void
+
+public protocol PTCLAuthentication: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLAuthentication? { get }
 
     init()
-    func register(nextWorker: PTCLAuthentication_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLAuthentication,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],
                                with progress: PTCLProgressBlock?,
-                               and block: PTCLAuthenticationBlockVoidBoolBoolAccessDataDNSError?) throws
+                               and block: PTCLAuthenticationBlockVoidBoolBoolAccessData?) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
                   with progress: PTCLProgressBlock?,
-                  and block: PTCLAuthenticationBlockVoidBoolAccessDataDNSError?) throws
+                  and block: PTCLAuthenticationBlockVoidBoolAccessData?) throws
     func doSignOut(using parameters: [String: Any],
                    with progress: PTCLProgressBlock?,
-                   and block: PTCLAuthenticationBlockVoidBoolDNSError?) throws
+                   and block: PTCLAuthenticationBlockVoidBool?) throws
     func doSignUp(from user: DAOUser?,
                   and password: String?,
                   using parameters: [String: Any],
                   with progress: PTCLProgressBlock?,
-                  and block: PTCLAuthenticationBlockVoidBoolAccessDataDNSError?) throws
+                  and block: PTCLAuthenticationBlockVoidBoolAccessData?) throws
 }

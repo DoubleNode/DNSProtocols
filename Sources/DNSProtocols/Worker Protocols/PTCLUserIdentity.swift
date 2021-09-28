@@ -11,14 +11,15 @@ import DNSCoreThreading
 import DNSError
 import Foundation
 
-public enum PTCLUserIdentityError: Error
-{
+public extension DNSError {
+    typealias UserIdentity = PTCLUserIdentityError
+}
+public enum PTCLUserIdentityError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case unableToJoin(group: String, error: Error, _ codeLocation: DNSCodeLocation)
     case unableToLeave(group: String, error: Error, _ codeLocation: DNSCodeLocation)
-}
-extension PTCLUserIdentityError: DNSError {
+
     public static let domain = "USERID"
     public enum Code: Int
     {
@@ -92,13 +93,13 @@ extension PTCLUserIdentityError: DNSError {
     }
 }
 
-public protocol PTCLUserIdentity_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLUserIdentity_Protocol? { get }
+public protocol PTCLUserIdentity: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLUserIdentity? { get }
 
     init()
-    func register(nextWorker: PTCLUserIdentity_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLUserIdentity,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

@@ -1,5 +1,5 @@
 //
-//  PTCLAnalytics_Protocol.swift
+//  PTCLAnalytics.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -10,12 +10,13 @@ import DNSCoreThreading
 import DNSError
 import Foundation
 
-public enum PTCLAnalyticsError: Error
-{
+public extension DNSError {
+    typealias Analytics = PTCLAnalyticsError
+}
+public enum PTCLAnalyticsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLAnalyticsError: DNSError {
+
     public static let domain = "ANALYTICS"
     public enum Code: Int
     {
@@ -84,14 +85,16 @@ public enum PTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case other
 }
 
-public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
+public protocol PTCLAnalytics: PTCLProtocolBase
 {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLAnalytics_Protocol? { get }
+    typealias Events = PTCLAnalyticsEvents
+
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLAnalytics? { get }
 
     init()
-    func register(nextWorker: PTCLAnalytics_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLAnalytics,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Auto-Track -
     func doAutoTrack(class: String, method: String) throws
@@ -114,7 +117,7 @@ public protocol PTCLAnalytics_Protocol: PTCLBase_Protocol
     func doScreen(screenTitle: String, properties: [String: Any], options: [String: Any]) throws
     
     // MARK: - Track -
-    func doTrack(event: PTCLAnalyticsEvents) throws
-    func doTrack(event: PTCLAnalyticsEvents, properties: [String: Any]) throws
-    func doTrack(event: PTCLAnalyticsEvents, properties: [String: Any], options: [String: Any]) throws
+    func doTrack(event: PTCLAnalytics.Events) throws
+    func doTrack(event: PTCLAnalytics.Events, properties: [String: Any]) throws
+    func doTrack(event: PTCLAnalytics.Events, properties: [String: Any], options: [String: Any]) throws
 }

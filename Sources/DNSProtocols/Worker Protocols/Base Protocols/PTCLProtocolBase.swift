@@ -1,5 +1,5 @@
 //
-//  PTCLBase_Protocol.swift
+//  PTCLProtocolBase.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -10,14 +10,15 @@ import DNSCoreThreading
 import DNSError
 import Foundation
 
-public enum PTCLBaseError: Error
-{
+public extension DNSError {
+    typealias Protocols = PTCLProtocolsBaseError
+}
+public enum PTCLProtocolsBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case invalidParameter(parameter: String, _ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
-}
-extension PTCLBaseError: DNSError {
+    
     public static let domain = "BASE"
     public enum Code: Int
     {
@@ -26,7 +27,7 @@ extension PTCLBaseError: DNSError {
         case notImplemented = 1003
         case systemError = 1004
     }
-
+    
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -64,55 +65,61 @@ extension PTCLBaseError: DNSError {
         switch self {
         case .unknown:
             return NSLocalizedString("BASE-Unknown Error", comment: "")
-                + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
         case .invalidParameter(let parameter, _):
             return String(format: NSLocalizedString("BASE-Invalid Parameter: %@", comment: ""),
                           parameter)
-                + " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))"
+            + " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))"
         case .notImplemented:
             return NSLocalizedString("BASE-Not Implemented", comment: "")
-                + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+            + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
         case .systemError(let error, _):
             return String(format: NSLocalizedString("BASE-System Error: %@", comment: ""),
                           error.localizedDescription)
-                + " (\(Self.domain):\(Self.Code.systemError.rawValue))"
+            + " (\(Self.domain):\(Self.Code.systemError.rawValue))"
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
-             .notImplemented(let codeLocation),
-             .systemError(_, let codeLocation),
-             .invalidParameter(_, let codeLocation):
+            .notImplemented(let codeLocation),
+            .systemError(_, let codeLocation),
+            .invalidParameter(_, let codeLocation):
             return codeLocation.failureReason
         }
     }
 }
 
-public enum PTCLCallNextWhen
-{
-    case always
-    case whenError
-    case whenNotFound
-    case whenUnhandled
-}
-public enum PTCLCallResult
-{
-    case completed
-    case error
-    case notFound
-    case unhandled
+public enum PTCLCall {
+    public enum NextWhen
+    {
+        case always
+        case whenError
+        case whenNotFound
+        case whenUnhandled
+    }
+    public enum Result
+    {
+        case completed
+        case error
+        case notFound
+        case unhandled
+    }
 }
 public typealias PTCLCallBlock = () throws -> Any?
 public typealias PTCLCallResultBlockThrows = (PTCLResultBlock?) throws -> Any?
-public typealias PTCLResultBlock = (PTCLCallResult) -> Any?
+public typealias PTCLResultBlock = (PTCLProtocol.Call.Result) -> Any?
+
+public protocol PTCLProtocol {
+    typealias Call = PTCLCall
+}
 
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
 public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
 
-public protocol PTCLBase_Protocol: AnyObject
+public protocol PTCLProtocolBase: AnyObject
 {
-    var networkConfigurator: PTCLBase_NetworkConfigurator? { get }
+    var networkConfigurator: PTCLNetworkConfigurator? { get }
 
     func configure()
 

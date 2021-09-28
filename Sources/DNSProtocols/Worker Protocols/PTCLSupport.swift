@@ -1,5 +1,5 @@
 //
-//  PTCLSupport_Protocol.swift
+//  PTCLSupport.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,14 +11,15 @@ import DNSCoreThreading
 import DNSError
 import UIKit
 
-public enum PTCLSupportError: Error
-{
+public extension DNSError {
+    typealias Support = PTCLSupportError
+}
+public enum PTCLSupportError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
     case timeout(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLSupportError: DNSError {
+
     public static let domain = "SUPPORT"
     public enum Code: Int
     {
@@ -99,13 +100,13 @@ public struct PTCLSupportAttachment: Hashable {
         return lhs.image == rhs.image
     }
 }
-public protocol PTCLSupport_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLSupport_Protocol? { get }
+public protocol PTCLSupport: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLSupport? { get }
 
     init()
-    func register(nextWorker: PTCLSupport_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLSupport,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

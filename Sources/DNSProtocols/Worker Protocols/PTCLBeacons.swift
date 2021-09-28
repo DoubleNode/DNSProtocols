@@ -1,30 +1,30 @@
 //
-//  PTCLBeaconDistances_Protocol.swift
+//  PTCLBeacons.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import Combine
 import DNSCoreThreading
 import DNSDataObjects
 import DNSError
 import Foundation
 
-public enum PTCLBeaconDistancesError: Error
-{
+public extension DNSError {
+    typealias Beacons = PTCLBeaconsError
+}
+public enum PTCLBeaconsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLBeaconDistancesError: DNSError {
-    public static let domain = "BECNDIST"
+
+    public static let domain = "BEACONS"
     public enum Code: Int
     {
         case unknown = 1001
         case notImplemented = 1002
     }
-
+    
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -47,10 +47,10 @@ extension PTCLBeaconDistancesError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("BECNDIST-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("BEACONS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("BECNDIST-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("BEACONS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -63,20 +63,32 @@ extension PTCLBeaconDistancesError: DNSError {
     }
 }
 
-// (distances: [DAOBeaconDistance], error: Error?)
-// swiftlint:disable:next type_name
-public typealias PTCLBeaconDistancesBlockVoidArrayDAOBeaconDistanceError = ([DAOBeaconDistance], DNSError?) -> Void
+public typealias PTCLBeaconsResultArrayBeacon =
+    Result<[DAOBeacon], DNSError.Beacons>
 
-public protocol PTCLBeaconDistances_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLBeaconDistances_Protocol? { get }
+public typealias PTCLBeaconsBlockVoidArrayBeacon =
+    (PTCLBeaconsResultArrayBeacon) -> Void
+
+public protocol PTCLBeacons: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLBeacons? { get }
 
     init()
-    func register(nextWorker: PTCLBeaconDistances_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLBeacons,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doLoadBeaconDistances(with progress: PTCLProgressBlock?,
-                               and block: PTCLBeaconDistancesBlockVoidArrayDAOBeaconDistanceError?) throws
+    func doLoadBeacons(in center: DAOCenter,
+                       with progress: PTCLProgressBlock?,
+                       and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
+    func doLoadBeacons(in center: DAOCenter,
+                       for activity: DAOActivity,
+                       with progress: PTCLProgressBlock?,
+                       and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
+    func doRangeBeacons(named uuids: [UUID],
+                        for processKey: String,
+                        with progress: PTCLProgressBlock?,
+                        and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
+    func doStopRangeBeacons(for processKey: String) throws
 }

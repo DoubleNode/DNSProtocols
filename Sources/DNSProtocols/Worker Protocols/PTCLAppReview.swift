@@ -1,5 +1,5 @@
 //
-//  PTCLBeacons_Protocol.swift
+//  PTCLAppReview.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -7,17 +7,17 @@
 //
 
 import DNSCoreThreading
-import DNSDataObjects
 import DNSError
 import Foundation
 
-public enum PTCLBeaconsError: Error
-{
+public extension DNSError {
+    typealias AppReview = PTCLAppReviewError
+}
+public enum PTCLAppReviewError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLBeaconsError: DNSError {
-    public static let domain = "BEACONS"
+
+    public static let domain = "APPREVIEW"
     public enum Code: Int
     {
         case unknown = 1001
@@ -46,10 +46,10 @@ extension PTCLBeaconsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("BEACONS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("APPREVIEW-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("BEACONS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("APPREVIEW-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -62,29 +62,28 @@ extension PTCLBeaconsError: DNSError {
     }
 }
 
-// (beacons: [DAOBeacon], error: Error?)
-public typealias PTCLBeaconsBlockVoidArrayDAOBeaconError = ([DAOBeacon], DNSError?) -> Void
-
-public protocol PTCLBeacons_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLBeacons_Protocol? { get }
+public protocol PTCLAppReview: PTCLProtocolBase
+{
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLAppReview? { get }
 
     init()
-    func register(nextWorker: PTCLBeacons_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLAppReview,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+
+    var launchedCount: UInt { get set }
+    var launchedFirstTime: Date { get set }
+    var launchedLastTime: Date? { get set }
+    var reviewRequestLastTime: Date? { get set }
+
+    var appDidCrashLastRun: Bool { get set }
+    var daysBeforeReminding: UInt { get set }
+    var daysUntilPrompt: UInt { get set }
+    var hoursSinceLastLaunch: UInt { get set }
+    var usesFrequency: UInt { get set }
+    var usesSinceFirstLaunch: UInt { get set }
+    var usesUntilPrompt: UInt { get set }
 
     // MARK: - Business Logic / Single Item CRUD
-
-    func doLoadBeacons(in center: DAOCenter,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
-    func doLoadBeacons(in center: DAOCenter,
-                       for activity: DAOActivity,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
-    func doRangeBeacons(named uuids: [UUID],
-                        for processKey: String,
-                        with progress: PTCLProgressBlock?,
-                        and block: PTCLBeaconsBlockVoidArrayDAOBeaconError?) throws
-    func doStopRangeBeacons(for processKey: String) throws
+    func doReview() throws -> Bool
 }

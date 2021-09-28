@@ -1,5 +1,5 @@
 //
-//  PTCLValidation_Protocol.swift
+//  PTCLValidation.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,8 +11,10 @@ import DNSDataObjects
 import DNSError
 import Foundation
 
-public enum PTCLValidationError: Error
-{
+public extension DNSError {
+    typealias Validation = PTCLValidationError
+}
+public enum PTCLValidationError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case invalid(fieldName: String, _ codeLocation: DNSCodeLocation)
@@ -25,8 +27,7 @@ public enum PTCLValidationError: Error
     case tooWeak(fieldName: String, _ codeLocation: DNSCodeLocation)
     case tooYoung(fieldName: String, _ codeLocation: DNSCodeLocation)
     case required(fieldName: String, _ codeLocation: DNSCodeLocation)
-}
-extension PTCLValidationError: DNSError {
+
     public static let domain = "VALIDATE"
     public enum Code: Int
     {
@@ -178,122 +179,139 @@ extension PTCLValidationError: DNSError {
     }
 }
 
-public enum PTCLValidationRegex
-{
-    static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-    static let phone = "^[0-9]{10}$"
+public struct PTCLValidationData {
+    public enum Regex
+    {
+        static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        static let phone = "^[0-9]{10}$"
+    }
+    public enum Config {
+        public struct Birthdate {
+            public var fieldName: String = "Birthdate"
+            public var minimumAge: Int32?
+            public var maximumAge: Int32?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct CalendarDate {
+            public var fieldName: String = "Date"
+            public var minimum: Date?
+            public var maximum: Date?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Email {
+            public var fieldName: String = "Email"
+            public var regex: String? = PTCLValidationData.Regex.email
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Handle {
+            public var fieldName: String = "Handle"
+            public var minimumLength: Int32? = 6
+            public var maximumLength: Int32? = 80
+            public var regex: String?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Name {
+            public var fieldName: String = "Name"
+            public var minimumLength: Int32? = 2
+            public var maximumLength: Int32? = 250
+            public var regex: String?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Number {
+            public var fieldName: String = "Number"
+            public var minimum: Int64?
+            public var maximum: Int64?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Password {
+            public var fieldName: String = "Password"
+            public var minimumLength: Int32?
+            public var maximumLength: Int32?
+            public var required: Bool = true
+            public var strength: PTCLPasswordStrength.Level = .strong
+            public init() { }
+        }
+        public struct Percentage {
+            public var fieldName: String = "Percentage"
+            public var minimum: Float?
+            public var maximum: Float?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Phone {
+            public var fieldName: String = "Phone"
+            public var minimumLength: Int32? = 10
+            public var maximumLength: Int32? = 10
+            public var regex: String? = PTCLValidationData.Regex.phone
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct Search {
+            public var fieldName: String = "Search"
+            public var minimumLength: Int32?
+            public var maximumLength: Int32?
+            public var regex: String?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct State {
+            public var fieldName: String = "State"
+            public var minimumLength: Int32? = 2
+            public var maximumLength: Int32? = 2
+            public var regex: String?
+            public var required: Bool = true
+            public init() { }
+        }
+        public struct UnsignedNumber {
+            public var fieldName: String = "Unsigned Number"
+            public var minimum: Int64?
+            public var maximum: Int64?
+            public var required: Bool = true
+            public init() { }
+        }
+    }
 }
 
-public struct PTCLValidationBirthdateConfig {
-    public var fieldName: String = "Birthdate"
-    public var minimumAge: Int32?
-    public var maximumAge: Int32?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationDateConfig {
-    public var fieldName: String = "Date"
-    public var minimum: Date?
-    public var maximum: Date?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationEmailConfig {
-    public var fieldName: String = "Email"
-    public var regex: String? = PTCLValidationRegex.email
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationHandleConfig {
-    public var fieldName: String = "Handle"
-    public var minimumLength: Int32? = 6
-    public var maximumLength: Int32? = 80
-    public var regex: String?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationNameConfig {
-    public var fieldName: String = "Name"
-    public var minimumLength: Int32? = 2
-    public var maximumLength: Int32? = 250
-    public var regex: String?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationNumberConfig {
-    public var fieldName: String = "Number"
-    public var minimum: Int64?
-    public var maximum: Int64?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationPasswordConfig {
-    public var fieldName: String = "Password"
-    public var minimumLength: Int32?
-    public var maximumLength: Int32?
-    public var required: Bool = true
-    public var strength: PTCLPasswordStrengthType = .strong
-    public init() { }
-}
-public struct PTCLValidationPercentageConfig {
-    public var fieldName: String = "Percentage"
-    public var minimum: Float?
-    public var maximum: Float?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationPhoneConfig {
-    public var fieldName: String = "Phone"
-    public var minimumLength: Int32? = 10
-    public var maximumLength: Int32? = 10
-    public var regex: String? = PTCLValidationRegex.phone
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationSearchConfig {
-    public var fieldName: String = "Search"
-    public var minimumLength: Int32?
-    public var maximumLength: Int32?
-    public var regex: String?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationStateConfig {
-    public var fieldName: String = "State"
-    public var minimumLength: Int32? = 2
-    public var maximumLength: Int32? = 2
-    public var regex: String?
-    public var required: Bool = true
-    public init() { }
-}
-public struct PTCLValidationUnsignedNumberConfig {
-    public var fieldName: String = "Unsigned Number"
-    public var minimum: Int64?
-    public var maximum: Int64?
-    public var required: Bool = true
-    public init() { }
-}
+public protocol PTCLValidation: PTCLProtocolBase {
+    typealias Data = PTCLValidationData
 
-public protocol PTCLValidation_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLValidation_Protocol? { get }
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLValidation? { get }
 
     init()
-    func register(nextWorker: PTCLValidation_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLValidation,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doValidateBirthdate(for birthdate: Date?, with config: PTCLValidationBirthdateConfig) throws -> DNSError?
-    func doValidateDate(for date: Date?, with config: PTCLValidationDateConfig) throws -> DNSError?
-    func doValidateEmail(for email: String?, with config: PTCLValidationEmailConfig) throws -> DNSError?
-    func doValidateHandle(for handle: String?, with config: PTCLValidationHandleConfig) throws -> DNSError?
-    func doValidateName(for name: String?, with config: PTCLValidationNameConfig) throws -> DNSError?
-    func doValidateNumber(for number: String?, with config: PTCLValidationNumberConfig) throws -> DNSError?
-    func doValidatePassword(for password: String?, with config: PTCLValidationPasswordConfig) throws -> DNSError?
-    func doValidatePercentage(for percentage: String?, with config: PTCLValidationPercentageConfig) throws -> DNSError?
-    func doValidatePhone(for phone: String?, with config: PTCLValidationPhoneConfig) throws -> DNSError?
-    func doValidateSearch(for search: String?, with config: PTCLValidationSearchConfig) throws -> DNSError?
-    func doValidateState(for state: String?, with config: PTCLValidationStateConfig) throws -> DNSError?
-    func doValidateUnsignedNumber(for number: String?, with config: PTCLValidationUnsignedNumberConfig) throws -> DNSError?
+    func doValidateBirthdate(for birthdate: Date?,
+                             with config: PTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
+    func doValidateCalendarDate(for date: Date?,
+                                with config: PTCLValidation.Data.Config.CalendarDate) throws -> DNSError.Validation?
+    func doValidateEmail(for email: String?,
+                         with config: PTCLValidation.Data.Config.Email) throws -> DNSError.Validation?
+    func doValidateHandle(for handle: String?,
+                          with config: PTCLValidation.Data.Config.Handle) throws -> DNSError.Validation?
+    func doValidateName(for name: String?,
+                        with config: PTCLValidation.Data.Config.Name) throws -> DNSError.Validation?
+    func doValidateNumber(for number: String?,
+                          with config: PTCLValidation.Data.Config.Number) throws -> DNSError.Validation?
+    func doValidatePassword(for password: String?,
+                            with config: PTCLValidation.Data.Config.Password) throws -> DNSError.Validation?
+    func doValidatePercentage(for percentage: String?,
+                              with config: PTCLValidation.Data.Config.Percentage) throws -> DNSError.Validation?
+    func doValidatePhone(for phone: String?,
+                         with config: PTCLValidation.Data.Config.Phone) throws -> DNSError.Validation?
+    func doValidateSearch(for search: String?,
+                          with config: PTCLValidation.Data.Config.Search) throws -> DNSError.Validation?
+    func doValidateState(for state: String?,
+                         with config: PTCLValidation.Data.Config.State) throws -> DNSError.Validation?
+    func doValidateUnsignedNumber(for number: String?,
+                                  with config: PTCLValidation.Data.Config.UnsignedNumber) throws -> DNSError.Validation?
 }

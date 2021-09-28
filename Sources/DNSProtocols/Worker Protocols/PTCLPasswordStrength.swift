@@ -1,5 +1,5 @@
 //
-//  PTCLAppReview_Protocol.swift
+//  PTCLPasswordStrength.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -7,16 +7,18 @@
 //
 
 import DNSCoreThreading
+import DNSDataObjects
 import DNSError
 import Foundation
 
-public enum PTCLAppReviewError: Error
-{
+public extension DNSError {
+    typealias PasswordStrength = PTCLPasswordStrengthError
+}
+public enum PTCLPasswordStrengthError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLAppReviewError: DNSError {
-    public static let domain = "APPREVIEW"
+
+    public static let domain = "PWDSTR"
     public enum Code: Int
     {
         case unknown = 1001
@@ -45,10 +47,10 @@ extension PTCLAppReviewError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("APPREVIEW-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("PWDSTR-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("APPREVIEW-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("PWDSTR-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -61,28 +63,26 @@ extension PTCLAppReviewError: DNSError {
     }
 }
 
-public protocol PTCLAppReview_Protocol: PTCLBase_Protocol
+public enum PTCLPasswordStrengthLevel: Int8
 {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLAppReview_Protocol? { get }
+    case weak = 0
+    case moderate = 50
+    case strong = 100
+}
+
+public protocol PTCLPasswordStrength: PTCLProtocolBase {
+    typealias Level = PTCLPasswordStrengthLevel
+    
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLPasswordStrength? { get }
+
+    var minimumLength: Int32 { get set }
 
     init()
-    func register(nextWorker: PTCLAppReview_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
-
-    var launchedCount: UInt { get set }
-    var launchedFirstTime: Date { get set }
-    var launchedLastTime: Date? { get set }
-    var reviewRequestLastTime: Date? { get set }
-
-    var appDidCrashLastRun: Bool { get set }
-    var daysBeforeReminding: UInt { get set }
-    var daysUntilPrompt: UInt { get set }
-    var hoursSinceLastLaunch: UInt { get set }
-    var usesFrequency: UInt { get set }
-    var usesSinceFirstLaunch: UInt { get set }
-    var usesUntilPrompt: UInt { get set }
+    func register(nextWorker: PTCLPasswordStrength,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doReview() throws -> Bool
+
+    func doCheckPasswordStrength(for password: String) throws -> PTCLPasswordStrength.Level
 }

@@ -10,12 +10,13 @@ import DNSCoreThreading
 import DNSError
 import Foundation
 
-public enum PTCLPermissionsError: Error
-{
+public extension DNSError {
+    typealias Permissions = PTCLPermissionsError
+}
+public enum PTCLPermissionsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLPermissionsError: DNSError {
+
     public static let domain = "PERMISSIONS"
     public enum Code: Int
     {
@@ -61,14 +62,17 @@ extension PTCLPermissionsError: DNSError {
     }
 }
 
-// (permissionsActions: [PTCLPermissionAction], error: Error?)
-// swiftlint:disable:next type_name
-public typealias PTCLPermissionsBlockVoidArrayPTCLPermissionActionError = ([PTCLPermissionAction], DNSError?) -> Void
-// (permissionAction: PTCLPermissionAction, error: Error?)
-public typealias PTCLPermissionsBlockVoidPTCLPermissionActionError =
-    (PTCLPermissionAction, DNSError?) -> Void
+public typealias PTCLPermissionsResultArrayPermissionAction =
+    Result<[PTCLPermissionAction], DNSError.Permissions>
+public typealias PTCLPermissionsResultPermissionAction =
+    Result<PTCLPermissionAction, DNSError.Permissions>
 
-public enum PTCLPermissions {
+public typealias PTCLPermissionsBlockVoidArrayPermissionAction =
+    (PTCLPermissionsResultArrayPermissionAction) -> Void
+public typealias PTCLPermissionsBlockVoidPermissionAction =
+    (PTCLPermissionsResultPermissionAction) -> Void
+
+public enum PTCLPermissionsData {
     public enum Action: String, Codable {
         case allowed
         case denied
@@ -136,38 +140,38 @@ public enum PTCLPermissions {
 }
 
 public struct PTCLPermissionAction : Codable {
-    public var permission: PTCLPermissions.Permission
-    public var action: PTCLPermissions.Action
+    public var permission: PTCLPermissionsData.Permission
+    public var action: PTCLPermissionsData.Action
 
-    public init(_ permission: PTCLPermissions.Permission,
-                _ action: PTCLPermissions.Action) {
+    public init(_ permission: PTCLPermissionsData.Permission,
+                _ action: PTCLPermissionsData.Action) {
         self.permission = permission
         self.action = action
     }
 }
 
-public protocol PTCLPermissions_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLPermissions_Protocol? { get }
+public protocol PTCLPermissions: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLPermissions? { get }
 
     init()
-    func register(nextWorker: PTCLPermissions_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLPermissions,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 
-    func doRequest(_ desire: PTCLPermissions.Desire,
-                   _ permission: PTCLPermissions.Permission,
+    func doRequest(_ desire: PTCLPermissionsData.Desire,
+                   _ permission: PTCLPermissionsData.Permission,
                    with progress: PTCLProgressBlock?,
-                   and block: PTCLPermissionsBlockVoidPTCLPermissionActionError?) throws
-    func doRequest(_ desire: PTCLPermissions.Desire,
-                   _ permissions: [PTCLPermissions.Permission],
+                   and block: PTCLPermissionsBlockVoidPermissionAction?) throws
+    func doRequest(_ desire: PTCLPermissionsData.Desire,
+                   _ permissions: [PTCLPermissionsData.Permission],
                    with progress: PTCLProgressBlock?,
-                   and block: PTCLPermissionsBlockVoidArrayPTCLPermissionActionError?) throws
-    func doStatus(of permissions: [PTCLPermissions.Permission],
+                   and block: PTCLPermissionsBlockVoidArrayPermissionAction?) throws
+    func doStatus(of permissions: [PTCLPermissionsData.Permission],
                   with progress: PTCLProgressBlock?,
-                  and block: PTCLPermissionsBlockVoidArrayPTCLPermissionActionError?) throws
-    func doWait(for permission: PTCLPermissions.Permission,
+                  and block: PTCLPermissionsBlockVoidArrayPermissionAction?) throws
+    func doWait(for permission: PTCLPermissionsData.Permission,
                 with progress: PTCLProgressBlock?,
-                and block: PTCLPermissionsBlockVoidPTCLPermissionActionError?) throws
+                and block: PTCLPermissionsBlockVoidPermissionAction?) throws
 }

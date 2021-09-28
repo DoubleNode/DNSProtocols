@@ -1,5 +1,5 @@
 //
-//  PTCLPassports_Protocol.swift
+//  PTCLPassports.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,13 +12,14 @@ import DNSDataObjects
 import DNSError
 import Foundation
 
-public enum PTCLPassportsError: Error
-{
+public extension DNSError {
+    typealias Passports = PTCLPassportsError
+}
+public enum PTCLPassportsError: DNSError {
     case unknown(_ codeLocation: CodeLocation)
     case notImplemented(_ codeLocation: CodeLocation)
     case unknownType(passportType: String, _ codeLocation: CodeLocation)
-}
-extension PTCLPassportsError: DNSError {
+
     public static let domain = "PASSPORTS"
     public enum Code: Int
     {
@@ -76,13 +77,13 @@ extension PTCLPassportsError: DNSError {
     }
 }
 
-public protocol PTCLPassports_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLPassports_Protocol? { get }
+public protocol PTCLPassports: PTCLProtocolBase {
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLPassports? { get }
 
     init()
-    func register(nextWorker: PTCLPassports_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLPassports,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
 

@@ -1,29 +1,28 @@
 //
-//  PTCLCMS_Protocol.swift
+//  PTCLSystemProtocolBase.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import Combine
-import DNSCoreThreading
 import DNSError
 import Foundation
 
-public enum PTCLCMSError: Error
-{
+public extension DNSError {
+    typealias SystemProtocols = PTCLSystemProtocolsBaseError
+}
+public enum PTCLSystemProtocolsBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-}
-extension PTCLCMSError: DNSError {
-    public static let domain = "CMS"
+    
+    public static let domain = "ANALYTICS"
     public enum Code: Int
     {
         case unknown = 1001
         case notImplemented = 1002
     }
-
+    
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -46,36 +45,48 @@ extension PTCLCMSError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("CMS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("ANALYTICS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("CMS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("ANALYTICS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
-             .notImplemented(let codeLocation):
+                .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }
 }
 
-// (object: Any?, error: Error?)
-public typealias PTCLCMSBlockVoidArrayDNSError = ([Any], DNSError?) -> Void
+public protocol PTCLSystemProtocolBase: AnyObject
+{
+    var networkConfigurator: PTCLNetworkConfigurator? { get }
 
-public protocol PTCLCMS_Protocol: PTCLBase_Protocol {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLCMS_Protocol? { get }
+    func configure()
 
-    init()
-    func register(nextWorker: PTCLCMS_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func checkOption(_ option: String) -> Bool
+    func disableOption(_ option: String)
+    func enableOption(_ option: String)
+ 
+    // MARK: - UIWindowSceneDelegate methods
 
-    // MARK: - Business Logic / Single Item CRUD
+    // Called when the scene has moved from an inactive state to an active state.
+    // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    func didBecomeActive()
 
-    func doLoad(for group: String,
-                with progress: PTCLProgressBlock?,
-                and block: PTCLCMSBlockVoidArrayDNSError?) throws
+    // Called when the scene will move from an active state to an inactive state.
+    // This may occur due to temporary interruptions (ex. an incoming phone call).
+    func willResignActive()
+
+    // Called as the scene transitions from the background to the foreground.
+    // Use this method to undo the changes made on entering the background.
+    func willEnterForeground()
+
+    // Called as the scene transitions from the foreground to the background.
+    // Use this method to save data, release shared resources, and store enough scene-specific state information
+    // to restore the scene back to its current state.
+    func didEnterBackground()
 }

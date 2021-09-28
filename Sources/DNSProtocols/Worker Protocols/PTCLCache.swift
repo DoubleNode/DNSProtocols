@@ -1,5 +1,5 @@
 //
-//  PTCLCache_Protocol.swift
+//  PTCLCache.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,16 +11,17 @@ import DNSCoreThreading
 import DNSError
 import UIKit
 
-public enum PTCLCacheError: Error
-{
+public extension DNSError {
+    typealias Cache = PTCLCacheError
+}
+public enum PTCLCacheError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case createError(error: Error, _ codeLocation: DNSCodeLocation)
     case deleteError(error: Error, _ codeLocation: DNSCodeLocation)
     case readError(error: Error, _ codeLocation: DNSCodeLocation)
     case writeError(error: Error, _ codeLocation: DNSCodeLocation)
-}
-extension PTCLCacheError: DNSError {
+
     public static let domain = "CACHE"
     public enum Code: Int
     {
@@ -118,14 +119,14 @@ extension PTCLCacheError: DNSError {
     }
 }
 
-public protocol PTCLCache_Protocol: PTCLBase_Protocol
+public protocol PTCLCache: PTCLProtocolBase
 {
-    var callNextWhen: PTCLCallNextWhen { get }
-    var nextWorker: PTCLCache_Protocol? { get }
+    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
+    var nextWorker: PTCLCache? { get }
 
     init()
-    func register(nextWorker: PTCLCache_Protocol,
-                  for callNextWhen: PTCLCallNextWhen)
+    func register(nextWorker: PTCLCache,
+                  for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
