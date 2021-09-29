@@ -116,6 +116,8 @@ public typealias PTCLAuthenticationBlockVoidBoolAccessData = (PTCLAuthentication
 public typealias PTCLAuthenticationBlockVoidBoolBoolAccessData = (PTCLAuthenticationResultBoolBoolAccessData) -> Void
 
 public protocol PTCLAuthentication: PTCLProtocolBase {
+    typealias AccessData = PTCLAuthenticationAccessData
+    
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLAuthentication? { get }
 
