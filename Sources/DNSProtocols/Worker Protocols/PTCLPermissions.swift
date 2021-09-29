@@ -63,9 +63,9 @@ public enum PTCLPermissionsError: DNSError {
 }
 
 public typealias PTCLPermissionsResultArrayPermissionAction =
-    Result<[PTCLPermissionAction], DNSError.Permissions>
+    Result<[PTCLPermissionAction], Error>
 public typealias PTCLPermissionsResultPermissionAction =
-    Result<PTCLPermissionAction, DNSError.Permissions>
+    Result<PTCLPermissionAction, Error>
 
 public typealias PTCLPermissionsBlockVoidArrayPermissionAction =
     (PTCLPermissionsResultArrayPermissionAction) -> Void

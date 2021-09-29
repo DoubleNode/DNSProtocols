@@ -64,7 +64,7 @@ public enum PTCLCmsError: DNSError {
 }
 
 public typealias PTCLCmsResultArrayAny =
-    Result<[Any], DNSError.Cms>
+    Result<[Any], Error>
 
 public typealias PTCLCmsBlockVoidArrayAny =
     (PTCLCmsResultArrayAny) -> Void

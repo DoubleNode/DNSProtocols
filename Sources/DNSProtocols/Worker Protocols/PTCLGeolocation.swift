@@ -90,7 +90,7 @@ public enum PTCLGeolocationError: DNSError {
 }
 
 public typealias PTCLGeolocationResultString =
-    Result<String, DNSError.Geolocation>
+    Result<String, Error>
 
 public typealias PTCLGeolocationBlockVoidString =
     (PTCLGeolocationResultString) -> Void

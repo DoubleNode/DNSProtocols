@@ -104,11 +104,11 @@ public enum PTCLAuthenticationError: DNSError {
 public protocol PTCLAuthenticationAccessData { }
 
 public typealias PTCLAuthenticationResultBool =
-    Result<Bool, DNSError.Authentication>
+    Result<Bool, Error>
 public typealias PTCLAuthenticationResultBoolAccessData =
-    Result<(Bool, PTCLAuthenticationAccessData), DNSError.Authentication>
+    Result<(Bool, PTCLAuthenticationAccessData), Error>
 public typealias PTCLAuthenticationResultBoolBoolAccessData =
-    Result<(Bool, Bool, PTCLAuthenticationAccessData), DNSError.Authentication>
+    Result<(Bool, Bool, PTCLAuthenticationAccessData), Error>
 
 public typealias PTCLAuthenticationBlockVoidBool =
     (PTCLAuthenticationResultBool) -> Void
