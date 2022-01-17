@@ -63,8 +63,9 @@ public enum PTCLPassportsError: DNSError {
             return String(format: NSLocalizedString("PASSPORTS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .unknownType(let passportType, _):
-            return String(format: NSLocalizedString("PASSPORTS-Unknown Type: %@%@", comment: ""),
-                          passportType) + " (\(Self.domain):\(Self.Code.unknownType.rawValue))"
+            return String(format: NSLocalizedString("PASSPORTS-Unknown Type%@%@", comment: ""),
+                          "\(passportType)",
+                          " (\(Self.domain):\(Self.Code.unknownType.rawValue))")
         }
     }
     public var failureReason: String? {

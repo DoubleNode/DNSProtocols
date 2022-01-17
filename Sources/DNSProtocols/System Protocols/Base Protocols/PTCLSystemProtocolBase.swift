@@ -16,7 +16,7 @@ public enum PTCLSystemProtocolsBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     
-    public static let domain = "ANALYTICS"
+    public static let domain = "BASESYS"
     public enum Code: Int
     {
         case unknown = 1001
@@ -45,10 +45,10 @@ public enum PTCLSystemProtocolsBaseError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("ANALYTICS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("BASESYS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("ANALYTICS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("BASESYS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }

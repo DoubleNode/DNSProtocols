@@ -89,19 +89,19 @@ public enum PTCLCacheError: DNSError {
             return String(format: NSLocalizedString("CACHE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .createError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Create Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("CACHE-Object Create Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.createError.rawValue))")
         case .deleteError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Delete Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("CACHE-Object Delete Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.deleteError.rawValue))")
         case .readError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Read Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("CACHE-Object Read Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.readError.rawValue))")
         case .writeError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Write Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("CACHE-Object Write Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.writeError.rawValue))")
         }

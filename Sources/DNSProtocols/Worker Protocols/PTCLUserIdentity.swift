@@ -73,12 +73,14 @@ public enum PTCLUserIdentityError: DNSError {
             return String(format: NSLocalizedString("USERID-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .unableToJoin(let group, let error, _):
-            return String(format: NSLocalizedString("USERID-Unable to Join Group: %@%@%@", comment: ""),
-                          group, error.localizedDescription,
+            return String(format: NSLocalizedString("USERID-Unable to Join Group%@%@%@", comment: ""),
+                          "\(group)",
+                          error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.unableToJoin.rawValue))")
         case .unableToLeave(let group, let error, _):
-            return String(format: NSLocalizedString("USERID-Unable to Leave Group: %@%@%@", comment: ""),
-                          group, error.localizedDescription,
+            return String(format: NSLocalizedString("USERID-Unable to Leave Group%@%@%@", comment: ""),
+                          "\(group)",
+                          error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.unableToLeave.rawValue))")
         }
     }

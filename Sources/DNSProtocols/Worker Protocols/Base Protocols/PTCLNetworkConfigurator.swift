@@ -109,11 +109,11 @@ public enum PTCLNetworkError: DNSError {
             return String(format: NSLocalizedString("NETWORK-Invalid URL%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))")
         case .networkError(let error, _):
-            return String(format: NSLocalizedString("NETWORK-Network Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("NETWORK-Network Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.networkError.rawValue))")
         case .serverError(let statusCode, _):
-            return String(format: NSLocalizedString("NETWORK-Server Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("NETWORK-Server Error%@%@", comment: ""),
                           "\(statusCode)",
                           " (\(Self.domain):\(Self.Code.serverError.rawValue))")
         case .unauthorized:

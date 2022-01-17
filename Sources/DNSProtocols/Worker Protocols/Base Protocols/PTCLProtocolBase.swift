@@ -64,19 +64,19 @@ public enum PTCLProtocolsBaseError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return NSLocalizedString("BASE-Unknown Error", comment: "")
-            + " (\(Self.domain):\(Self.Code.unknown.rawValue))"
+            return String(format: NSLocalizedString("BASE-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .invalidParameter(let parameter, _):
-            return String(format: NSLocalizedString("BASE-Invalid Parameter: %@", comment: ""),
-                          parameter)
-            + " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))"
+            return String(format: NSLocalizedString("BASE-Invalid Parameter%@%@", comment: ""),
+                          "\(parameter)",
+                          " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))")
         case .notImplemented:
-            return NSLocalizedString("BASE-Not Implemented", comment: "")
-            + " (\(Self.domain):\(Self.Code.notImplemented.rawValue))"
+            return String(format: NSLocalizedString("BASE-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .systemError(let error, _):
-            return String(format: NSLocalizedString("BASE-System Error: %@", comment: ""),
-                          error.localizedDescription)
-            + " (\(Self.domain):\(Self.Code.systemError.rawValue))"
+            return String(format: NSLocalizedString("BASE-System Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.systemError.rawValue))")
         }
     }
     public var failureReason: String? {

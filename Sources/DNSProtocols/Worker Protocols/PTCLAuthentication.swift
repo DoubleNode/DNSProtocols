@@ -78,7 +78,7 @@ public enum PTCLAuthenticationError: DNSError {
             return String(format: NSLocalizedString("AUTH-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .failure(let error, _):
-            return String(format: NSLocalizedString("AUTH-SignIn Failure: %@%@", comment: ""),
+            return String(format: NSLocalizedString("AUTH-SignIn Failure%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.failure.rawValue))")
         case .lockedOut:

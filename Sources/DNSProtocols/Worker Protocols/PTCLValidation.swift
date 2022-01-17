@@ -119,44 +119,44 @@ public enum PTCLValidationError: DNSError {
             return String(format: NSLocalizedString("VALIDATE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .invalid(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Invalid Entry: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Invalid Entry%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.invalid.rawValue))")
         case .noValue(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-No Entry: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-No Entry%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.noValue.rawValue))")
         case .tooHigh(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too High: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too High%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooHigh.rawValue))")
         case .tooLong(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Long: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Long%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooLong.rawValue))")
         case .tooLow(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Low: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Low%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooLow.rawValue))")
         case .tooOld(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Old: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Old%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooOld.rawValue))")
         case .tooShort(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Short: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Short%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooShort.rawValue))")
         case .tooWeak(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Weak: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Weak%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooWeak.rawValue))")
         case .tooYoung(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Young: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Too Young%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooYoung.rawValue))")
         case .required(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Required: %@%@", comment: ""),
-                          fieldName,
+            return String(format: NSLocalizedString("VALIDATE-Entry Required%@%@", comment: ""),
+                          "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.required.rawValue))")
         }
     }

@@ -73,7 +73,7 @@ public enum PTCLGeolocationError: DNSError {
             return String(format: NSLocalizedString("GEO-Denied%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.denied.rawValue))")
         case .failure(let error, _):
-            return String(format: NSLocalizedString("GEO-Failure: %@%@", comment: ""),
+            return String(format: NSLocalizedString("GEO-Failure%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.failure.rawValue))")
         }

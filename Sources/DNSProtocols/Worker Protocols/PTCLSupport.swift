@@ -70,7 +70,7 @@ public enum PTCLSupportError: DNSError {
             return String(format: NSLocalizedString("SUPPORT-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .systemError(let error, _):
-            return String(format: NSLocalizedString("SUPPORT-System Error: %@%@", comment: ""),
+            return String(format: NSLocalizedString("SUPPORT-System Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.systemError.rawValue))")
         case .timeout:
