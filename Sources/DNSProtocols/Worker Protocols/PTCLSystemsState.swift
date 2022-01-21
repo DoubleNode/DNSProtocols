@@ -71,8 +71,8 @@ public protocol PTCLSystemsState: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
     
     // MARK: - Business Logic / Single Item CRUD
-    func doReportState(system: String,
-                       endPoint: String,
-                       state: String,
+    func doReportState(of state: String,
+                       for system: String,
+                       and endPoint: String,
                        with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }
