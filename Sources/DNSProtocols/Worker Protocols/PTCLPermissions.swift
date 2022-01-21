@@ -156,6 +156,7 @@ public protocol PTCLPermissions: PTCLProtocolBase {
     
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLPermissions? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     init()
     func register(nextWorker: PTCLPermissions,

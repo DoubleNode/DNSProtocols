@@ -123,6 +123,7 @@ public protocol PTCLCache: PTCLProtocolBase
 {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLCache? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     init()
     func register(nextWorker: PTCLCache,

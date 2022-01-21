@@ -73,6 +73,7 @@ public typealias PTCLBeaconDistancesBlockVoidArrayBeaconDistance =
 public protocol PTCLBeaconDistances: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLBeaconDistances? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     init()
     func register(nextWorker: PTCLBeaconDistances,

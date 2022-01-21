@@ -98,6 +98,7 @@ public enum PTCLUserIdentityError: DNSError {
 public protocol PTCLUserIdentity: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLUserIdentity? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     init()
     func register(nextWorker: PTCLUserIdentity,

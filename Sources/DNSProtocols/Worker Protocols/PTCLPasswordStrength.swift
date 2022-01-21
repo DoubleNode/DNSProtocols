@@ -75,6 +75,7 @@ public protocol PTCLPasswordStrength: PTCLProtocolBase {
     
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLPasswordStrength? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     var minimumLength: Int32 { get set }
 

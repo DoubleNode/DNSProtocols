@@ -389,6 +389,7 @@ public protocol PTCLValidation: PTCLProtocolBase {
 
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLValidation? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     init()
     func register(nextWorker: PTCLValidation,

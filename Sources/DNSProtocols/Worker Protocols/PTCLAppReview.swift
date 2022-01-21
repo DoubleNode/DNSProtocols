@@ -66,6 +66,7 @@ public protocol PTCLAppReview: PTCLProtocolBase
 {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLAppReview? { get }
+    var systemsStateWorker: PTCLSystemsState? { get }
 
     init()
     func register(nextWorker: PTCLAppReview,
