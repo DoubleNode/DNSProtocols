@@ -91,7 +91,7 @@ public protocol PTCLAnalytics: PTCLProtocolBase
 
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLAnalytics? { get }
-    var systemsStateWorker: PTCLSystemsState? { get }
+    var systemsWorker: PTCLSystems? { get }
 
     init()
     func register(nextWorker: PTCLAnalytics,

@@ -81,7 +81,7 @@ public enum PTCLPassportsError: DNSError {
 public protocol PTCLPassports: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLPassports? { get }
-    var systemsStateWorker: PTCLSystemsState? { get }
+    var systemsWorker: PTCLSystems? { get }
 
     init()
     func register(nextWorker: PTCLPassports,

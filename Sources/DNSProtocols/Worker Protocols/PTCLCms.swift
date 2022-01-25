@@ -72,7 +72,7 @@ public typealias PTCLCmsBlockVoidArrayAny =
 public protocol PTCLCms: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLCms? { get }
-    var systemsStateWorker: PTCLSystemsState? { get }
+    var systemsWorker: PTCLSystems? { get }
 
     init()
     func register(nextWorker: PTCLCms,

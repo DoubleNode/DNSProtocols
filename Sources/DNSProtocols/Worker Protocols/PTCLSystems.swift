@@ -8,17 +8,18 @@
 
 import Combine
 import DNSCoreThreading
+import DNSDataObjects
 import DNSError
 import UIKit
 
 public extension DNSError {
-    typealias SystemsState = PTCLSystemsStateError
+    typealias Systems = PTCLSystemsError
 }
-public enum PTCLSystemsStateError: DNSError {
+public enum PTCLSystemsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "SYSTEMSSTATE"
+    public static let domain = "SYSTEMS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -46,31 +47,42 @@ public enum PTCLSystemsStateError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("SYSTEMSSTATE-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("SYSTEMS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("SYSTEMSSTATE-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("SYSTEMS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
         case .unknown(let codeLocation),
-                .notImplemented(let codeLocation):
+            .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }
 }
 
-public protocol PTCLSystemsState: PTCLProtocolBase {
+public typealias PTCLSystemsResultArraySystem = Result<[DAOSystem], Error>
+public typealias PTCLSystemsResultSystem = Result<DAOSystem?, Error>
+
+public typealias PTCLSystemsBlockVoidArraySystem = (PTCLSystemsResultArraySystem) -> Void
+public typealias PTCLSystemsBlockVoidSystem = (PTCLSystemsResultSystem) -> Void
+
+public protocol PTCLSystems: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLSystemsState? { get }
+    var nextWorker: PTCLSystems? { get }
     
     init()
-    func register(nextWorker: PTCLSystemsState,
+    func register(nextWorker: PTCLSystems,
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
     
     // MARK: - Business Logic / Single Item CRUD
+    func doLoadSystem(for id: String,
+                      with progress: PTCLProgressBlock?,
+                      and block: PTCLSystemsBlockVoidSystem?) throws
+    func doLoadSystems(with progress: PTCLProgressBlock?,
+                       and block: PTCLSystemsBlockVoidArraySystem?) throws
     func doReportState(of state: String,
                        for system: String,
                        and endPoint: String,

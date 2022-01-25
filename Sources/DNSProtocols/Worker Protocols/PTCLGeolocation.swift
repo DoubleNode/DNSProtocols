@@ -98,7 +98,7 @@ public typealias PTCLGeolocationBlockVoidString =
 public protocol PTCLGeolocation: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLGeolocation? { get }
-    var systemsStateWorker: PTCLSystemsState? { get }
+    var systemsWorker: PTCLSystems? { get }
 
     init()
     func register(nextWorker: PTCLGeolocation,

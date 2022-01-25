@@ -72,7 +72,7 @@ public typealias PTCLBeaconsBlockVoidArrayBeacon =
 public protocol PTCLBeacons: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLBeacons? { get }
-    var systemsStateWorker: PTCLSystemsState? { get }
+    var systemsWorker: PTCLSystems? { get }
 
     init()
     func register(nextWorker: PTCLBeacons,

@@ -103,7 +103,7 @@ public struct PTCLSupportAttachment: Hashable {
 public protocol PTCLSupport: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLSupport? { get }
-    var systemsStateWorker: PTCLSystemsState? { get }
+    var systemsWorker: PTCLSystems? { get }
 
     init()
     func register(nextWorker: PTCLSupport,
