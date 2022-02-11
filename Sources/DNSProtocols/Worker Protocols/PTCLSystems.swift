@@ -64,9 +64,11 @@ public enum PTCLSystemsError: DNSError {
 }
 
 public typealias PTCLSystemsResultArraySystem = Result<[DAOSystem], Error>
+public typealias PTCLSystemsResultArraySystemState = Result<[DAOSystemState], Error>
 public typealias PTCLSystemsResultSystem = Result<DAOSystem?, Error>
 
 public typealias PTCLSystemsBlockVoidArraySystem = (PTCLSystemsResultArraySystem) -> Void
+public typealias PTCLSystemsBlockVoidArraySystemState = (PTCLSystemsResultArraySystemState) -> Void
 public typealias PTCLSystemsBlockVoidSystem = (PTCLSystemsResultSystem) -> Void
 
 public protocol PTCLSystems: PTCLProtocolBase {
@@ -81,6 +83,9 @@ public protocol PTCLSystems: PTCLProtocolBase {
     func doLoadSystem(for id: String,
                       with progress: PTCLProgressBlock?,
                       and block: PTCLSystemsBlockVoidSystem?) throws
+    func doLoadSystemHistory(for id: String,
+                             with progress: PTCLProgressBlock?,
+                             and block: PTCLSystemsBlockVoidArraySystemState?) throws
     func doLoadSystems(with progress: PTCLProgressBlock?,
                        and block: PTCLSystemsBlockVoidArraySystem?) throws
     func doReportState(of state: String,
