@@ -64,10 +64,12 @@ public enum PTCLSystemsError: DNSError {
 }
 
 public typealias PTCLSystemsResultArraySystem = Result<[DAOSystem], Error>
+public typealias PTCLSystemsResultArraySystemEndPoint = Result<[DAOSystemEndPoint], Error>
 public typealias PTCLSystemsResultArraySystemState = Result<[DAOSystemState], Error>
 public typealias PTCLSystemsResultSystem = Result<DAOSystem?, Error>
 
 public typealias PTCLSystemsBlockVoidArraySystem = (PTCLSystemsResultArraySystem) -> Void
+public typealias PTCLSystemsBlockVoidArraySystemEndPoint = (PTCLSystemsResultArraySystemEndPoint) -> Void
 public typealias PTCLSystemsBlockVoidArraySystemState = (PTCLSystemsResultArraySystemState) -> Void
 public typealias PTCLSystemsBlockVoidSystem = (PTCLSystemsResultSystem) -> Void
 
@@ -83,13 +85,16 @@ public protocol PTCLSystems: PTCLProtocolBase {
     func doLoadSystem(for id: String,
                       with progress: PTCLProgressBlock?,
                       and block: PTCLSystemsBlockVoidSystem?) throws
-    func doLoadSystemHistory(for id: String,
-                             with progress: PTCLProgressBlock?,
-                             and block: PTCLSystemsBlockVoidArraySystemState?) throws
+    func doLoadEndPoints(for system: DAOSystem,
+                         with progress: PTCLProgressBlock?,
+                         and block: PTCLSystemsBlockVoidArraySystemEndPoint?) throws
+    func doLoadHistory(for system: DAOSystem,
+                       with progress: PTCLProgressBlock?,
+                       and block: PTCLSystemsBlockVoidArraySystemState?) throws
     func doLoadSystems(with progress: PTCLProgressBlock?,
                        and block: PTCLSystemsBlockVoidArraySystem?) throws
-    func doReportState(of state: String,
-                       for system: String,
-                       and endPoint: String,
-                       with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doReport(state: String,
+                  for systemId: String,
+                  and endPointId: String,
+                  with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }
