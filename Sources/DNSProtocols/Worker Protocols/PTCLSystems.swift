@@ -91,6 +91,9 @@ public protocol PTCLSystems: PTCLProtocolBase {
     func doLoadHistory(for system: DAOSystem,
                        with progress: PTCLProgressBlock?,
                        and block: PTCLSystemsBlockVoidArraySystemState?) throws
+    func doLoadHistory(for endPoint: DAOSystemEndPoint,
+                       with progress: PTCLProgressBlock?,
+                       and block: PTCLSystemsBlockVoidArraySystemState?) throws
     func doLoadSystems(with progress: PTCLProgressBlock?,
                        and block: PTCLSystemsBlockVoidArraySystem?) throws
     func doReport(state: String,
