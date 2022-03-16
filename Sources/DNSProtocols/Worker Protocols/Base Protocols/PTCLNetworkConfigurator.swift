@@ -23,6 +23,7 @@ public enum PTCLNetworkError: DNSError {
     case serverError(statusCode: Int, _ codeLocation: DNSCodeLocation)
     case unauthorized(_ codeLocation: DNSCodeLocation)
     case forbidden(_ codeLocation: DNSCodeLocation)
+    case upgradeClient(message: String, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "NETWORK"
     public enum Code: Int
@@ -35,6 +36,7 @@ public enum PTCLNetworkError: DNSError {
         case serverError = 1006
         case unauthorized = 1007
         case forbidden = 1008
+        case upgradeClient = 1009
     }
 
     public var nsError: NSError! {
@@ -89,6 +91,12 @@ public enum PTCLNetworkError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.forbidden.rawValue,
                                 userInfo: userInfo)
+        case .upgradeClient(let message, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.upgradeClient.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -122,6 +130,10 @@ public enum PTCLNetworkError: DNSError {
         case .forbidden:
             return String(format: NSLocalizedString("NETWORK-Forbidden%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.forbidden.rawValue))")
+        case .upgradeClient(let message, _):
+            return String(format: NSLocalizedString("NETWORK-UpgradeClient%@%@", comment: ""),
+                          message,
+                          " (\(Self.domain):\(Self.Code.upgradeClient.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -133,7 +145,8 @@ public enum PTCLNetworkError: DNSError {
              .networkError(_, let codeLocation),
              .serverError(_, let codeLocation),
              .unauthorized(let codeLocation),
-             .forbidden(let codeLocation):
+             .forbidden(let codeLocation),
+             .upgradeClient(_, let codeLocation):
             return codeLocation.failureReason
         }
     }
