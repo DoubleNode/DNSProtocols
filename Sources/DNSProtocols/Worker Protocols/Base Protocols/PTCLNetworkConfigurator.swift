@@ -24,6 +24,7 @@ public enum PTCLNetworkError: DNSError {
     case unauthorized(_ codeLocation: DNSCodeLocation)
     case forbidden(_ codeLocation: DNSCodeLocation)
     case upgradeClient(message: String, _ codeLocation: DNSCodeLocation)
+    case adminRequired(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "NETWORK"
     public enum Code: Int
@@ -37,6 +38,7 @@ public enum PTCLNetworkError: DNSError {
         case unauthorized = 1007
         case forbidden = 1008
         case upgradeClient = 1009
+        case adminRequired = 1010
     }
 
     public var nsError: NSError! {
@@ -97,6 +99,12 @@ public enum PTCLNetworkError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.upgradeClient.rawValue,
                                 userInfo: userInfo)
+        case .adminRequired(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.adminRequired.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -134,6 +142,9 @@ public enum PTCLNetworkError: DNSError {
             return String(format: NSLocalizedString("NETWORK-UpgradeClient%@%@", comment: ""),
                           message,
                           " (\(Self.domain):\(Self.Code.upgradeClient.rawValue))")
+        case .adminRequired:
+            return String(format: NSLocalizedString("NETWORK-AdminRequired%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.adminRequired.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -146,7 +157,8 @@ public enum PTCLNetworkError: DNSError {
              .serverError(_, let codeLocation),
              .unauthorized(let codeLocation),
              .forbidden(let codeLocation),
-             .upgradeClient(_, let codeLocation):
+             .upgradeClient(_, let codeLocation),
+             .adminRequired(let codeLocation):
             return codeLocation.failureReason
         }
     }
