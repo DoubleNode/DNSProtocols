@@ -99,6 +99,10 @@ public protocol PTCLSystems: PTCLProtocolBase {
                        and block: PTCLSystemsBlockVoidArraySystemState?) throws
     func doLoadSystems(with progress: PTCLProgressBlock?,
                        and block: PTCLSystemsBlockVoidArraySystem?) throws
+    func doOverride(system: DAOSystem,
+                    with state: DAOSystemState.State,
+                    with progress: PTCLProgressBlock?,
+                    and block: PTCLSystemsBlockVoidSystem?) throws
     func doReport(state: String,
                   for systemId: String,
                   and endPointId: String,
