@@ -112,4 +112,10 @@ public protocol PTCLSystems: PTCLProtocolBase {
                   for systemId: String,
                   and endPointId: String,
                   with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doReport(state: String,
+                  and failureCode: String,
+                  and debugString: String,
+                  for systemId: String,
+                  and endPointId: String,
+                  with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }
