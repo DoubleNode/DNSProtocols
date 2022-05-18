@@ -74,9 +74,9 @@ public typealias PTCLSystemsBlockVoidArraySystemState = (PTCLSystemsResultArrayS
 public typealias PTCLSystemsBlockVoidSystem = (PTCLSystemsResultSystem) -> Void
 
 public struct PTCLSystemsData {
-    public enum State {
-        static let failure = "failure"
-        static let success = "success"
+    public enum Result: String {
+        case failure
+        case success
     }
 }
 
@@ -110,16 +110,16 @@ public protocol PTCLSystems: PTCLProtocolBase {
                     with state: DAOSystemState.State,
                     with progress: PTCLProgressBlock?,
                     and block: PTCLSystemsBlockVoidSystem?) throws
-    func doReport(state: String,
+    func doReport(result: PTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
                   with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doReport(state: String,
+    func doReport(result: PTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
                   and endPointId: String,
                   with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doReport(state: String,
+    func doReport(result: PTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
