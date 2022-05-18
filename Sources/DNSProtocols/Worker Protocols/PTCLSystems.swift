@@ -73,10 +73,17 @@ public typealias PTCLSystemsBlockVoidArraySystemEndPoint = (PTCLSystemsResultArr
 public typealias PTCLSystemsBlockVoidArraySystemState = (PTCLSystemsResultArraySystemState) -> Void
 public typealias PTCLSystemsBlockVoidSystem = (PTCLSystemsResultSystem) -> Void
 
+public struct PTCLSystemsData {
+    public enum State {
+        static let failure = "failure"
+        static let success = "success"
+    }
+}
+
 public protocol PTCLSystems: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
     var nextWorker: PTCLSystems? { get }
-    
+
     init()
     func register(nextWorker: PTCLSystems,
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
