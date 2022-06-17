@@ -20,6 +20,7 @@ public enum PTCLAuthenticationError: DNSError {
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
     case lockedOut(_ codeLocation: DNSCodeLocation)
     case passwordExpired(_ codeLocation: DNSCodeLocation)
+    case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
 
     public static let domain = "AUTH"
     public enum Code: Int
@@ -29,6 +30,7 @@ public enum PTCLAuthenticationError: DNSError {
         case failure = 1003
         case lockedOut = 1004
         case passwordExpired = 1005
+        case invalidParameters = 1006
     }
 
     public var nsError: NSError! {
@@ -64,6 +66,13 @@ public enum PTCLAuthenticationError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.passwordExpired.rawValue,
                                 userInfo: userInfo)
+        case .invalidParameters(let parameters, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            userInfo["Parameters"] = parameters
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -87,6 +96,11 @@ public enum PTCLAuthenticationError: DNSError {
         case .passwordExpired:
             return String(format: NSLocalizedString("AUTH-Password Expired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.passwordExpired.rawValue))")
+        case .invalidParameters(let parameters, _):
+            let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
+            return String(format: NSLocalizedString("AUTH-Invalid Parameters%@%@", comment: ""),
+                          "\(parametersString)",
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -95,7 +109,8 @@ public enum PTCLAuthenticationError: DNSError {
              .notImplemented(let codeLocation),
              .failure(_, let codeLocation),
              .lockedOut(let codeLocation),
-             .passwordExpired(let codeLocation):
+             .passwordExpired(let codeLocation),
+             .invalidParameters(_, let codeLocation):
             return codeLocation.failureReason
         }
     }
