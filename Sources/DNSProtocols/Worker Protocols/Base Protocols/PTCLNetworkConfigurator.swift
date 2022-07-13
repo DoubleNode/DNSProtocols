@@ -17,6 +17,7 @@ public extension DNSError {
 public enum PTCLNetworkError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
+    case noConnection(_ codeLocation: DNSCodeLocation)
     case dataError(_ codeLocation: DNSCodeLocation)
     case invalidUrl(_ codeLocation: DNSCodeLocation)
     case networkError(error: Error, _ codeLocation: DNSCodeLocation)
@@ -31,14 +32,15 @@ public enum PTCLNetworkError: DNSError {
     {
         case unknown = 1001
         case notImplemented = 1002
-        case dataError = 1003
-        case invalidUrl = 1004
-        case networkError = 1005
-        case serverError = 1006
-        case unauthorized = 1007
-        case forbidden = 1008
-        case upgradeClient = 1009
-        case adminRequired = 1010
+        case noConnection = 1003
+        case dataError = 1004
+        case invalidUrl = 1005
+        case networkError = 1006
+        case serverError = 1007
+        case unauthorized = 1008
+        case forbidden = 1009
+        case upgradeClient = 1010
+        case adminRequired = 1011
     }
 
     public var nsError: NSError! {
@@ -54,6 +56,12 @@ public enum PTCLNetworkError: DNSError {
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
+        case .noConnection(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.noConnection.rawValue,
                                 userInfo: userInfo)
         case .dataError(let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -95,6 +103,7 @@ public enum PTCLNetworkError: DNSError {
                                 userInfo: userInfo)
         case .upgradeClient(let message, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["Message"] = message
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.upgradeClient.rawValue,
@@ -118,6 +127,9 @@ public enum PTCLNetworkError: DNSError {
         case .notImplemented:
             return String(format: NSLocalizedString("NETWORK-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        case .noConnection:
+            return String(format: NSLocalizedString("NETWORK-No Connection%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.noConnection.rawValue))")
         case .dataError:
             return String(format: NSLocalizedString("NETWORK-Data Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.dataError.rawValue))")
@@ -151,6 +163,7 @@ public enum PTCLNetworkError: DNSError {
         switch self {
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
+             .noConnection(let codeLocation),
              .dataError(let codeLocation),
              .invalidUrl(let codeLocation),
              .networkError(_, let codeLocation),
