@@ -65,7 +65,7 @@ public enum PTCLBeaconDistancesError: DNSError {
 }
 
 public typealias PTCLBeaconDistancesResultArrayBeaconDistance =
-    Result<[DAOBeaconDistance], Error>
+    Result<[DNSBeaconDistance], Error>
 
 public typealias PTCLBeaconDistancesBlockVoidArrayBeaconDistance =
     (PTCLBeaconDistancesResultArrayBeaconDistance) -> Void

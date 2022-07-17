@@ -107,7 +107,7 @@ public protocol PTCLSystems: PTCLProtocolBase {
     func doLoadSystems(with progress: PTCLProgressBlock?,
                        and block: PTCLSystemsBlockVoidArraySystem?) throws
     func doOverride(system: DAOSystem,
-                    with state: DAOSystemState.State,
+                    with state: DNSSystemState,
                     with progress: PTCLProgressBlock?,
                     and block: PTCLSystemsBlockVoidSystem?) throws
     func doReport(result: PTCLSystemsData.Result,
