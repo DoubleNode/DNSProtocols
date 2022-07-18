@@ -12,5 +12,7 @@ import DNSError
 import Foundation
 
 public protocol NETPTCLConfigurator: NETPTCLNetworkBase {
-    func defaultHeaders() -> HTTPHeaders
+    func restHeaders() -> HTTPHeaders
+
+    init()
 }
