@@ -89,31 +89,6 @@ public enum WKRPTCLWorkerBaseError: DNSError {
     }
 }
 
-public enum WKRPTCLCall {
-    public enum NextWhen {
-        case always
-        case whenError
-        case whenNotFound
-        case whenUnhandled
-    }
-    public enum Result {
-        case completed
-        case error
-        case notFound
-        case unhandled
-    }
-}
-public typealias WKRPTCLCallBlock = () throws -> Any?
-public typealias WKRPTCLCallResultBlockThrows = (WKRPTCLResultBlock?) throws -> Any?
-public typealias WKRPTCLResultBlock = (WKRPTCLWorker.Call.Result) -> Any?
-
-public protocol WKRPTCLWorker {
-    typealias Call = WKRPTCLCall
-}
-
-// (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
-public typealias WKRPTCLProgressBlock = (Int, Int, Float, String) -> Void
-
 public protocol WKRPTCLWorkerBase: AnyObject {
     var networkConfigurator: NETPTCLConfigurator? { get }
 

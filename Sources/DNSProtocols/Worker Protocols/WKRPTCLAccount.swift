@@ -74,19 +74,25 @@ public typealias WKRPTCLAccountBlockAccount = (WKRPTCLAccountResultAccount) -> V
 public typealias WKRPTCLAccountBlockBool = (WKRPTCLAccountResultBool) -> Void
 
 public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAccount? { get }
     var systemsWorker: WKRPTCLSystems? { get }
-
+    
     init()
     func register(nextWorker: WKRPTCLAccount,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
-
-    // MARK: - Business Logic / Single Item CRUD
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
+    
+    // MARK: - Worker Logic (Public) -
     func doLoadAccount(for user: DAOUser,
-                       with progress: WKRPTCLProgressBlock?,
+                       with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLAccountBlockAccount?) throws
     func doUpdate(account: DAOAccount,
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlockBool?) throws
+    
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadAccount(for user: DAOUser,
+                       with block: WKRPTCLAccountBlockAccount?) throws
+    func doUpdate(account: DAOAccount,
+                  with block: WKRPTCLAccountBlockBool?) throws
 }

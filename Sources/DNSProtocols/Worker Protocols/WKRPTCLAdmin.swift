@@ -80,24 +80,32 @@ public enum WKRPTCLAdminError: DNSError {
 }
 
 public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAdmin? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLAdmin,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doChange(_ user: DAOUser,
                   to role: DNSUserRole,
-                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doCheckAdmin(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doCheckAdmin(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doDenyChangeRequest(for user: DAOUser,
-                             with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doLoadChangeRequests(with progress: WKRPTCLProgressBlock?) ->
-        AnyPublisher<(DAOUserChangeRequest?, [DAOUserChangeRequest]), Error>
-    func doLoadTabs(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[String], Error>
+                             with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doLoadChangeRequests(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<(DAOUserChangeRequest?, [DAOUserChangeRequest]), Error>
+    func doLoadTabs(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[String], Error>
     func doRequestChange(to role: DNSUserRole,
-                         with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                         with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doChange(_ user: DAOUser,
+                  to role: DNSUserRole) -> AnyPublisher<Bool, Error>
+    func doCheckAdmin() -> AnyPublisher<Bool, Error>
+    func doDenyChangeRequest(for user: DAOUser) -> AnyPublisher<Bool, Error>
+    func doLoadChangeRequests() -> AnyPublisher<(DAOUserChangeRequest?, [DAOUserChangeRequest]), Error>
+    func doLoadTabs() -> AnyPublisher<[String], Error>
+    func doRequestChange(to role: DNSUserRole) -> AnyPublisher<Bool, Error>
 }

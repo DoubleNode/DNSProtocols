@@ -71,16 +71,20 @@ public typealias WKRPTCLCmsBlockArrayAny = (WKRPTCLCmsResultArrayAny) -> Void
 //
 
 public protocol WKRPTCLCms: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLCms? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLCms,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doLoad(for group: String,
-                with progress: WKRPTCLProgressBlock?,
+                with progress: DNSPTCLProgressBlock?,
                 and block: WKRPTCLCmsBlockArrayAny?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoad(for group: String,
+                with block: WKRPTCLCmsBlockArrayAny?) throws
 }

@@ -101,22 +101,31 @@ public struct WKRPTCLSupportAttachment: Hashable {
 }
 
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLSupport? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLSupport,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
-    func doGetUpdatedCount(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Int, Error>
+    // MARK: - Worker Logic (Public) -
+    func doGetUpdatedCount(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Int, Error>
     func doPrepare(attachment image: UIImage,
-                   with progress: WKRPTCLProgressBlock?) -> AnyPublisher<WKRPTCLSupportAttachment, Error>
+                   with progress: DNSPTCLProgressBlock?) -> AnyPublisher<WKRPTCLSupportAttachment, Error>
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
                        attachments: [WKRPTCLSupportAttachment],
                        properties: [String: String],
-                       with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                       with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doGetUpdatedCount() -> AnyPublisher<Int, Error>
+    func doPrepare(attachment image: UIImage) -> AnyPublisher<WKRPTCLSupportAttachment, Error>
+    func doSendRequest(subject: String,
+                       body: String,
+                       tags: [String],
+                       attachments: [WKRPTCLSupportAttachment],
+                       properties: [String: String]) -> AnyPublisher<Bool, Error>
 }

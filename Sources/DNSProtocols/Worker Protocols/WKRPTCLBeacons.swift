@@ -71,25 +71,35 @@ public typealias WKRPTCLBeaconsBlockArrayBeacon = (WKRPTCLBeaconsResultArrayBeac
 //
 
 public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLBeacons? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLBeacons,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doLoadBeacons(in center: DAOCenter,
-                       with progress: WKRPTCLProgressBlock?,
+                       with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
     func doLoadBeacons(in center: DAOCenter,
                        for activity: DAOActivity,
-                       with progress: WKRPTCLProgressBlock?,
+                       with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
     func doRangeBeacons(named uuids: [UUID],
                         for processKey: String,
-                        with progress: WKRPTCLProgressBlock?,
+                        with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
     func doStopRangeBeacons(for processKey: String) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadBeacons(in center: DAOCenter,
+                       with block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+    func doLoadBeacons(in center: DAOCenter,
+                       for activity: DAOActivity,
+                       with block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+    func doRangeBeacons(named uuids: [UUID],
+                        for processKey: String,
+                        with block: WKRPTCLBeaconsBlockArrayBeacon?) throws
 }

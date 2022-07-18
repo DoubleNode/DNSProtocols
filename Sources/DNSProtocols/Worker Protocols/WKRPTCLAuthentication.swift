@@ -132,30 +132,44 @@ public typealias WKRPTCLAuthenticationBlockBoolAccessData = (WKRPTCLAuthenticati
 public protocol WKRPTCLAuthentication: WKRPTCLWorkerBase {
     typealias AccessData = WKRPTCLAuthenticationAccessData
     
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAuthentication? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
 
     init()
     func register(nextWorker: WKRPTCLAuthentication,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doCheckAuthentication(using parameters: [String: Any],
-                               with progress: WKRPTCLProgressBlock?,
+                               with progress: DNSPTCLProgressBlock?,
                                and block: WKRPTCLAuthenticationBlockBoolBoolAccessData?) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAuthenticationBlockBoolAccessData?) throws
     func doSignOut(using parameters: [String: Any],
-                   with progress: WKRPTCLProgressBlock?,
+                   with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLAuthenticationBlockBool?) throws
     func doSignUp(from user: DAOUser?,
                   and password: String?,
                   using parameters: [String: Any],
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAuthenticationBlockBoolAccessData?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doCheckAuthentication(using parameters: [String: Any],
+                               with block: WKRPTCLAuthenticationBlockBoolBoolAccessData?) throws
+    func doSignIn(from username: String?,
+                  and password: String?,
+                  using parameters: [String: Any],
+                  with block: WKRPTCLAuthenticationBlockBoolAccessData?) throws
+    func doSignOut(using parameters: [String: Any],
+                   with block: WKRPTCLAuthenticationBlockBool?) throws
+    func doSignUp(from user: DAOUser?,
+                  and password: String?,
+                  using parameters: [String: Any],
+                  with block: WKRPTCLAuthenticationBlockBoolAccessData?) throws
 }

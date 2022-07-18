@@ -71,7 +71,7 @@ public enum WKRPTCLPasswordStrengthLevel: Int8 {
 public protocol WKRPTCLPasswordStrength: WKRPTCLWorkerBase {
     typealias Level = WKRPTCLPasswordStrengthLevel
     
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPasswordStrength? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
@@ -79,8 +79,8 @@ public protocol WKRPTCLPasswordStrength: WKRPTCLWorkerBase {
 
     init()
     func register(nextWorker: WKRPTCLPasswordStrength,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doCheckPasswordStrength(for password: String) throws -> WKRPTCLPasswordStrength.Level
 }

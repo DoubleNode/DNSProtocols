@@ -85,25 +85,35 @@ public typealias WKRPTCLUsersBlockBool = (WKRPTCLUsersResultBool) -> Void
 public typealias WKRPTCLUsersBlockUser = (WKRPTCLUsersResultUser) -> Void
 
 public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLUsers? { get }
 
     init()
     func register(nextWorker: WKRPTCLUsers,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
-    func doLoadCurrentUser(with progress: WKRPTCLProgressBlock?,
+    // MARK: - Worker Logic (Public) -
+    func doLoadCurrentUser(with progress: DNSPTCLProgressBlock?,
                            and block: WKRPTCLUsersBlockUser?) throws
     func doLoadUser(for id: String,
-                    with progress: WKRPTCLProgressBlock?,
+                    with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLUsersBlockUser?) throws
-    func doRemoveCurrentUser(with progress: WKRPTCLProgressBlock?,
+    func doRemoveCurrentUser(with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLUsersBlockBool?) throws
     func doRemove(_ user: DAOUser,
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLUsersBlockBool?) throws
     func doUpdate(_ user: DAOUser,
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLUsersBlockBool?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadCurrentUser(with block: WKRPTCLUsersBlockUser?) throws
+    func doLoadUser(for id: String,
+                    with progress: WKRPTCLUsersBlockUser?) throws
+    func doRemoveCurrentUser(with block: WKRPTCLUsersBlockBool?) throws
+    func doRemove(_ user: DAOUser,
+                  with block: WKRPTCLUsersBlockBool?) throws
+    func doUpdate(_ user: DAOUser,
+                  with block: WKRPTCLUsersBlockBool?) throws
 }

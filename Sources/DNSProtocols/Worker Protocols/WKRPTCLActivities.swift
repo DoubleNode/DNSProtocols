@@ -76,21 +76,29 @@ public typealias WKRPTCLActivitiesBlockActivity = (WKRPTCLActivitiesResultActivi
 public typealias WKRPTCLActivitiesBlockBool = (WKRPTCLActivitiesResultBool) -> Void
 
 public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLActivities? { get }
     var systemsWorker: WKRPTCLSystems? { get }
-
+    
     init()
     func register(nextWorker: WKRPTCLActivities,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
-
-    // MARK: - Business Logic / Single Item CRUD
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
+    
+    // MARK: - Worker Logic (Public) -
     func doLoadActivities(for center: DAOCenter,
                           using activityTypes: [DAOActivityType],
-                          with progress: WKRPTCLProgressBlock?,
+                          with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLActivitiesBlockArrayActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
                   for center: DAOCenter,
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLActivitiesBlockBool?) throws
+    
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadActivities(for center: DAOCenter,
+                          using activityTypes: [DAOActivityType],
+                          with block: WKRPTCLActivitiesBlockArrayActivity?) throws
+    func doUpdate(_ activities: [DAOActivity],
+                  for center: DAOCenter,
+                  with block: WKRPTCLActivitiesBlockBool?) throws
 }

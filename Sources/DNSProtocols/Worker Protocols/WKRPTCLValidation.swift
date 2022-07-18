@@ -386,15 +386,15 @@ public struct WKRPTCLValidationData {
 public protocol WKRPTCLValidation: WKRPTCLWorkerBase {
     typealias Data = WKRPTCLValidationData
 
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLValidation? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLValidation,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doValidateBirthdate(for birthdate: Date?,
                              with config: WKRPTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
     func doValidateCalendarDate(for calendarDate: Date?,

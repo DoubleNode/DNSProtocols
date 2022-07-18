@@ -65,20 +65,26 @@ public enum WKRPTCLAlertsError: DNSError {
 }
 
 public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAlerts? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLAlerts,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doLoadAlerts(for center: DAOCenter,
-                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
     func doLoadAlerts(for district: DAODistrict,
-                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
     func doLoadAlerts(for region: DAORegion,
-                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadAlerts(for center: DAOCenter) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(for district: DAODistrict) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(for region: DAORegion) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts() -> AnyPublisher<[DAOAlert], Error>
 }

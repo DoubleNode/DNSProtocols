@@ -63,14 +63,15 @@ public enum WKRPTCLAppReviewError: DNSError {
 
 public protocol WKRPTCLAppReview: WKRPTCLWorkerBase
 {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAppReview? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLAppReview,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
+    // MARK: - Worker Properties -
     var launchedCount: UInt { get set }
     var launchedFirstTime: Date { get set }
     var launchedLastTime: Date? { get set }
@@ -84,6 +85,6 @@ public protocol WKRPTCLAppReview: WKRPTCLWorkerBase
     var usesSinceFirstLaunch: UInt { get set }
     var usesUntilPrompt: UInt { get set }
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doReview() throws -> Bool
 }

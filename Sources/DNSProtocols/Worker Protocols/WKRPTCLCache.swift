@@ -120,25 +120,34 @@ public enum WKRPTCLCacheError: DNSError {
 
 public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLCache? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLCache,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doDeleteObject(for id: String,
-                        with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                        with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doLoadImage(from url: NSURL,
                      for id: String,
-                     with progress: WKRPTCLProgressBlock?) -> AnyPublisher<UIImage, Error>
+                     with progress: DNSPTCLProgressBlock?) -> AnyPublisher<UIImage, Error>
     func doReadObject(for id: String,
-                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Any, Error>
     func doReadObject(for id: String,
-                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<String, Error>
+                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<String, Error>
     func doUpdate(object: Any,
                   for id: String,
-                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                  with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Any, Error>
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doDeleteObject(for id: String) -> AnyPublisher<Bool, Error>
+    func doLoadImage(from url: NSURL,
+                     for id: String) -> AnyPublisher<UIImage, Error>
+    func doReadObject(for id: String) -> AnyPublisher<Any, Error>
+    func doReadObject(for id: String) -> AnyPublisher<String, Error>
+    func doUpdate(object: Any,
+                  for id: String) -> AnyPublisher<Any, Error>
 }

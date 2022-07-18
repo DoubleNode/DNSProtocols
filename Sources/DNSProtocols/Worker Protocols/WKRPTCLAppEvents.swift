@@ -73,15 +73,18 @@ public typealias WKRPTCLAppEventsBlockArrayAppEvent = (WKRPTCLAppEventsResultArr
 //
 
 public protocol WKRPTCLAppEvents: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAppEvents? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLAppEvents,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
-    func doLoadAppEvents(with progress: WKRPTCLProgressBlock?,
+    // MARK: - Worker Logic (Public) -
+    func doLoadAppEvents(with progress: DNSPTCLProgressBlock?,
                          and block: WKRPTCLAppEventsBlockArrayAppEvent?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadAppEvents(with block: WKRPTCLAppEventsBlockArrayAppEvent?) throws
 }

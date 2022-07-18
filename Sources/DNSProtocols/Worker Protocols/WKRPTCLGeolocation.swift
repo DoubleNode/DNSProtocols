@@ -97,19 +97,24 @@ public typealias WKRPTCLGeolocationResultString = Result<String, Error>
 public typealias WKRPTCLGeolocationBlockString = (WKRPTCLGeolocationResultString) -> Void
 
 public protocol WKRPTCLGeolocation: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLGeolocation? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLGeolocation,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
-    func doLocate(with progress: WKRPTCLProgressBlock?,
+    // MARK: - Worker Logic (Public) -
+    func doLocate(with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLGeolocationBlockString?) throws
     func doStopTrackLocation(for processKey: String) throws
     func doTrackLocation(for processKey: String,
-                         with progress: WKRPTCLProgressBlock?,
+                         with progress: DNSPTCLProgressBlock?,
                          and block: WKRPTCLGeolocationBlockString?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLocate(with block: WKRPTCLGeolocationBlockString?) throws
+    func doTrackLocation(for processKey: String,
+                         with block: WKRPTCLGeolocationBlockString?) throws
 }

@@ -78,17 +78,22 @@ public enum WKRPTCLPassportsError: DNSError {
 }
 
 public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPassports? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLPassports,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doBuildPassport(ofType passportType: String,
                          using data: [String: String],
                          for account: DAOAccount,
-                         with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Data, Error>
+                         with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Data, Error>
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doBuildPassport(ofType passportType: String,
+                         using data: [String: String],
+                         for account: DAOAccount) -> AnyPublisher<Data, Error>
 }

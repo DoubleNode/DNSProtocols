@@ -72,15 +72,18 @@ public typealias WKRPTCLBeaconDistancesBlockArrayBeaconDistance = (WKRPTCLBeacon
 //
 
 public protocol WKRPTCLBeaconDistances: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLBeaconDistances? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLBeaconDistances,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
-    func doLoadBeaconDistances(with progress: WKRPTCLProgressBlock?,
+    // MARK: - Worker Logic (Public) -
+    func doLoadBeaconDistances(with progress: DNSPTCLProgressBlock?,
                                and block: WKRPTCLBeaconDistancesBlockArrayBeaconDistance?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doLoadBeaconDistances(with block: WKRPTCLBeaconDistancesBlockArrayBeaconDistance?) throws
 }

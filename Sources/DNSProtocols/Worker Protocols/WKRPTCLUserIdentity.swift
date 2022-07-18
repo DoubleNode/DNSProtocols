@@ -95,20 +95,26 @@ public enum WKRPTCLUserIdentityError: DNSError {
 }
 
 public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLUserIdentity? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLUserIdentity,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
-    func doClearIdentity(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    // MARK: - Worker Logic (Public) -
+    func doClearIdentity(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doJoin(group: String,
-                with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doLeave(group: String,
-                 with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                 with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doSetIdentity(using data: [String: Any?],
-                       with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                       with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doClearIdentity() -> AnyPublisher<Bool, Error>
+    func doJoin(group: String) -> AnyPublisher<Bool, Error>
+    func doLeave(group: String) -> AnyPublisher<Bool, Error>
+    func doSetIdentity(using data: [String: Any?]) -> AnyPublisher<Bool, Error>
 }

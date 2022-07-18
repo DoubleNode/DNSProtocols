@@ -88,13 +88,13 @@ public protocol WKRPTCLAnalytics: WKRPTCLWorkerBase
 {
     typealias Events = WKRPTCLAnalyticsEvents
 
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAnalytics? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLAnalytics,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Auto-Track -
     func doAutoTrack(class: String, method: String) throws

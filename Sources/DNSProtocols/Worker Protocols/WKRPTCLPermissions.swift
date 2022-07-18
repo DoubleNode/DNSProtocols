@@ -149,27 +149,39 @@ public protocol WKRPTCLPermissions: WKRPTCLWorkerBase {
     typealias Data = WKRPTCLPermissionsData
     typealias Action = WKRPTCLPermissionAction
     
-    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPermissions? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLPermissions,
-                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
-    // MARK: - Business Logic / Single Item CRUD
+    // MARK: - Worker Logic (Public) -
     func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
                    _ permission: WKRPTCLPermissions.Data.System,
-                   with progress: WKRPTCLProgressBlock?,
+                   with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLPermissionsBlockPermissionAction?) throws
     func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
                    _ permissions: [WKRPTCLPermissions.Data.System],
-                   with progress: WKRPTCLProgressBlock?,
+                   with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
     func doStatus(of permissions: [WKRPTCLPermissions.Data.System],
-                  with progress: WKRPTCLProgressBlock?,
+                  with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
     func doWait(for permission: WKRPTCLPermissions.Data.System,
-                with progress: WKRPTCLProgressBlock?,
+                with progress: DNSPTCLProgressBlock?,
                 and block: WKRPTCLPermissionsBlockPermissionAction?) throws
+
+    // MARK: - Worker Logic (Shortcuts) -
+    func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
+                   _ permission: WKRPTCLPermissions.Data.System,
+                   with block: WKRPTCLPermissionsBlockPermissionAction?) throws
+    func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
+                   _ permissions: [WKRPTCLPermissions.Data.System],
+                   with block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
+    func doStatus(of permissions: [WKRPTCLPermissions.Data.System],
+                  with block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
+    func doWait(for permission: WKRPTCLPermissions.Data.System,
+                with block: WKRPTCLPermissionsBlockPermissionAction?) throws
 }
