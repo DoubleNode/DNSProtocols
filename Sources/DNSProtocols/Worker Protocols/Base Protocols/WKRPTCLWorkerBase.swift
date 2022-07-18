@@ -115,7 +115,7 @@ public protocol WKRPTCLWorker {
 public typealias WKRPTCLProgressBlock = (Int, Int, Float, String) -> Void
 
 public protocol WKRPTCLWorkerBase: AnyObject {
-    var networkConfigurator: NETPTCLNetworkBase? { get }
+    var networkConfigurator: NETPTCLConfigurator? { get }
 
     func configure()
 
