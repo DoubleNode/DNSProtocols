@@ -19,8 +19,7 @@ public enum PTCLPasswordStrengthError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "PWDSTR"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
@@ -63,8 +62,7 @@ public enum PTCLPasswordStrengthError: DNSError {
     }
 }
 
-public enum PTCLPasswordStrengthLevel: Int8
-{
+public enum PTCLPasswordStrengthLevel: Int8 {
     case weak = 0
     case moderate = 50
     case strong = 100
@@ -84,6 +82,5 @@ public protocol PTCLPasswordStrength: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doCheckPasswordStrength(for password: String) throws -> PTCLPasswordStrength.Level
 }

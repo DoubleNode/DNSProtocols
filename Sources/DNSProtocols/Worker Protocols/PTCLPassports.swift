@@ -21,8 +21,7 @@ public enum PTCLPassportsError: DNSError {
     case unknownType(passportType: String, _ codeLocation: CodeLocation)
 
     public static let domain = "PASSPORTS"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case unknownType = 1003
@@ -88,7 +87,6 @@ public protocol PTCLPassports: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doBuildPassport(ofType passportType: String,
                          using data: [String: String],
                          for account: DAOAccount,

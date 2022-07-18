@@ -23,8 +23,7 @@ public enum PTCLCacheError: DNSError {
     case writeError(error: Error, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "CACHE"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case createError = 1003

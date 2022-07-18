@@ -1,5 +1,5 @@
 //
-//  PTCLAppReview.swift
+//  PTCLActivities.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -7,22 +7,23 @@
 //
 
 import DNSCoreThreading
+import DNSDataObjects
 import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias AppReview = PTCLAppReviewError
+    typealias Activities = PTCLActivitiesError
 }
-public enum PTCLAppReviewError: DNSError {
+public enum PTCLActivitiesError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "APPREVIEW"
+    public static let domain = "ACTIVITIES"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
-    
+
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -45,45 +46,47 @@ public enum PTCLAppReviewError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("APPREVIEW-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("ACTIVITIES-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("APPREVIEW-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("ACTIVITIES-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation),
-             .notImplemented(let codeLocation):
+        case .unknown(let codeLocation):
+            return codeLocation.failureReason
+        case .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }
 }
 
-public protocol PTCLAppReview: PTCLProtocolBase
-{
+public typealias PTCLActivitiesResultArrayActivity = Result<[DAOActivity], Error>
+public typealias PTCLActivitiesResultActivity = Result<DAOActivity?, Error>
+public typealias PTCLActivitiesResultBool = Result<Bool, Error>
+
+public typealias PTCLActivitiesBlockVoidArrayActivity = (PTCLActivitiesResultArrayActivity) -> Void
+public typealias PTCLActivitiesBlockVoidActivity = (PTCLActivitiesResultActivity) -> Void
+public typealias PTCLActivitiesBlockVoidBool = (PTCLActivitiesResultBool) -> Void
+
+public protocol PTCLActivities: PTCLProtocolBase {
     var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAppReview? { get }
+    var nextWorker: PTCLActivities? { get }
     var systemsWorker: PTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLAppReview,
+    func register(nextWorker: PTCLActivities,
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
-    var launchedCount: UInt { get set }
-    var launchedFirstTime: Date { get set }
-    var launchedLastTime: Date? { get set }
-    var reviewRequestLastTime: Date? { get set }
-
-    var appDidCrashLastRun: Bool { get set }
-    var daysBeforeReminding: UInt { get set }
-    var daysUntilPrompt: UInt { get set }
-    var hoursSinceLastLaunch: UInt { get set }
-    var usesFrequency: UInt { get set }
-    var usesSinceFirstLaunch: UInt { get set }
-    var usesUntilPrompt: UInt { get set }
-
     // MARK: - Business Logic / Single Item CRUD
-    func doReview() throws -> Bool
+    func doLoadActivities(for center: DAOCenter,
+                          using activityTypes: [DAOActivityType],
+                          with progress: PTCLProgressBlock?,
+                          and block: PTCLActivitiesBlockVoidArrayActivity?) throws
+    func doUpdate(_ activities: [DAOActivity],
+                  for center: DAOCenter,
+                  with progress: PTCLProgressBlock?,
+                  and block: PTCLActivitiesBlockVoidBool?) throws
 }

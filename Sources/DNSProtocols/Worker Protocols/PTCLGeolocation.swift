@@ -21,8 +21,7 @@ public enum PTCLGeolocationError: DNSError {
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "GEO"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case denied = 1003
@@ -105,7 +104,6 @@ public protocol PTCLGeolocation: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doLocate(with progress: PTCLProgressBlock?,
                   and block: PTCLGeolocationBlockVoidString?) throws
     func doStopTrackLocation(for processKey: String) throws

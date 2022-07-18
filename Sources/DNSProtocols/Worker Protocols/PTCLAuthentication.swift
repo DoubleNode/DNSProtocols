@@ -23,8 +23,7 @@ public enum PTCLAuthenticationError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
 
     public static let domain = "AUTH"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case failure = 1003

@@ -29,8 +29,7 @@ public enum PTCLValidationError: DNSError {
     case required(fieldName: String, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "VALIDATE"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case invalid = 1003
@@ -396,7 +395,6 @@ public protocol PTCLValidation: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doValidateBirthdate(for birthdate: Date?,
                              with config: PTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
     func doValidateCalendarDate(for calendarDate: Date?,

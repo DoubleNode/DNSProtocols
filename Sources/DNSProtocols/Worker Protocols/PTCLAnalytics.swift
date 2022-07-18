@@ -18,8 +18,7 @@ public enum PTCLAnalyticsError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "ANALYTICS"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }

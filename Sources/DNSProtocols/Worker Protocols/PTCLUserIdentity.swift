@@ -21,8 +21,7 @@ public enum PTCLUserIdentityError: DNSError {
     case unableToLeave(group: String, error: Error, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "USERID"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case unableToJoin = 1003
@@ -105,7 +104,6 @@ public protocol PTCLUserIdentity: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doClearIdentity(with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doJoin(group: String,
                 with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>

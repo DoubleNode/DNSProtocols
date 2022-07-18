@@ -21,8 +21,7 @@ public enum PTCLSupportError: DNSError {
     case timeout(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "SUPPORT"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case systemError = 1003
@@ -110,7 +109,6 @@ public protocol PTCLSupport: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doGetUpdatedCount(with progress: PTCLProgressBlock?) -> AnyPublisher<Int, Error>
     func doPrepare(attachment image: UIImage,
                    with progress: PTCLProgressBlock?) -> AnyPublisher<PTCLSupportAttachment, Error>

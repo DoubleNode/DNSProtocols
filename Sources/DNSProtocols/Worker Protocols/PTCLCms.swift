@@ -19,8 +19,7 @@ public enum PTCLCmsError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "CMS"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
@@ -79,7 +78,6 @@ public protocol PTCLCms: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doLoad(for group: String,
                 with progress: PTCLProgressBlock?,
                 and block: PTCLCmsBlockVoidArrayAny?) throws

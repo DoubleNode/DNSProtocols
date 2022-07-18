@@ -19,8 +19,7 @@ public enum PTCLBeaconsError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "BEACONS"
-    public enum Code: Int
-    {
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
@@ -79,7 +78,6 @@ public protocol PTCLBeacons: PTCLProtocolBase {
                   for callNextWhen: PTCLProtocol.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-
     func doLoadBeacons(in center: DAOCenter,
                        with progress: PTCLProgressBlock?,
                        and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
