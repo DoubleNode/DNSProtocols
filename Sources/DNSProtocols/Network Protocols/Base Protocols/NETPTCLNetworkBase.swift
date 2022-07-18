@@ -176,5 +176,4 @@ public enum NETPTCLNetworkBaseError: DNSError {
     }
 }
 public protocol NETPTCLNetworkBase: AnyObject {
-    func defaultHeaders() -> HTTPHeaders
 }
