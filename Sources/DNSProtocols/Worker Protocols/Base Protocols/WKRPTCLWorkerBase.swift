@@ -1,5 +1,5 @@
 //
-//  PTCLProtocolBase.swift
+//  WKRPTCLWorkerBase.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,17 +11,16 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Protocols = PTCLProtocolsBaseError
+    typealias WorkerProtocol = WKRPTCLWorkerBaseError
 }
-public enum PTCLProtocolsBaseError: DNSError {
+public enum WKRPTCLWorkerBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case invalidParameter(parameter: String, _ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
     
-    public static let domain = "BASE"
-    public enum Code: Int
-    {
+    public static let domain = "WKRBASE"
+    public enum Code: Int {
         case unknown = 1001
         case invalidParameter = 1002
         case notImplemented = 1003
@@ -64,17 +63,17 @@ public enum PTCLProtocolsBaseError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("BASE-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBASE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .invalidParameter(let parameter, _):
-            return String(format: NSLocalizedString("BASE-Invalid Parameter%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBASE-Invalid Parameter%@%@", comment: ""),
                           "\(parameter)",
                           " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("BASE-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBASE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .systemError(let error, _):
-            return String(format: NSLocalizedString("BASE-System Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBASE-System Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.systemError.rawValue))")
         }
@@ -90,36 +89,33 @@ public enum PTCLProtocolsBaseError: DNSError {
     }
 }
 
-public enum PTCLCall {
-    public enum NextWhen
-    {
+public enum WKRPTCLCall {
+    public enum NextWhen {
         case always
         case whenError
         case whenNotFound
         case whenUnhandled
     }
-    public enum Result
-    {
+    public enum Result {
         case completed
         case error
         case notFound
         case unhandled
     }
 }
-public typealias PTCLCallBlock = () throws -> Any?
-public typealias PTCLCallResultBlockThrows = (PTCLResultBlock?) throws -> Any?
-public typealias PTCLResultBlock = (PTCLProtocol.Call.Result) -> Any?
+public typealias WKRPTCLCallBlock = () throws -> Any?
+public typealias WKRPTCLCallResultBlockThrows = (WKRPTCLResultBlock?) throws -> Any?
+public typealias WKRPTCLResultBlock = (WKRPTCLWorker.Call.Result) -> Any?
 
-public protocol PTCLProtocol {
-    typealias Call = PTCLCall
+public protocol WKRPTCLWorker {
+    typealias Call = WKRPTCLCall
 }
 
 // (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
-public typealias PTCLProgressBlock = (Int, Int, Float, String) -> Void
+public typealias WKRPTCLProgressBlock = (Int, Int, Float, String) -> Void
 
-public protocol PTCLProtocolBase: AnyObject
-{
-    var networkConfigurator: PTCLNetworkConfigurator? { get }
+public protocol WKRPTCLWorkerBase: AnyObject {
+    var networkConfigurator: NETPTCLNetworkBase? { get }
 
     func configure()
 
@@ -128,19 +124,15 @@ public protocol PTCLProtocolBase: AnyObject
     func enableOption(_ option: String)
 
     // MARK: - UIWindowSceneDelegate methods
-
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
     func didBecomeActive()
-
     // Called when the scene will move from an active state to an inactive state.
     // This may occur due to temporary interruptions (ex. an incoming phone call).
     func willResignActive()
-
     // Called as the scene transitions from the background to the foreground.
     // Use this method to undo the changes made on entering the background.
     func willEnterForeground()
-
     // Called as the scene transitions from the foreground to the background.
     // Use this method to save data, release shared resources, and store enough scene-specific state information
     // to restore the scene back to its current state.

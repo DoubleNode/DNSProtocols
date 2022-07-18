@@ -1,30 +1,28 @@
 //
-//  PTCLBeaconDistances.swift
+//  WKRPTCLAppReview.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import Combine
 import DNSCoreThreading
-import DNSDataObjects
 import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias BeaconDistances = PTCLBeaconDistancesError
+    typealias AppReview = WKRPTCLAppReviewError
 }
-public enum PTCLBeaconDistancesError: DNSError {
+public enum WKRPTCLAppReviewError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "BECNDIST"
+    public static let domain = "WKRAPPREVIEW"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
-
+    
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -47,10 +45,10 @@ public enum PTCLBeaconDistancesError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("BECNDIST-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAPPREVIEW-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("BECNDIST-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAPPREVIEW-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -63,22 +61,29 @@ public enum PTCLBeaconDistancesError: DNSError {
     }
 }
 
-public typealias PTCLBeaconDistancesResultArrayBeaconDistance =
-    Result<[DNSBeaconDistance], Error>
-
-public typealias PTCLBeaconDistancesBlockVoidArrayBeaconDistance =
-    (PTCLBeaconDistancesResultArrayBeaconDistance) -> Void
-
-public protocol PTCLBeaconDistances: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLBeaconDistances? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLAppReview: WKRPTCLWorkerBase
+{
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAppReview? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLBeaconDistances,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAppReview,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
+
+    var launchedCount: UInt { get set }
+    var launchedFirstTime: Date { get set }
+    var launchedLastTime: Date? { get set }
+    var reviewRequestLastTime: Date? { get set }
+
+    var appDidCrashLastRun: Bool { get set }
+    var daysBeforeReminding: UInt { get set }
+    var daysUntilPrompt: UInt { get set }
+    var hoursSinceLastLaunch: UInt { get set }
+    var usesFrequency: UInt { get set }
+    var usesSinceFirstLaunch: UInt { get set }
+    var usesUntilPrompt: UInt { get set }
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLoadBeaconDistances(with progress: PTCLProgressBlock?,
-                               and block: PTCLBeaconDistancesBlockVoidArrayBeaconDistance?) throws
+    func doReview() throws -> Bool
 }

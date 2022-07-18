@@ -1,5 +1,5 @@
 //
-//  PTCLAdmin.swift
+//  WKRPTCLAdmin.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -13,14 +13,14 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Admin = PTCLAdminError
+    typealias Admin = WKRPTCLAdminError
 }
-public enum PTCLAdminError: DNSError {
+public enum WKRPTCLAdminError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case unauthorized(accountId: String, _ codeLocation: DNSCodeLocation)
 
-    public static let domain = "ADMIN"
+    public static let domain = "WKRADMIN"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -56,13 +56,13 @@ public enum PTCLAdminError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("ADMIN-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRADMIN-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("ADMIN-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRADMIN-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .unauthorized(let accountId, _):
-            return String(format: NSLocalizedString("ADMIN-Unauthorized%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRADMIN-Unauthorized%@%@", comment: ""),
                           "\(accountId)",
                           " (\(Self.domain):\(Self.Code.unauthorized.rawValue))")
         }
@@ -79,25 +79,25 @@ public enum PTCLAdminError: DNSError {
     }
 }
 
-public protocol PTCLAdmin: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAdmin? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAdmin? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLAdmin,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAdmin,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doChange(_ user: DAOUser,
                   to role: DNSUserRole,
-                  with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doCheckAdmin(with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doCheckAdmin(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doDenyChangeRequest(for user: DAOUser,
-                             with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doLoadChangeRequests(with progress: PTCLProgressBlock?) ->
+                             with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doLoadChangeRequests(with progress: WKRPTCLProgressBlock?) ->
         AnyPublisher<(DAOUserChangeRequest?, [DAOUserChangeRequest]), Error>
-    func doLoadTabs(with progress: PTCLProgressBlock?) -> AnyPublisher<[String], Error>
+    func doLoadTabs(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[String], Error>
     func doRequestChange(to role: DNSUserRole,
-                         with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                         with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }

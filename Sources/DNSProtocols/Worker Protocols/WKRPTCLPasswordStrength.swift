@@ -1,5 +1,5 @@
 //
-//  PTCLBeacons.swift
+//  WKRPTCLPasswordStrength.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,13 +12,13 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Beacons = PTCLBeaconsError
+    typealias PasswordStrength = WKRPTCLPasswordStrengthError
 }
-public enum PTCLBeaconsError: DNSError {
+public enum WKRPTCLPasswordStrengthError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "BEACONS"
+    public static let domain = "WKRPWDSTR"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -46,10 +46,10 @@ public enum PTCLBeaconsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("BEACONS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRPWDSTR-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("BEACONS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRPWDSTR-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -62,32 +62,25 @@ public enum PTCLBeaconsError: DNSError {
     }
 }
 
-public typealias PTCLBeaconsResultArrayBeacon =
-    Result<[DAOBeacon], Error>
+public enum WKRPTCLPasswordStrengthLevel: Int8 {
+    case weak = 0
+    case moderate = 50
+    case strong = 100
+}
 
-public typealias PTCLBeaconsBlockVoidArrayBeacon =
-    (PTCLBeaconsResultArrayBeacon) -> Void
+public protocol WKRPTCLPasswordStrength: WKRPTCLWorkerBase {
+    typealias Level = WKRPTCLPasswordStrengthLevel
+    
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLPasswordStrength? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
-public protocol PTCLBeacons: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLBeacons? { get }
-    var systemsWorker: PTCLSystems? { get }
+    var minimumLength: Int32 { get set }
 
     init()
-    func register(nextWorker: PTCLBeacons,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLPasswordStrength,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLoadBeacons(in center: DAOCenter,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
-    func doLoadBeacons(in center: DAOCenter,
-                       for activity: DAOActivity,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
-    func doRangeBeacons(named uuids: [UUID],
-                        for processKey: String,
-                        with progress: PTCLProgressBlock?,
-                        and block: PTCLBeaconsBlockVoidArrayBeacon?) throws
-    func doStopRangeBeacons(for processKey: String) throws
+    func doCheckPasswordStrength(for password: String) throws -> WKRPTCLPasswordStrength.Level
 }

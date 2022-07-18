@@ -1,5 +1,5 @@
 //
-//  PTCLAnalytics.swift
+//  WKRPTCLAnalytics.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -11,13 +11,13 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Analytics = PTCLAnalyticsError
+    typealias Analytics = WKRPTCLAnalyticsError
 }
-public enum PTCLAnalyticsError: DNSError {
+public enum WKRPTCLAnalyticsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "ANALYTICS"
+    public static let domain = "WKRANALYTICS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -45,10 +45,10 @@ public enum PTCLAnalyticsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("ANALYTICS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRANALYTICS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("ANALYTICS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRANALYTICS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -61,7 +61,7 @@ public enum PTCLAnalyticsError: DNSError {
     }
 }
 
-public enum PTCLAnalyticsEvents: Int8, CaseIterable, Codable {
+public enum WKRPTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case addToCart
     case appInCenter
     case applyPromoToCart
@@ -84,17 +84,17 @@ public enum PTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case other
 }
 
-public protocol PTCLAnalytics: PTCLProtocolBase
+public protocol WKRPTCLAnalytics: WKRPTCLWorkerBase
 {
-    typealias Events = PTCLAnalyticsEvents
+    typealias Events = WKRPTCLAnalyticsEvents
 
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAnalytics? { get }
-    var systemsWorker: PTCLSystems? { get }
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAnalytics? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLAnalytics,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAnalytics,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Auto-Track -
     func doAutoTrack(class: String, method: String) throws
@@ -117,7 +117,7 @@ public protocol PTCLAnalytics: PTCLProtocolBase
     func doScreen(screenTitle: String, properties: [String: Any], options: [String: Any]) throws
     
     // MARK: - Track -
-    func doTrack(event: PTCLAnalytics.Events) throws
-    func doTrack(event: PTCLAnalytics.Events, properties: [String: Any]) throws
-    func doTrack(event: PTCLAnalytics.Events, properties: [String: Any], options: [String: Any]) throws
+    func doTrack(event: WKRPTCLAnalytics.Events) throws
+    func doTrack(event: WKRPTCLAnalytics.Events, properties: [String: Any]) throws
+    func doTrack(event: WKRPTCLAnalytics.Events, properties: [String: Any], options: [String: Any]) throws
 }

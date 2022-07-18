@@ -1,5 +1,5 @@
 //
-//  PTCLCms.swift
+//  WKRPTCLBeaconDistances.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -8,17 +8,18 @@
 
 import Combine
 import DNSCoreThreading
+import DNSDataObjects
 import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Cms = PTCLCmsError
+    typealias BeaconDistances = WKRPTCLBeaconDistancesError
 }
-public enum PTCLCmsError: DNSError {
+public enum WKRPTCLBeaconDistancesError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "CMS"
+    public static let domain = "WKRBCONDIST"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -46,10 +47,10 @@ public enum PTCLCmsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("CMS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBCONDIST-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("CMS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBCONDIST-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -62,23 +63,24 @@ public enum PTCLCmsError: DNSError {
     }
 }
 
-public typealias PTCLCmsResultArrayAny =
-    Result<[Any], Error>
+// Protocol Result Types
+public typealias WKRPTCLBeaconDistancesResultArrayBeaconDistance = Result<[DNSBeaconDistance], Error>
+//
 
-public typealias PTCLCmsBlockVoidArrayAny =
-    (PTCLCmsResultArrayAny) -> Void
+// Protocol Block Types
+public typealias WKRPTCLBeaconDistancesBlockArrayBeaconDistance = (WKRPTCLBeaconDistancesResultArrayBeaconDistance) -> Void
+//
 
-public protocol PTCLCms: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLCms? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLBeaconDistances: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLBeaconDistances? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLCms,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLBeaconDistances,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLoad(for group: String,
-                with progress: PTCLProgressBlock?,
-                and block: PTCLCmsBlockVoidArrayAny?) throws
+    func doLoadBeaconDistances(with progress: WKRPTCLProgressBlock?,
+                               and block: WKRPTCLBeaconDistancesBlockArrayBeaconDistance?) throws
 }

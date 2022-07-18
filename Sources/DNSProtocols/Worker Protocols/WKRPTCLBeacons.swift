@@ -1,30 +1,29 @@
 //
-//  PTCLAlerts.swift
+//  WKRPTCLBeacons.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import Combine
 import DNSCoreThreading
 import DNSDataObjects
 import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Alerts = PTCLAlertsError
+    typealias Beacons = WKRPTCLBeaconsError
 }
-public enum PTCLAlertsError: DNSError {
+public enum WKRPTCLBeaconsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "ALERTS"
+    public static let domain = "WKRBEACONS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
-
+    
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -47,38 +46,50 @@ public enum PTCLAlertsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("ALERTS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBEACONS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("ALERTS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRBEACONS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
+        case .unknown(let codeLocation),
+             .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }
 }
 
-public protocol PTCLAlerts: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAlerts? { get }
-    var systemsWorker: PTCLSystems? { get }
+// Protocol Result Types
+public typealias WKRPTCLBeaconsResultArrayBeacon = Result<[DAOBeacon], Error>
+//
+
+// Protocol Block Types
+public typealias WKRPTCLBeaconsBlockArrayBeacon = (WKRPTCLBeaconsResultArrayBeacon) -> Void
+//
+
+public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLBeacons? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLAlerts,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLBeacons,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLoadAlerts(for center: DAOCenter,
-                      with progress: PTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(for district: DAODistrict,
-                      with progress: PTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(for region: DAORegion,
-                      with progress: PTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(with progress: PTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadBeacons(in center: DAOCenter,
+                       with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+    func doLoadBeacons(in center: DAOCenter,
+                       for activity: DAOActivity,
+                       with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+    func doRangeBeacons(named uuids: [UUID],
+                        for processKey: String,
+                        with progress: WKRPTCLProgressBlock?,
+                        and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+    func doStopRangeBeacons(for processKey: String) throws
 }

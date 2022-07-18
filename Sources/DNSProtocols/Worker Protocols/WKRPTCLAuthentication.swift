@@ -1,5 +1,5 @@
 //
-//  PTCLAuthentication.swift
+//  WKRPTCLAuthentication.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,9 +12,9 @@ import DNSError
 import UIKit
 
 public extension DNSError {
-    typealias Authentication = PTCLAuthenticationError
+    typealias Authentication = WKRPTCLAuthenticationError
 }
-public enum PTCLAuthenticationError: DNSError {
+public enum WKRPTCLAuthenticationError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
@@ -22,7 +22,7 @@ public enum PTCLAuthenticationError: DNSError {
     case passwordExpired(_ codeLocation: DNSCodeLocation)
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
 
-    public static let domain = "AUTH"
+    public static let domain = "WKRAUTH"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -80,24 +80,24 @@ public enum PTCLAuthenticationError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("AUTH-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("AUTH-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .failure(let error, _):
-            return String(format: NSLocalizedString("AUTH-SignIn Failure%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-SignIn Failure%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.failure.rawValue))")
         case .lockedOut:
-            return String(format: NSLocalizedString("AUTH-Locked Out%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Locked Out%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.lockedOut.rawValue))")
         case .passwordExpired:
-            return String(format: NSLocalizedString("AUTH-Password Expired%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Password Expired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.passwordExpired.rawValue))")
         case .invalidParameters(let parameters, _):
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
-            return String(format: NSLocalizedString("AUTH-Invalid Parameters%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Invalid Parameters%@%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
@@ -115,47 +115,47 @@ public enum PTCLAuthenticationError: DNSError {
     }
 }
 
-public protocol PTCLAuthenticationAccessData { }
+public protocol WKRPTCLAuthenticationAccessData { }
 
-public typealias PTCLAuthenticationResultBool =
-    Result<Bool, Error>
-public typealias PTCLAuthenticationResultBoolAccessData =
-    Result<(Bool, PTCLAuthenticationAccessData), Error>
-public typealias PTCLAuthenticationResultBoolBoolAccessData =
-    Result<(Bool, Bool, PTCLAuthenticationAccessData), Error>
+// Protocol Result Types
+public typealias WKRPTCLAuthenticationResultBoolBoolAccessData = Result<(Bool, Bool, WKRPTCLAuthenticationAccessData), Error>
+//
+public typealias WKRPTCLAuthenticationResultBool = Result<Bool, Error>
+public typealias WKRPTCLAuthenticationResultBoolAccessData = Result<(Bool, WKRPTCLAuthenticationAccessData), Error>
 
-public typealias PTCLAuthenticationBlockVoidBool =
-    (PTCLAuthenticationResultBool) -> Void
-public typealias PTCLAuthenticationBlockVoidBoolAccessData = (PTCLAuthenticationResultBoolAccessData) -> Void
-public typealias PTCLAuthenticationBlockVoidBoolBoolAccessData = (PTCLAuthenticationResultBoolBoolAccessData) -> Void
+// Protocol Block Types
+public typealias WKRPTCLAuthenticationBlockBoolBoolAccessData = (WKRPTCLAuthenticationResultBoolBoolAccessData) -> Void
+//
+public typealias WKRPTCLAuthenticationBlockBool = (WKRPTCLAuthenticationResultBool) -> Void
+public typealias WKRPTCLAuthenticationBlockBoolAccessData = (WKRPTCLAuthenticationResultBoolAccessData) -> Void
 
-public protocol PTCLAuthentication: PTCLProtocolBase {
-    typealias AccessData = PTCLAuthenticationAccessData
+public protocol WKRPTCLAuthentication: WKRPTCLWorkerBase {
+    typealias AccessData = WKRPTCLAuthenticationAccessData
     
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAuthentication? { get }
-    var systemsWorker: PTCLSystems? { get }
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAuthentication? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
 
     init()
-    func register(nextWorker: PTCLAuthentication,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAuthentication,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doCheckAuthentication(using parameters: [String: Any],
-                               with progress: PTCLProgressBlock?,
-                               and block: PTCLAuthenticationBlockVoidBoolBoolAccessData?) throws
+                               with progress: WKRPTCLProgressBlock?,
+                               and block: WKRPTCLAuthenticationBlockBoolBoolAccessData?) throws
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: [String: Any],
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLAuthenticationBlockVoidBoolAccessData?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLAuthenticationBlockBoolAccessData?) throws
     func doSignOut(using parameters: [String: Any],
-                   with progress: PTCLProgressBlock?,
-                   and block: PTCLAuthenticationBlockVoidBool?) throws
+                   with progress: WKRPTCLProgressBlock?,
+                   and block: WKRPTCLAuthenticationBlockBool?) throws
     func doSignUp(from user: DAOUser?,
                   and password: String?,
                   using parameters: [String: Any],
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLAuthenticationBlockVoidBoolAccessData?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLAuthenticationBlockBoolAccessData?) throws
 }

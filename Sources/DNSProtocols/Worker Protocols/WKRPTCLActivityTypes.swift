@@ -1,5 +1,5 @@
 //
-//  PTCLActivityTypes.swift
+//  WKRPTCLActivityTypes.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,13 +12,13 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias ActivityTypes = PTCLActivityTypesError
+    typealias ActivityTypes = WKRPTCLActivityTypesError
 }
-public enum PTCLActivityTypesError: DNSError {
+public enum WKRPTCLActivityTypesError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "ACTTYPES"
+    public static let domain = "WKRACTTYPES"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -63,44 +63,48 @@ public enum PTCLActivityTypesError: DNSError {
     }
 }
 
-public typealias PTCLActivityTypesResultBool = Result<Bool, Error>
-public typealias PTCLActivityTypesResultVoid = Result<Void, Error>
-public typealias PTCLActivityTypesResultArrayActivityType = Result<[DAOActivityType], Error>
-public typealias PTCLActivityTypesResultActivityType = Result<DAOActivityType?, Error>
+// Protocol Result Types
+public typealias WKRPTCLActivityTypesResultArrayActivityType = Result<[DAOActivityType], Error>
+//
+public typealias WKRPTCLActivityTypesResultBool = Result<Bool, Error>
+public typealias WKRPTCLActivityTypesResultVoid = Result<Void, Error>
+public typealias WKRPTCLActivityTypesResultActivityType = Result<DAOActivityType?, Error>
 
-public typealias PTCLActivityTypesBlockVoidBool = (PTCLActivityTypesResultBool) -> Void
-public typealias PTCLActivityTypesBlockVoid = (PTCLActivityTypesResultVoid) -> Void
-public typealias PTCLActivityTypesBlockVoidArrayActivityType = (PTCLActivityTypesResultArrayActivityType) -> Void
-public typealias PTCLActivityTypesBlockVoidActivityType = (PTCLActivityTypesResultActivityType) -> Void
+// Protocol Block Types
+public typealias WKRPTCLActivityTypesBlockArrayActivityType = (WKRPTCLActivityTypesResultArrayActivityType) -> Void
+//
+public typealias WKRPTCLActivityTypesBlockBool = (WKRPTCLActivityTypesResultBool) -> Void
+public typealias WKRPTCLActivityTypesBlockVoid = (WKRPTCLActivityTypesResultVoid) -> Void
+public typealias WKRPTCLActivityTypesBlockActivityType = (WKRPTCLActivityTypesResultActivityType) -> Void
 
-public protocol PTCLActivityTypes: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLActivityTypes? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLActivityTypes? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLActivityTypes,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLActivityTypes,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doFavorite(_ activityType: DAOActivityType,
                     for user: DAOUser,
-                    with progress: PTCLProgressBlock?,
-                    and block: PTCLActivityTypesBlockVoid?) throws
+                    with progress: WKRPTCLProgressBlock?,
+                    and block: WKRPTCLActivityTypesBlockVoid?) throws
     func doIsFavorited(_ activityType: DAOActivityType,
                        for user: DAOUser,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLActivityTypesBlockVoidBool?) throws
+                       with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLActivityTypesBlockBool?) throws
     func doLoadActivityType(for code: String,
-                            with progress: PTCLProgressBlock?,
-                            and block: PTCLActivityTypesBlockVoidActivityType?) throws
-    func doLoadActivityTypes(with progress: PTCLProgressBlock?,
-                             and block: PTCLActivityTypesBlockVoidArrayActivityType?) throws
+                            with progress: WKRPTCLProgressBlock?,
+                            and block: WKRPTCLActivityTypesBlockActivityType?) throws
+    func doLoadActivityTypes(with progress: WKRPTCLProgressBlock?,
+                             and block: WKRPTCLActivityTypesBlockArrayActivityType?) throws
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
-                      with progress: PTCLProgressBlock?,
-                      and block: PTCLActivityTypesBlockVoid?) throws
+                      with progress: WKRPTCLProgressBlock?,
+                      and block: WKRPTCLActivityTypesBlockVoid?) throws
     func doUpdate(_ activityType: DAOActivityType,
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLActivityTypesBlockVoidBool?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLActivityTypesBlockBool?) throws
 }

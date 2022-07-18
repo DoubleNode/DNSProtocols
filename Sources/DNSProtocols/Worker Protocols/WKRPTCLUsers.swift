@@ -1,5 +1,5 @@
 //
-//  PTCLUsers.swift
+//  WKRPTCLUsers.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,14 +12,14 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Users = PTCLUsersError
+    typealias Users = WKRPTCLUsersError
 }
-public enum PTCLUsersError: DNSError {
+public enum WKRPTCLUsersError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case noAccounts(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "USERS"
+    public static let domain = "WKRUSERS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -54,13 +54,13 @@ public enum PTCLUsersError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("USERS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("USERS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .noAccounts:
-            return String(format: NSLocalizedString("USERS-No Accounts Found%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERS-No Accounts Found%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.noAccounts.rawValue))")
         }
     }
@@ -74,32 +74,36 @@ public enum PTCLUsersError: DNSError {
     }
 }
 
-public typealias PTCLUsersResultBool = Result<Bool, Error>
-public typealias PTCLUsersResultUser = Result<DAOUser?, Error>
+// Protocol Result Types
+//
+public typealias WKRPTCLUsersResultBool = Result<Bool, Error>
+public typealias WKRPTCLUsersResultUser = Result<DAOUser?, Error>
 
-public typealias PTCLUsersBlockVoidBool = (PTCLUsersResultBool) -> Void
-public typealias PTCLUsersBlockVoidUser = (PTCLUsersResultUser) -> Void
+// Protocol Block Types
+//
+public typealias WKRPTCLUsersBlockBool = (WKRPTCLUsersResultBool) -> Void
+public typealias WKRPTCLUsersBlockUser = (WKRPTCLUsersResultUser) -> Void
 
-public protocol PTCLUsers: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLUsers? { get }
+public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLUsers? { get }
 
     init()
-    func register(nextWorker: PTCLUsers,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLUsers,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLoadCurrentUser(with progress: PTCLProgressBlock?,
-                           and block: PTCLUsersBlockVoidUser?) throws
+    func doLoadCurrentUser(with progress: WKRPTCLProgressBlock?,
+                           and block: WKRPTCLUsersBlockUser?) throws
     func doLoadUser(for id: String,
-                    with progress: PTCLProgressBlock?,
-                    and block: PTCLUsersBlockVoidUser?) throws
-    func doRemoveCurrentUser(with progress: PTCLProgressBlock?,
-                             and block: PTCLUsersBlockVoidBool?) throws
+                    with progress: WKRPTCLProgressBlock?,
+                    and block: WKRPTCLUsersBlockUser?) throws
+    func doRemoveCurrentUser(with progress: WKRPTCLProgressBlock?,
+                             and block: WKRPTCLUsersBlockBool?) throws
     func doRemove(_ user: DAOUser,
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLUsersBlockVoidBool?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLUsersBlockBool?) throws
     func doUpdate(_ user: DAOUser,
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLUsersBlockVoidBool?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLUsersBlockBool?) throws
 }

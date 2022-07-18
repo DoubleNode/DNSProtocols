@@ -1,5 +1,5 @@
 //
-//  PTCLPassports.swift
+//  WKRPTCLPassports.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -13,14 +13,14 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Passports = PTCLPassportsError
+    typealias Passports = WKRPTCLPassportsError
 }
-public enum PTCLPassportsError: DNSError {
+public enum WKRPTCLPassportsError: DNSError {
     case unknown(_ codeLocation: CodeLocation)
     case notImplemented(_ codeLocation: CodeLocation)
     case unknownType(passportType: String, _ codeLocation: CodeLocation)
 
-    public static let domain = "PASSPORTS"
+    public static let domain = "WKRPASSPORTS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -56,13 +56,13 @@ public enum PTCLPassportsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("PASSPORTS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRPASSPORTS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("PASSPORTS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRPASSPORTS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .unknownType(let passportType, _):
-            return String(format: NSLocalizedString("PASSPORTS-Unknown Type%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRPASSPORTS-Unknown Type%@%@", comment: ""),
                           "\(passportType)",
                           " (\(Self.domain):\(Self.Code.unknownType.rawValue))")
         }
@@ -77,18 +77,18 @@ public enum PTCLPassportsError: DNSError {
     }
 }
 
-public protocol PTCLPassports: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLPassports? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLPassports? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLPassports,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLPassports,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doBuildPassport(ofType passportType: String,
                          using data: [String: String],
                          for account: DAOAccount,
-                         with progress: PTCLProgressBlock?) -> AnyPublisher<Data, Error>
+                         with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Data, Error>
 }

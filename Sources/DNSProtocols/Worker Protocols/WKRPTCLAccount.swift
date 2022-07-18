@@ -1,5 +1,5 @@
 //
-//  PTCLAccount.swift
+//  WKRPTCLAccount.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,13 +12,13 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Account = PTCLAccountError
+    typealias Account = WKRPTCLAccountError
 }
-public enum PTCLAccountError: DNSError {
+public enum WKRPTCLAccountError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "ACCOUNT"
+    public static let domain = "WKRACCOUNT"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -46,10 +46,10 @@ public enum PTCLAccountError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("ACCOUNT-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRACCOUNT-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("ACCOUNT-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRACCOUNT-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -63,26 +63,30 @@ public enum PTCLAccountError: DNSError {
     }
 }
 
-public typealias PTCLAccountResultAccount = Result<DAOAccount?, Error>
-public typealias PTCLAccountResultBool = Result<Bool, Error>
+// Protocol Result Types
+//
+public typealias WKRPTCLAccountResultAccount = Result<DAOAccount?, Error>
+public typealias WKRPTCLAccountResultBool = Result<Bool, Error>
 
-public typealias PTCLAccountBlockVoidAccount = (PTCLAccountResultAccount) -> Void
-public typealias PTCLAccountBlockVoidBool = (PTCLAccountResultBool) -> Void
+// Protocol Block Types
+//
+public typealias WKRPTCLAccountBlockAccount = (WKRPTCLAccountResultAccount) -> Void
+public typealias WKRPTCLAccountBlockBool = (WKRPTCLAccountResultBool) -> Void
 
-public protocol PTCLAccount: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAccount? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAccount? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLAccount,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAccount,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doLoadAccount(for user: DAOUser,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLAccountBlockVoidAccount?) throws
+                       with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLAccountBlockAccount?) throws
     func doUpdate(account: DAOAccount,
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLAccountBlockVoidBool?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLAccountBlockBool?) throws
 }

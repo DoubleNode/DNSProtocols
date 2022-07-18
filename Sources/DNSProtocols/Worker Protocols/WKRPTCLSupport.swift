@@ -1,5 +1,5 @@
 //
-//  PTCLSupport.swift
+//  WKRPTCLSupport.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,15 +12,15 @@ import DNSError
 import UIKit
 
 public extension DNSError {
-    typealias Support = PTCLSupportError
+    typealias Support = WKRPTCLSupportError
 }
-public enum PTCLSupportError: DNSError {
+public enum WKRPTCLSupportError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
     case timeout(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "SUPPORT"
+    public static let domain = "WKRSUPPORT"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -63,17 +63,17 @@ public enum PTCLSupportError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("SUPPORT-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRSUPPORT-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("SUPPORT-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRSUPPORT-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .systemError(let error, _):
-            return String(format: NSLocalizedString("SUPPORT-System Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRSUPPORT-System Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.systemError.rawValue))")
         case .timeout:
-            return String(format: NSLocalizedString("SUPPORT-Timeout%@", comment: ""),
+            return String(format: NSLocalizedString("WKRSUPPORT-Timeout%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.timeout.rawValue))")
         }
     }
@@ -88,34 +88,35 @@ public enum PTCLSupportError: DNSError {
     }
 }
 
-public struct PTCLSupportAttachment: Hashable {
+public struct WKRPTCLSupportAttachment: Hashable {
     public var attachment: AnyHashable?
     public var token: String = ""
     public var image: UIImage
     public init(image: UIImage) {
         self.image = image
     }
-    public static func == (lhs: PTCLSupportAttachment, rhs: PTCLSupportAttachment) -> Bool {
+    public static func == (lhs: WKRPTCLSupportAttachment, rhs: WKRPTCLSupportAttachment) -> Bool {
         return lhs.image == rhs.image
     }
 }
-public protocol PTCLSupport: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLSupport? { get }
-    var systemsWorker: PTCLSystems? { get }
+
+public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLSupport? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLSupport,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLSupport,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doGetUpdatedCount(with progress: PTCLProgressBlock?) -> AnyPublisher<Int, Error>
+    func doGetUpdatedCount(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Int, Error>
     func doPrepare(attachment image: UIImage,
-                   with progress: PTCLProgressBlock?) -> AnyPublisher<PTCLSupportAttachment, Error>
+                   with progress: WKRPTCLProgressBlock?) -> AnyPublisher<WKRPTCLSupportAttachment, Error>
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
-                       attachments: [PTCLSupportAttachment],
+                       attachments: [WKRPTCLSupportAttachment],
                        properties: [String: String],
-                       with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                       with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }

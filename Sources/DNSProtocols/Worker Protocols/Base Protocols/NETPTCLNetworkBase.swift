@@ -1,5 +1,5 @@
 //
-//  PTCLNetworkConfigurator.swift
+//  NETPTCLNetworkBase.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,9 +12,9 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Network = PTCLNetworkError
+    typealias Network = NETPTCLNetworkBaseError
 }
-public enum PTCLNetworkError: DNSError {
+public enum NETPTCLNetworkBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case noConnection(_ codeLocation: DNSCodeLocation)
@@ -27,9 +27,8 @@ public enum PTCLNetworkError: DNSError {
     case upgradeClient(message: String, _ codeLocation: DNSCodeLocation)
     case adminRequired(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "NETWORK"
-    public enum Code: Int
-    {
+    public static let domain = "NETBASE"
+    public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
         case noConnection = 1003
@@ -122,40 +121,40 @@ public enum PTCLNetworkError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("NETWORK-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("NETWORK-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .noConnection:
-            return String(format: NSLocalizedString("NETWORK-No Connection%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-No Connection%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.noConnection.rawValue))")
         case .dataError:
-            return String(format: NSLocalizedString("NETWORK-Data Error%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Data Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.dataError.rawValue))")
         case .invalidUrl:
-            return String(format: NSLocalizedString("NETWORK-Invalid URL%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Invalid URL%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))")
         case .networkError(let error, _):
-            return String(format: NSLocalizedString("NETWORK-Network Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Network Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.networkError.rawValue))")
         case .serverError(let statusCode, _):
-            return String(format: NSLocalizedString("NETWORK-Server Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Server Error%@%@", comment: ""),
                           "\(statusCode)",
                           " (\(Self.domain):\(Self.Code.serverError.rawValue))")
         case .unauthorized:
-            return String(format: NSLocalizedString("NETWORK-Unauthorized%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Unauthorized%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unauthorized.rawValue))")
         case .forbidden:
-            return String(format: NSLocalizedString("NETWORK-Forbidden%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-Forbidden%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.forbidden.rawValue))")
         case .upgradeClient(let message, _):
-            return String(format: NSLocalizedString("NETWORK-UpgradeClient%@%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-UpgradeClient%@%@", comment: ""),
                           message,
                           " (\(Self.domain):\(Self.Code.upgradeClient.rawValue))")
         case .adminRequired:
-            return String(format: NSLocalizedString("NETWORK-AdminRequired%@", comment: ""),
+            return String(format: NSLocalizedString("NETBASE-AdminRequired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.adminRequired.rawValue))")
         }
     }
@@ -176,8 +175,6 @@ public enum PTCLNetworkError: DNSError {
         }
     }
 }
-
-public protocol PTCLNetworkConfigurator: AnyObject
-{
+public protocol NETPTCLNetworkBase: AnyObject {
     func defaultHeaders() -> HTTPHeaders
 }

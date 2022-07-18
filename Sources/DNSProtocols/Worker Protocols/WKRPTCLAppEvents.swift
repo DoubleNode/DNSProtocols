@@ -1,29 +1,30 @@
 //
-//  PTCLPasswordStrength.swift
+//  WKRPTCLAppEvents.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
 //  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import Combine
 import DNSCoreThreading
 import DNSDataObjects
 import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias PasswordStrength = PTCLPasswordStrengthError
+    typealias AppEvents = WKRPTCLAppEventsError
 }
-public enum PTCLPasswordStrengthError: DNSError {
+public enum WKRPTCLAppEventsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "PWDSTR"
+    public static let domain = "WKRAPPEVENTS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
     }
-    
+
     public var nsError: NSError! {
         switch self {
         case .unknown(let codeLocation):
@@ -46,41 +47,41 @@ public enum PTCLPasswordStrengthError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("PWDSTR-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAPPEVENTS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("PWDSTR-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAPPEVENTS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
-        case .unknown(let codeLocation),
-             .notImplemented(let codeLocation):
+        case .unknown(let codeLocation):
+            return codeLocation.failureReason
+        case .notImplemented(let codeLocation):
             return codeLocation.failureReason
         }
     }
 }
 
-public enum PTCLPasswordStrengthLevel: Int8 {
-    case weak = 0
-    case moderate = 50
-    case strong = 100
-}
+// Protocol Result Types
+public typealias WKRPTCLAppEventsResultArrayAppEvent = Result<[DAOAppEvent], Error>
+//
 
-public protocol PTCLPasswordStrength: PTCLProtocolBase {
-    typealias Level = PTCLPasswordStrengthLevel
-    
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLPasswordStrength? { get }
-    var systemsWorker: PTCLSystems? { get }
+// Protocol Block Types
+public typealias WKRPTCLAppEventsBlockArrayAppEvent = (WKRPTCLAppEventsResultArrayAppEvent) -> Void
+//
 
-    var minimumLength: Int32 { get set }
+public protocol WKRPTCLAppEvents: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAppEvents? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLPasswordStrength,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAppEvents,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doCheckPasswordStrength(for password: String) throws -> PTCLPasswordStrength.Level
+    func doLoadAppEvents(with progress: WKRPTCLProgressBlock?,
+                         and block: WKRPTCLAppEventsBlockArrayAppEvent?) throws
 }

@@ -1,5 +1,5 @@
 //
-//  PTCLCache.swift
+//  WKRPTCLCache.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,9 +12,9 @@ import DNSError
 import UIKit
 
 public extension DNSError {
-    typealias Cache = PTCLCacheError
+    typealias Cache = WKRPTCLCacheError
 }
-public enum PTCLCacheError: DNSError {
+public enum WKRPTCLCacheError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case createError(error: Error, _ codeLocation: DNSCodeLocation)
@@ -22,7 +22,7 @@ public enum PTCLCacheError: DNSError {
     case readError(error: Error, _ codeLocation: DNSCodeLocation)
     case writeError(error: Error, _ codeLocation: DNSCodeLocation)
 
-    public static let domain = "CACHE"
+    public static let domain = "WKRCACHE"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -82,25 +82,25 @@ public enum PTCLCacheError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("CACHE-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCACHE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("CACHE-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCACHE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .createError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Create Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCACHE-Object Create Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.createError.rawValue))")
         case .deleteError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Delete Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCACHE-Object Delete Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.deleteError.rawValue))")
         case .readError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Read Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCACHE-Object Read Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.readError.rawValue))")
         case .writeError(let error, _):
-            return String(format: NSLocalizedString("CACHE-Object Write Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCACHE-Object Write Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.writeError.rawValue))")
         }
@@ -118,27 +118,27 @@ public enum PTCLCacheError: DNSError {
     }
 }
 
-public protocol PTCLCache: PTCLProtocolBase
+public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLCache? { get }
-    var systemsWorker: PTCLSystems? { get }
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLCache? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLCache,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLCache,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doDeleteObject(for id: String,
-                        with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                        with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doLoadImage(from url: NSURL,
                      for id: String,
-                     with progress: PTCLProgressBlock?) -> AnyPublisher<UIImage, Error>
+                     with progress: WKRPTCLProgressBlock?) -> AnyPublisher<UIImage, Error>
     func doReadObject(for id: String,
-                      with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Any, Error>
     func doReadObject(for id: String,
-                      with progress: PTCLProgressBlock?) -> AnyPublisher<String, Error>
+                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<String, Error>
     func doUpdate(object: Any,
                   for id: String,
-                  with progress: PTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Any, Error>
 }

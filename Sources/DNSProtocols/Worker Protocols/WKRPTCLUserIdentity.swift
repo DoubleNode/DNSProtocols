@@ -1,5 +1,5 @@
 //
-//  PTCLUserIdentity_Protocol.swift
+//  WKRPTCLUserIdentity.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,15 +12,15 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias UserIdentity = PTCLUserIdentityError
+    typealias UserIdentity = WKRPTCLUserIdentityError
 }
-public enum PTCLUserIdentityError: DNSError {
+public enum WKRPTCLUserIdentityError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case unableToJoin(group: String, error: Error, _ codeLocation: DNSCodeLocation)
     case unableToLeave(group: String, error: Error, _ codeLocation: DNSCodeLocation)
 
-    public static let domain = "USERID"
+    public static let domain = "WKRUSERID"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -66,18 +66,18 @@ public enum PTCLUserIdentityError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("USERID-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERID-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("USERID-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERID-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .unableToJoin(let group, let error, _):
-            return String(format: NSLocalizedString("USERID-Unable to Join Group%@%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERID-Unable to Join Group%@%@%@", comment: ""),
                           "\(group)",
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.unableToJoin.rawValue))")
         case .unableToLeave(let group, let error, _):
-            return String(format: NSLocalizedString("USERID-Unable to Leave Group%@%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRUSERID-Unable to Leave Group%@%@%@", comment: ""),
                           "\(group)",
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.unableToLeave.rawValue))")
@@ -94,21 +94,21 @@ public enum PTCLUserIdentityError: DNSError {
     }
 }
 
-public protocol PTCLUserIdentity: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLUserIdentity? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLUserIdentity? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLUserIdentity,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLUserIdentity,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doClearIdentity(with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+    func doClearIdentity(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doJoin(group: String,
-                with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doLeave(group: String,
-                 with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                 with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doSetIdentity(using data: [String: Any?],
-                       with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                       with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }

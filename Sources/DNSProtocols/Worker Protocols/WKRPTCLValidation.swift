@@ -1,5 +1,5 @@
 //
-//  PTCLValidation.swift
+//  WKRPTCLValidation.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,9 +12,9 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Validation = PTCLValidationError
+    typealias Validation = WKRPTCLValidationError
 }
-public enum PTCLValidationError: DNSError {
+public enum WKRPTCLValidationError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case invalid(fieldName: String, _ codeLocation: DNSCodeLocation)
@@ -28,7 +28,7 @@ public enum PTCLValidationError: DNSError {
     case tooYoung(fieldName: String, _ codeLocation: DNSCodeLocation)
     case required(fieldName: String, _ codeLocation: DNSCodeLocation)
 
-    public static let domain = "VALIDATE"
+    public static let domain = "WKRVALIDATE"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -112,49 +112,49 @@ public enum PTCLValidationError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("VALIDATE-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("VALIDATE-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .invalid(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Invalid Entry%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Invalid Entry%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.invalid.rawValue))")
         case .noValue(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-No Entry%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-No Entry%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.noValue.rawValue))")
         case .tooHigh(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too High%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too High%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooHigh.rawValue))")
         case .tooLong(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Long%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too Long%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooLong.rawValue))")
         case .tooLow(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Low%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too Low%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooLow.rawValue))")
         case .tooOld(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Old%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too Old%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooOld.rawValue))")
         case .tooShort(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Short%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too Short%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooShort.rawValue))")
         case .tooWeak(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Weak%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too Weak%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooWeak.rawValue))")
         case .tooYoung(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Too Young%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Too Young%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.tooYoung.rawValue))")
         case .required(let fieldName, _):
-            return String(format: NSLocalizedString("VALIDATE-Entry Required%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRVALIDATE-Entry Required%@%@", comment: ""),
                           "\(fieldName)",
                           " (\(Self.domain):\(Self.Code.required.rawValue))")
         }
@@ -178,7 +178,7 @@ public enum PTCLValidationError: DNSError {
     }
 }
 
-public struct PTCLValidationData {
+public struct WKRPTCLValidationData {
     public enum Regex
     {
         public static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
@@ -220,7 +220,7 @@ public struct PTCLValidationData {
             public var regex: String?
             public var required: Bool
             public init(fieldName: String = "Email",
-                        regex: String? = PTCLValidationData.Regex.email,
+                        regex: String? = WKRPTCLValidationData.Regex.email,
                         required: Bool = true) {
                 self.fieldName = fieldName
                 self.regex = regex
@@ -283,12 +283,12 @@ public struct PTCLValidationData {
             public var minimumLength: Int32?
             public var maximumLength: Int32?
             public var required: Bool
-            public var strength: PTCLPasswordStrength.Level
+            public var strength: WKRPTCLPasswordStrength.Level
             public init(fieldName: String = "Password",
                         minimumLength: Int32? = nil,
                         maximumLength: Int32? = nil,
                         required: Bool = true,
-                        strength: PTCLPasswordStrength.Level = .strong) {
+                        strength: WKRPTCLPasswordStrength.Level = .strong) {
                 self.fieldName = fieldName
                 self.minimumLength = minimumLength
                 self.maximumLength = maximumLength
@@ -320,7 +320,7 @@ public struct PTCLValidationData {
             public init(fieldName: String = "Phone",
                         minimumLength: Int32? = 10,
                         maximumLength: Int32? = 10,
-                        regex: String? = PTCLValidationData.Regex.phone,
+                        regex: String? = WKRPTCLValidationData.Regex.phone,
                         required: Bool = true) {
                 self.fieldName = fieldName
                 self.minimumLength = minimumLength
@@ -383,40 +383,40 @@ public struct PTCLValidationData {
     }
 }
 
-public protocol PTCLValidation: PTCLProtocolBase {
-    typealias Data = PTCLValidationData
+public protocol WKRPTCLValidation: WKRPTCLWorkerBase {
+    typealias Data = WKRPTCLValidationData
 
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLValidation? { get }
-    var systemsWorker: PTCLSystems? { get }
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLValidation? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLValidation,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLValidation,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doValidateBirthdate(for birthdate: Date?,
-                             with config: PTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
+                             with config: WKRPTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
     func doValidateCalendarDate(for calendarDate: Date?,
-                                with config: PTCLValidation.Data.Config.CalendarDate) throws -> DNSError.Validation?
+                                with config: WKRPTCLValidation.Data.Config.CalendarDate) throws -> DNSError.Validation?
     func doValidateEmail(for email: String?,
-                         with config: PTCLValidation.Data.Config.Email) throws -> DNSError.Validation?
+                         with config: WKRPTCLValidation.Data.Config.Email) throws -> DNSError.Validation?
     func doValidateHandle(for handle: String?,
-                          with config: PTCLValidation.Data.Config.Handle) throws -> DNSError.Validation?
+                          with config: WKRPTCLValidation.Data.Config.Handle) throws -> DNSError.Validation?
     func doValidateName(for name: String?,
-                        with config: PTCLValidation.Data.Config.Name) throws -> DNSError.Validation?
+                        with config: WKRPTCLValidation.Data.Config.Name) throws -> DNSError.Validation?
     func doValidateNumber(for numberString: String?,
-                          with config: PTCLValidation.Data.Config.Number) throws -> DNSError.Validation?
+                          with config: WKRPTCLValidation.Data.Config.Number) throws -> DNSError.Validation?
     func doValidatePassword(for password: String?,
-                            with config: PTCLValidation.Data.Config.Password) throws -> DNSError.Validation?
+                            with config: WKRPTCLValidation.Data.Config.Password) throws -> DNSError.Validation?
     func doValidatePercentage(for percentageString: String?,
-                              with config: PTCLValidation.Data.Config.Percentage) throws -> DNSError.Validation?
+                              with config: WKRPTCLValidation.Data.Config.Percentage) throws -> DNSError.Validation?
     func doValidatePhone(for phone: String?,
-                         with config: PTCLValidation.Data.Config.Phone) throws -> DNSError.Validation?
+                         with config: WKRPTCLValidation.Data.Config.Phone) throws -> DNSError.Validation?
     func doValidateSearch(for search: String?,
-                          with config: PTCLValidation.Data.Config.Search) throws -> DNSError.Validation?
+                          with config: WKRPTCLValidation.Data.Config.Search) throws -> DNSError.Validation?
     func doValidateState(for state: String?,
-                         with config: PTCLValidation.Data.Config.State) throws -> DNSError.Validation?
+                         with config: WKRPTCLValidation.Data.Config.State) throws -> DNSError.Validation?
     func doValidateUnsignedNumber(for numberString: String?,
-                                  with config: PTCLValidation.Data.Config.UnsignedNumber) throws -> DNSError.Validation?
+                                  with config: WKRPTCLValidation.Data.Config.UnsignedNumber) throws -> DNSError.Validation?
 }

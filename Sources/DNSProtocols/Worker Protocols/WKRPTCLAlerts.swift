@@ -1,5 +1,5 @@
 //
-//  PTCLAppEvents.swift
+//  WKRPTCLAlerts.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -13,13 +13,13 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias AppEvents = PTCLAppEventsError
+    typealias Alerts = WKRPTCLAlertsError
 }
-public enum PTCLAppEventsError: DNSError {
+public enum WKRPTCLAlertsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "APPEVENTS"
+    public static let domain = "WKRALERTS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -47,10 +47,10 @@ public enum PTCLAppEventsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("APPEVENTS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRALERTS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("APPEVENTS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRALERTS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -64,20 +64,21 @@ public enum PTCLAppEventsError: DNSError {
     }
 }
 
-public typealias PTCLAppEventsResultArrayAppEvent = Result<[DAOAppEvent], Error>
-
-public typealias PTCLAppEventsBlockVoidArrayAppEvent = (PTCLAppEventsResultArrayAppEvent) -> Void
-
-public protocol PTCLAppEvents: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLAppEvents? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLAlerts? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLAppEvents,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLAlerts,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLoadAppEvents(with progress: PTCLProgressBlock?,
-                         and block: PTCLAppEventsBlockVoidArrayAppEvent?) throws
+    func doLoadAlerts(for center: DAOCenter,
+                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(for district: DAODistrict,
+                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(for region: DAORegion,
+                      with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(with progress: WKRPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
 }

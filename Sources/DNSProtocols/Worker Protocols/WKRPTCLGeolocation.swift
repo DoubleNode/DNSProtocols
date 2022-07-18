@@ -1,5 +1,5 @@
 //
-//  PTCLGeolocation.swift
+//  WKRPTCLGeolocation.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,15 +12,15 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Geolocation = PTCLGeolocationError
+    typealias Geolocation = WKRPTCLGeolocationError
 }
-public enum PTCLGeolocationError: DNSError {
+public enum WKRPTCLGeolocationError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case denied(_ codeLocation: DNSCodeLocation)
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
 
-    public static let domain = "GEO"
+    public static let domain = "WKRGEO"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -63,16 +63,16 @@ public enum PTCLGeolocationError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("GEO-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRGEO-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("GEO-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRGEO-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .denied:
-            return String(format: NSLocalizedString("GEO-Denied%@", comment: ""),
+            return String(format: NSLocalizedString("WKRGEO-Denied%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.denied.rawValue))")
         case .failure(let error, _):
-            return String(format: NSLocalizedString("GEO-Failure%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRGEO-Failure%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.failure.rawValue))")
         }
@@ -88,26 +88,28 @@ public enum PTCLGeolocationError: DNSError {
     }
 }
 
-public typealias PTCLGeolocationResultString =
-    Result<String, Error>
+// Protocol Result Types
+//
+public typealias WKRPTCLGeolocationResultString = Result<String, Error>
 
-public typealias PTCLGeolocationBlockVoidString =
-    (PTCLGeolocationResultString) -> Void
+// Protocol Block Types
+//
+public typealias WKRPTCLGeolocationBlockString = (WKRPTCLGeolocationResultString) -> Void
 
-public protocol PTCLGeolocation: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLGeolocation? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLGeolocation: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLGeolocation? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLGeolocation,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLGeolocation,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
-    func doLocate(with progress: PTCLProgressBlock?,
-                  and block: PTCLGeolocationBlockVoidString?) throws
+    func doLocate(with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLGeolocationBlockString?) throws
     func doStopTrackLocation(for processKey: String) throws
     func doTrackLocation(for processKey: String,
-                         with progress: PTCLProgressBlock?,
-                         and block: PTCLGeolocationBlockVoidString?) throws
+                         with progress: WKRPTCLProgressBlock?,
+                         and block: WKRPTCLGeolocationBlockString?) throws
 }

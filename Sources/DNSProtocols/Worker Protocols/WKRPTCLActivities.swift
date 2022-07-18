@@ -1,5 +1,5 @@
 //
-//  PTCLActivities.swift
+//  WKRPTCLActivities.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,13 +12,13 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Activities = PTCLActivitiesError
+    typealias Activities = WKRPTCLActivitiesError
 }
-public enum PTCLActivitiesError: DNSError {
+public enum WKRPTCLActivitiesError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "ACTIVITIES"
+    public static let domain = "WKRACTIVITIES"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -46,10 +46,10 @@ public enum PTCLActivitiesError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("ACTIVITIES-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRACTIVITIES-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("ACTIVITIES-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRACTIVITIES-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -63,30 +63,34 @@ public enum PTCLActivitiesError: DNSError {
     }
 }
 
-public typealias PTCLActivitiesResultArrayActivity = Result<[DAOActivity], Error>
-public typealias PTCLActivitiesResultActivity = Result<DAOActivity?, Error>
-public typealias PTCLActivitiesResultBool = Result<Bool, Error>
+// Protocol Result Types
+public typealias WKRPTCLActivitiesResultArrayActivity = Result<[DAOActivity], Error>
+//
+public typealias WKRPTCLActivitiesResultActivity = Result<DAOActivity?, Error>
+public typealias WKRPTCLActivitiesResultBool = Result<Bool, Error>
 
-public typealias PTCLActivitiesBlockVoidArrayActivity = (PTCLActivitiesResultArrayActivity) -> Void
-public typealias PTCLActivitiesBlockVoidActivity = (PTCLActivitiesResultActivity) -> Void
-public typealias PTCLActivitiesBlockVoidBool = (PTCLActivitiesResultBool) -> Void
+// Protocol Block Types
+public typealias WKRPTCLActivitiesBlockArrayActivity = (WKRPTCLActivitiesResultArrayActivity) -> Void
+//
+public typealias WKRPTCLActivitiesBlockActivity = (WKRPTCLActivitiesResultActivity) -> Void
+public typealias WKRPTCLActivitiesBlockBool = (WKRPTCLActivitiesResultBool) -> Void
 
-public protocol PTCLActivities: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLActivities? { get }
-    var systemsWorker: PTCLSystems? { get }
+public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLActivities? { get }
+    var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLActivities,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLActivities,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
 
     // MARK: - Business Logic / Single Item CRUD
     func doLoadActivities(for center: DAOCenter,
                           using activityTypes: [DAOActivityType],
-                          with progress: PTCLProgressBlock?,
-                          and block: PTCLActivitiesBlockVoidArrayActivity?) throws
+                          with progress: WKRPTCLProgressBlock?,
+                          and block: WKRPTCLActivitiesBlockArrayActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
                   for center: DAOCenter,
-                  with progress: PTCLProgressBlock?,
-                  and block: PTCLActivitiesBlockVoidBool?) throws
+                  with progress: WKRPTCLProgressBlock?,
+                  and block: WKRPTCLActivitiesBlockBool?) throws
 }

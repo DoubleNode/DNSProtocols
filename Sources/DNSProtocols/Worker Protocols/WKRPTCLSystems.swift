@@ -1,5 +1,5 @@
 //
-//  PTCLSystemsState.swift
+//  WKRPTCLSystems.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -13,13 +13,13 @@ import DNSError
 import UIKit
 
 public extension DNSError {
-    typealias Systems = PTCLSystemsError
+    typealias Systems = WKRPTCLSystemsError
 }
-public enum PTCLSystemsError: DNSError {
+public enum WKRPTCLSystemsError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
-    public static let domain = "SYSTEMS"
+    public static let domain = "WKRSYSTEMS"
     public enum Code: Int {
         case unknown = 1001
         case notImplemented = 1002
@@ -47,10 +47,10 @@ public enum PTCLSystemsError: DNSError {
     public var errorString: String {
         switch self {
         case .unknown:
-            return String(format: NSLocalizedString("SYSTEMS-Unknown Error%@", comment: ""),
+            return String(format: NSLocalizedString("WKRSYSTEMS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
-            return String(format: NSLocalizedString("SYSTEMS-Not Implemented%@", comment: ""),
+            return String(format: NSLocalizedString("WKRSYSTEMS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         }
     }
@@ -63,15 +63,19 @@ public enum PTCLSystemsError: DNSError {
     }
 }
 
-public typealias PTCLSystemsResultArraySystem = Result<[DAOSystem], Error>
-public typealias PTCLSystemsResultArraySystemEndPoint = Result<[DAOSystemEndPoint], Error>
-public typealias PTCLSystemsResultArraySystemState = Result<[DAOSystemState], Error>
-public typealias PTCLSystemsResultSystem = Result<DAOSystem?, Error>
+// Protocol Result Types
+public typealias WKRPTCLSystemsResultArraySystem = Result<[DAOSystem], Error>
+public typealias WKRPTCLSystemsResultArraySystemEndPoint = Result<[DAOSystemEndPoint], Error>
+public typealias WKRPTCLSystemsResultArraySystemState = Result<[DAOSystemState], Error>
+//
+public typealias WKRPTCLSystemsResultSystem = Result<DAOSystem?, Error>
 
-public typealias PTCLSystemsBlockVoidArraySystem = (PTCLSystemsResultArraySystem) -> Void
-public typealias PTCLSystemsBlockVoidArraySystemEndPoint = (PTCLSystemsResultArraySystemEndPoint) -> Void
-public typealias PTCLSystemsBlockVoidArraySystemState = (PTCLSystemsResultArraySystemState) -> Void
-public typealias PTCLSystemsBlockVoidSystem = (PTCLSystemsResultSystem) -> Void
+// Protocol Block Types
+public typealias WKRPTCLSystemsBlockArraySystem = (WKRPTCLSystemsResultArraySystem) -> Void
+public typealias WKRPTCLSystemsBlockArraySystemEndPoint = (WKRPTCLSystemsResultArraySystemEndPoint) -> Void
+public typealias WKRPTCLSystemsBlockArraySystemState = (WKRPTCLSystemsResultArraySystemState) -> Void
+//
+public typealias WKRPTCLSystemsBlockSystem = (WKRPTCLSystemsResultSystem) -> Void
 
 public struct PTCLSystemsData {
     public enum Result: String {
@@ -80,49 +84,49 @@ public struct PTCLSystemsData {
     }
 }
 
-public protocol PTCLSystems: PTCLProtocolBase {
-    var callNextWhen: PTCLProtocol.Call.NextWhen { get }
-    var nextWorker: PTCLSystems? { get }
+public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
+    var callNextWhen: WKRPTCLWorker.Call.NextWhen { get }
+    var nextWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: PTCLSystems,
-                  for callNextWhen: PTCLProtocol.Call.NextWhen)
+    func register(nextWorker: WKRPTCLSystems,
+                  for callNextWhen: WKRPTCLWorker.Call.NextWhen)
     
     // MARK: - Business Logic / Single Item CRUD
     func doLoadSystem(for id: String,
-                      with progress: PTCLProgressBlock?,
-                      and block: PTCLSystemsBlockVoidSystem?) throws
+                      with progress: WKRPTCLProgressBlock?,
+                      and block: WKRPTCLSystemsBlockSystem?) throws
     func doLoadEndPoints(for system: DAOSystem,
-                         with progress: PTCLProgressBlock?,
-                         and block: PTCLSystemsBlockVoidArraySystemEndPoint?) throws
+                         with progress: WKRPTCLProgressBlock?,
+                         and block: WKRPTCLSystemsBlockArraySystemEndPoint?) throws
     func doLoadHistory(for system: DAOSystem,
                        since time: Date,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLSystemsBlockVoidArraySystemState?) throws
+                       with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLSystemsBlockArraySystemState?) throws
     func doLoadHistory(for endPoint: DAOSystemEndPoint,
                        since time: Date,
                        include failureCodes: Bool,
-                       with progress: PTCLProgressBlock?,
-                       and block: PTCLSystemsBlockVoidArraySystemState?) throws
-    func doLoadSystems(with progress: PTCLProgressBlock?,
-                       and block: PTCLSystemsBlockVoidArraySystem?) throws
+                       with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLSystemsBlockArraySystemState?) throws
+    func doLoadSystems(with progress: WKRPTCLProgressBlock?,
+                       and block: WKRPTCLSystemsBlockArraySystem?) throws
     func doOverride(system: DAOSystem,
                     with state: DNSSystemState,
-                    with progress: PTCLProgressBlock?,
-                    and block: PTCLSystemsBlockVoidSystem?) throws
+                    with progress: WKRPTCLProgressBlock?,
+                    and block: WKRPTCLSystemsBlockSystem?) throws
     func doReport(result: PTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doReport(result: PTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
     func doReport(result: PTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: PTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
 }
