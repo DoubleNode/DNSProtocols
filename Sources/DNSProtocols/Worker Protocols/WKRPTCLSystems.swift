@@ -77,7 +77,7 @@ public typealias WKRPTCLSystemsBlockArraySystemState = (WKRPTCLSystemsResultArra
 //
 public typealias WKRPTCLSystemsBlockSystem = (WKRPTCLSystemsResultSystem) -> Void
 
-public struct PTCLSystemsData {
+public struct WKRPTCLSystemsData {
     public enum Result: String {
         case failure
         case success
@@ -114,16 +114,16 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
                     with state: DNSSystemState,
                     with progress: WKRPTCLProgressBlock?,
                     and block: WKRPTCLSystemsBlockSystem?) throws
-    func doReport(result: PTCLSystemsData.Result,
+    func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
                   with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doReport(result: PTCLSystemsData.Result,
+    func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
                   and endPointId: String,
                   with progress: WKRPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
-    func doReport(result: PTCLSystemsData.Result,
+    func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
