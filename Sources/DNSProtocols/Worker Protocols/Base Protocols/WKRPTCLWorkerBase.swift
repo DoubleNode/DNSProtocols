@@ -11,7 +11,7 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias WorkerProtocol = WKRPTCLWorkerBaseError
+    typealias WorkerBase = WKRPTCLWorkerBaseError
 }
 public enum WKRPTCLWorkerBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)

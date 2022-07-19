@@ -10,7 +10,7 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias SystemProtocol = SYSPTCLSystemBaseError
+    typealias SystemBase = SYSPTCLSystemBaseError
 }
 public enum SYSPTCLSystemBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)

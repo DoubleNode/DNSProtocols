@@ -12,7 +12,7 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Network = NETPTCLNetworkBaseError
+    typealias NetworkBase = NETPTCLNetworkBaseError
 }
 public enum NETPTCLNetworkBaseError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)

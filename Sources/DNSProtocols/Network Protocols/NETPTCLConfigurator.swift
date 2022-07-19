@@ -11,8 +11,61 @@ import DNSCoreThreading
 import DNSError
 import Foundation
 
-public protocol NETPTCLConfigurator: NETPTCLNetworkBase {
-    func restHeaders() -> HTTPHeaders
+public extension DNSError {
+    typealias NetworkConfigurator = NETPTCLConfiguratorError
+}
+public enum NETPTCLConfiguratorError: DNSError {
+    case unknown(_ codeLocation: DNSCodeLocation)
+    case notImplemented(_ codeLocation: DNSCodeLocation)
 
+    public static let domain = "NETCONFIG"
+    public enum Code: Int {
+        case unknown = 1001
+        case notImplemented = 1002
+    }
+
+    public var nsError: NSError! {
+        switch self {
+        case .unknown(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
+        case .notImplemented(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
+        }
+    }
+    public var errorDescription: String? {
+        return self.errorString
+    }
+    public var errorString: String {
+        switch self {
+        case .unknown:
+            return String(format: NSLocalizedString("NETCONFIG-Unknown Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
+        case .notImplemented:
+            return String(format: NSLocalizedString("NETCONFIG-Not Implemented%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        }
+    }
+    public var failureReason: String? {
+        switch self {
+        case .unknown(let codeLocation):
+            return codeLocation.failureReason
+        case .notImplemented(let codeLocation):
+            return codeLocation.failureReason
+        }
+    }
+}
+
+public protocol NETPTCLConfigurator: NETPTCLNetworkBase {
     init()
+
+    // MARK: - Worker Logic (Public) -
+    func restHeaders() throws -> HTTPHeaders
 }
