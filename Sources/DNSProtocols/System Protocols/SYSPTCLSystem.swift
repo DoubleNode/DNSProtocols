@@ -65,8 +65,5 @@ public enum SYSPTCLSystemError: DNSError {
 }
 
 public protocol SYSPTCLSystem: SYSPTCLSystemBase {
-    var nextSystem: SYSPTCLSystem? { get }
-
     init()
-    init(nextSystem: SYSPTCLSystem)
 }
