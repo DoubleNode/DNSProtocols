@@ -385,6 +385,7 @@ public struct WKRPTCLValidationData {
 
 public protocol WKRPTCLValidation: WKRPTCLWorkerBase {
     typealias Data = WKRPTCLValidationData
+    typealias Config = Data.Config
 
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLValidation? { get }
@@ -396,27 +397,27 @@ public protocol WKRPTCLValidation: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doValidateBirthdate(for birthdate: Date?,
-                             with config: WKRPTCLValidation.Data.Config.Birthdate) throws -> DNSError.Validation?
+                             with config: Config.Birthdate) throws -> DNSError.Validation?
     func doValidateCalendarDate(for calendarDate: Date?,
-                                with config: WKRPTCLValidation.Data.Config.CalendarDate) throws -> DNSError.Validation?
+                                with config: Config.CalendarDate) throws -> DNSError.Validation?
     func doValidateEmail(for email: String?,
-                         with config: WKRPTCLValidation.Data.Config.Email) throws -> DNSError.Validation?
+                         with config: Config.Email) throws -> DNSError.Validation?
     func doValidateHandle(for handle: String?,
-                          with config: WKRPTCLValidation.Data.Config.Handle) throws -> DNSError.Validation?
+                          with config: Config.Handle) throws -> DNSError.Validation?
     func doValidateName(for name: String?,
-                        with config: WKRPTCLValidation.Data.Config.Name) throws -> DNSError.Validation?
+                        with config: Config.Name) throws -> DNSError.Validation?
     func doValidateNumber(for numberString: String?,
-                          with config: WKRPTCLValidation.Data.Config.Number) throws -> DNSError.Validation?
+                          with config: Config.Number) throws -> DNSError.Validation?
     func doValidatePassword(for password: String?,
-                            with config: WKRPTCLValidation.Data.Config.Password) throws -> DNSError.Validation?
+                            with config: Config.Password) throws -> DNSError.Validation?
     func doValidatePercentage(for percentageString: String?,
-                              with config: WKRPTCLValidation.Data.Config.Percentage) throws -> DNSError.Validation?
+                              with config: Config.Percentage) throws -> DNSError.Validation?
     func doValidatePhone(for phone: String?,
-                         with config: WKRPTCLValidation.Data.Config.Phone) throws -> DNSError.Validation?
+                         with config: Config.Phone) throws -> DNSError.Validation?
     func doValidateSearch(for search: String?,
-                          with config: WKRPTCLValidation.Data.Config.Search) throws -> DNSError.Validation?
+                          with config: Config.Search) throws -> DNSError.Validation?
     func doValidateState(for state: String?,
-                         with config: WKRPTCLValidation.Data.Config.State) throws -> DNSError.Validation?
+                         with config: Config.State) throws -> DNSError.Validation?
     func doValidateUnsignedNumber(for numberString: String?,
-                                  with config: WKRPTCLValidation.Data.Config.UnsignedNumber) throws -> DNSError.Validation?
+                                  with config: Config.UnsignedNumber) throws -> DNSError.Validation?
 }

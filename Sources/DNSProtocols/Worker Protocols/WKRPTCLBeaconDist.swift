@@ -1,5 +1,5 @@
 //
-//  WKRPTCLBeaconDistances.swift
+//  WKRPTCLBeaconDist.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -13,9 +13,9 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias BeaconDistances = WKRPTCLBeaconDistancesError
+    typealias BeaconDist = WKRPTCLBeaconDistError
 }
-public enum WKRPTCLBeaconDistancesError: DNSError {
+public enum WKRPTCLBeaconDistError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
@@ -64,11 +64,11 @@ public enum WKRPTCLBeaconDistancesError: DNSError {
 }
 
 // Protocol Result Types
-public typealias WKRPTCLBeaconDistancesResultArrayBeaconDistance = Result<[DNSBeaconDistance], Error>
+public typealias WKRPTCLBeaconDistResABeaconDistance = Result<[DNSBeaconDistance], Error>
 //
 
 // Protocol Block Types
-public typealias WKRPTCLBeaconDistancesBlockArrayBeaconDistance = (WKRPTCLBeaconDistancesResultArrayBeaconDistance) -> Void
+public typealias WKRPTCLBeaconDistBlkABeaconDistance = (WKRPTCLBeaconDistResABeaconDistance) -> Void
 //
 
 public protocol WKRPTCLBeaconDistances: WKRPTCLWorkerBase {
@@ -82,8 +82,8 @@ public protocol WKRPTCLBeaconDistances: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doLoadBeaconDistances(with progress: DNSPTCLProgressBlock?,
-                               and block: WKRPTCLBeaconDistancesBlockArrayBeaconDistance?) throws
+                               and block: WKRPTCLBeaconDistBlkABeaconDistance?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadBeaconDistances(with block: WKRPTCLBeaconDistancesBlockArrayBeaconDistance?) throws
+    func doLoadBeaconDistances(with block: WKRPTCLBeaconDistBlkABeaconDistance?) throws
 }

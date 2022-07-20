@@ -65,11 +65,11 @@ public enum WKRPTCLAppEventsError: DNSError {
 }
 
 // Protocol Result Types
-public typealias WKRPTCLAppEventsResultArrayAppEvent = Result<[DAOAppEvent], Error>
+public typealias WKRPTCLAppEventsResAAppEvent = Result<[DAOAppEvent], Error>
 //
 
 // Protocol Block Types
-public typealias WKRPTCLAppEventsBlockArrayAppEvent = (WKRPTCLAppEventsResultArrayAppEvent) -> Void
+public typealias WKRPTCLAppEventsBlkAAppEvent = (WKRPTCLAppEventsResAAppEvent) -> Void
 //
 
 public protocol WKRPTCLAppEvents: WKRPTCLWorkerBase {
@@ -83,8 +83,8 @@ public protocol WKRPTCLAppEvents: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doLoadAppEvents(with progress: DNSPTCLProgressBlock?,
-                         and block: WKRPTCLAppEventsBlockArrayAppEvent?) throws
+                         and block: WKRPTCLAppEventsBlkAAppEvent?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadAppEvents(with block: WKRPTCLAppEventsBlockArrayAppEvent?) throws
+    func doLoadAppEvents(with block: WKRPTCLAppEventsBlkAAppEvent?) throws
 }

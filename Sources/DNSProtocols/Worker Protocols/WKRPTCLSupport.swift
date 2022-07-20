@@ -100,6 +100,11 @@ public struct WKRPTCLSupportAttachment: Hashable {
     }
 }
 
+// Protocol Publisher Types
+public typealias WKRPTCLSupportPubAttachment = AnyPublisher<WKRPTCLSupportAttachment, Error>
+public typealias WKRPTCLSupportPubBool = AnyPublisher<Bool, Error>
+public typealias WKRPTCLSupportPubInt = AnyPublisher<Data, Error>
+
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLSupport? { get }
@@ -110,22 +115,22 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
-    func doGetUpdatedCount(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Int, Error>
+    func doGetUpdatedCount(with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubInt
     func doPrepare(attachment image: UIImage,
-                   with progress: DNSPTCLProgressBlock?) -> AnyPublisher<WKRPTCLSupportAttachment, Error>
+                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubAttachment
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
                        attachments: [WKRPTCLSupportAttachment],
                        properties: [String: String],
-                       with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubBool
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doGetUpdatedCount() -> AnyPublisher<Int, Error>
-    func doPrepare(attachment image: UIImage) -> AnyPublisher<WKRPTCLSupportAttachment, Error>
+    func doGetUpdatedCount() -> WKRPTCLSupportPubInt
+    func doPrepare(attachment image: UIImage) -> WKRPTCLSupportPubAttachment
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
                        attachments: [WKRPTCLSupportAttachment],
-                       properties: [String: String]) -> AnyPublisher<Bool, Error>
+                       properties: [String: String]) -> WKRPTCLSupportPubBool
 }

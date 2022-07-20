@@ -76,13 +76,13 @@ public enum WKRPTCLUsersError: DNSError {
 
 // Protocol Result Types
 //
-public typealias WKRPTCLUsersResultBool = Result<Bool, Error>
-public typealias WKRPTCLUsersResultUser = Result<DAOUser?, Error>
+public typealias WKRPTCLUsersResBool = Result<Bool, Error>
+public typealias WKRPTCLUsersResUser = Result<DAOUser?, Error>
 
 // Protocol Block Types
 //
-public typealias WKRPTCLUsersBlockBool = (WKRPTCLUsersResultBool) -> Void
-public typealias WKRPTCLUsersBlockUser = (WKRPTCLUsersResultUser) -> Void
+public typealias WKRPTCLUsersBlkBool = (WKRPTCLUsersResBool) -> Void
+public typealias WKRPTCLUsersBlkUser = (WKRPTCLUsersResUser) -> Void
 
 public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -94,26 +94,26 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doLoadCurrentUser(with progress: DNSPTCLProgressBlock?,
-                           and block: WKRPTCLUsersBlockUser?) throws
+                           and block: WKRPTCLUsersBlkUser?) throws
     func doLoadUser(for id: String,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLUsersBlockUser?) throws
+                    and block: WKRPTCLUsersBlkUser?) throws
     func doRemoveCurrentUser(with progress: DNSPTCLProgressBlock?,
-                             and block: WKRPTCLUsersBlockBool?) throws
+                             and block: WKRPTCLUsersBlkBool?) throws
     func doRemove(_ user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLUsersBlockBool?) throws
+                  and block: WKRPTCLUsersBlkBool?) throws
     func doUpdate(_ user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLUsersBlockBool?) throws
+                  and block: WKRPTCLUsersBlkBool?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadCurrentUser(with block: WKRPTCLUsersBlockUser?) throws
+    func doLoadCurrentUser(with block: WKRPTCLUsersBlkUser?) throws
     func doLoadUser(for id: String,
-                    with progress: WKRPTCLUsersBlockUser?) throws
-    func doRemoveCurrentUser(with block: WKRPTCLUsersBlockBool?) throws
+                    with progress: WKRPTCLUsersBlkUser?) throws
+    func doRemoveCurrentUser(with block: WKRPTCLUsersBlkBool?) throws
     func doRemove(_ user: DAOUser,
-                  with block: WKRPTCLUsersBlockBool?) throws
+                  with block: WKRPTCLUsersBlkBool?) throws
     func doUpdate(_ user: DAOUser,
-                  with block: WKRPTCLUsersBlockBool?) throws
+                  with block: WKRPTCLUsersBlkBool?) throws
 }

@@ -63,11 +63,11 @@ public enum WKRPTCLCmsError: DNSError {
 }
 
 // Protocol Result Types
-public typealias WKRPTCLCmsResultArrayAny = Result<[Any], Error>
+public typealias WKRPTCLCmsResAAny = Result<[Any], Error>
 //
 
 // Protocol Block Types
-public typealias WKRPTCLCmsBlockArrayAny = (WKRPTCLCmsResultArrayAny) -> Void
+public typealias WKRPTCLCmsBlkAAny = (WKRPTCLCmsResAAny) -> Void
 //
 
 public protocol WKRPTCLCms: WKRPTCLWorkerBase {
@@ -82,9 +82,9 @@ public protocol WKRPTCLCms: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoad(for group: String,
                 with progress: DNSPTCLProgressBlock?,
-                and block: WKRPTCLCmsBlockArrayAny?) throws
+                and block: WKRPTCLCmsBlkAAny?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doLoad(for group: String,
-                with block: WKRPTCLCmsBlockArrayAny?) throws
+                with block: WKRPTCLCmsBlkAAny?) throws
 }

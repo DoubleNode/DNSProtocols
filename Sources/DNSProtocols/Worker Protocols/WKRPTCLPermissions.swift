@@ -61,11 +61,11 @@ public enum WKRPTCLPermissionsError: DNSError {
     }
 }
 
-public typealias WKRPTCLPermissionsResultArrayPermissionAction = Result<[WKRPTCLPermissionAction], Error>
-public typealias WKRPTCLPermissionsResultPermissionAction = Result<WKRPTCLPermissionAction, Error>
+public typealias WKRPTCLPermissionsResAAction = Result<[WKRPTCLPermissionAction], Error>
+public typealias WKRPTCLPermissionsResAction = Result<WKRPTCLPermissionAction, Error>
 
-public typealias WKRPTCLPermissionsBlockArrayPermissionAction = (WKRPTCLPermissionsResultArrayPermissionAction) -> Void
-public typealias WKRPTCLPermissionsBlockPermissionAction = (WKRPTCLPermissionsResultPermissionAction) -> Void
+public typealias WKRPTCLPermissionsBlkAAction = (WKRPTCLPermissionsResAAction) -> Void
+public typealias WKRPTCLPermissionsBlkAction = (WKRPTCLPermissionsResAction) -> Void
 
 public enum WKRPTCLPermissionsData {
     public enum Action: String, Codable {
@@ -161,27 +161,27 @@ public protocol WKRPTCLPermissions: WKRPTCLWorkerBase {
     func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
                    _ permission: WKRPTCLPermissions.Data.System,
                    with progress: DNSPTCLProgressBlock?,
-                   and block: WKRPTCLPermissionsBlockPermissionAction?) throws
+                   and block: WKRPTCLPermissionsBlkAction?) throws
     func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
                    _ permissions: [WKRPTCLPermissions.Data.System],
                    with progress: DNSPTCLProgressBlock?,
-                   and block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
+                   and block: WKRPTCLPermissionsBlkAAction?) throws
     func doStatus(of permissions: [WKRPTCLPermissions.Data.System],
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
+                  and block: WKRPTCLPermissionsBlkAAction?) throws
     func doWait(for permission: WKRPTCLPermissions.Data.System,
                 with progress: DNSPTCLProgressBlock?,
-                and block: WKRPTCLPermissionsBlockPermissionAction?) throws
+                and block: WKRPTCLPermissionsBlkAction?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
                    _ permission: WKRPTCLPermissions.Data.System,
-                   with block: WKRPTCLPermissionsBlockPermissionAction?) throws
+                   with block: WKRPTCLPermissionsBlkAction?) throws
     func doRequest(_ desire: WKRPTCLPermissions.Data.Desire,
                    _ permissions: [WKRPTCLPermissions.Data.System],
-                   with block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
+                   with block: WKRPTCLPermissionsBlkAAction?) throws
     func doStatus(of permissions: [WKRPTCLPermissions.Data.System],
-                  with block: WKRPTCLPermissionsBlockArrayPermissionAction?) throws
+                  with block: WKRPTCLPermissionsBlkAAction?) throws
     func doWait(for permission: WKRPTCLPermissions.Data.System,
-                with block: WKRPTCLPermissionsBlockPermissionAction?) throws
+                with block: WKRPTCLPermissionsBlkAction?) throws
 }

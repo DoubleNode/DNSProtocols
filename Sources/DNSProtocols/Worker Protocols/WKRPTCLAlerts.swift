@@ -64,27 +64,31 @@ public enum WKRPTCLAlertsError: DNSError {
     }
 }
 
+// Protocol Publisher Types
+public typealias WKRPTCLAlertsPubAAlert = AnyPublisher<[DAOAlert], Error>
+//
+
 public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAlerts? { get }
     var systemsWorker: WKRPTCLSystems? { get }
-
+    
     init()
     func register(nextWorker: WKRPTCLAlerts,
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
-
+    
     // MARK: - Worker Logic (Public) -
     func doLoadAlerts(for center: DAOCenter,
-                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts(for district: DAODistrict,
-                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
+                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts(for region: DAORegion,
-                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(with progress: DNSPTCLProgressBlock?) -> AnyPublisher<[DAOAlert], Error>
-
+                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
+    func doLoadAlerts(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
+    
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadAlerts(for center: DAOCenter) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(for district: DAODistrict) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts(for region: DAORegion) -> AnyPublisher<[DAOAlert], Error>
-    func doLoadAlerts() -> AnyPublisher<[DAOAlert], Error>
+    func doLoadAlerts(for center: DAOCenter) -> WKRPTCLAlertsPubAAlert
+    func doLoadAlerts(for district: DAODistrict) -> WKRPTCLAlertsPubAAlert
+    func doLoadAlerts(for region: DAORegion) -> WKRPTCLAlertsPubAAlert
+    func doLoadAlerts() -> WKRPTCLAlertsPubAAlert
 }

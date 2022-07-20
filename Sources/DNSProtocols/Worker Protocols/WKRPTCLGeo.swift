@@ -1,5 +1,5 @@
 //
-//  WKRPTCLGeolocation.swift
+//  WKRPTCLGeo.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,9 +12,9 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias Geolocation = WKRPTCLGeolocationError
+    typealias Geo = WKRPTCLGeoError
 }
-public enum WKRPTCLGeolocationError: DNSError {
+public enum WKRPTCLGeoError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case denied(_ codeLocation: DNSCodeLocation)
@@ -90,31 +90,31 @@ public enum WKRPTCLGeolocationError: DNSError {
 
 // Protocol Result Types
 //
-public typealias WKRPTCLGeolocationResultString = Result<String, Error>
+public typealias WKRPTCLGeoResString = Result<String, Error>
 
 // Protocol Block Types
 //
-public typealias WKRPTCLGeolocationBlockString = (WKRPTCLGeolocationResultString) -> Void
+public typealias WKRPTCLGeoBlkString = (WKRPTCLGeoResString) -> Void
 
-public protocol WKRPTCLGeolocation: WKRPTCLWorkerBase {
+public protocol WKRPTCLGeo: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLGeolocation? { get }
+    var nextWorker: WKRPTCLGeo? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: WKRPTCLGeolocation,
+    func register(nextWorker: WKRPTCLGeo,
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
     func doLocate(with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLGeolocationBlockString?) throws
+                  and block: WKRPTCLGeoBlkString?) throws
     func doStopTrackLocation(for processKey: String) throws
     func doTrackLocation(for processKey: String,
                          with progress: DNSPTCLProgressBlock?,
-                         and block: WKRPTCLGeolocationBlockString?) throws
+                         and block: WKRPTCLGeoBlkString?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLocate(with block: WKRPTCLGeolocationBlockString?) throws
+    func doLocate(with block: WKRPTCLGeoBlkString?) throws
     func doTrackLocation(for processKey: String,
-                         with block: WKRPTCLGeolocationBlockString?) throws
+                         with block: WKRPTCLGeoBlkString?) throws
 }

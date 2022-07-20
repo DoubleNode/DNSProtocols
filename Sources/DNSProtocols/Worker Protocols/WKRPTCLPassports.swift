@@ -77,6 +77,9 @@ public enum WKRPTCLPassportsError: DNSError {
     }
 }
 
+// Protocol Publisher Types
+public typealias WKRPTCLPassportsPubData = AnyPublisher<Data, Error>
+
 public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPassports? { get }
@@ -90,10 +93,10 @@ public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
     func doBuildPassport(ofType passportType: String,
                          using data: [String: String],
                          for account: DAOAccount,
-                         with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Data, Error>
+                         with progress: DNSPTCLProgressBlock?) -> WKRPTCLPassportsPubData
 
     // MARK: - Worker Logic (Shortcuts) -
     func doBuildPassport(ofType passportType: String,
                          using data: [String: String],
-                         for account: DAOAccount) -> AnyPublisher<Data, Error>
+                         for account: DAOAccount) -> WKRPTCLPassportsPubData
 }

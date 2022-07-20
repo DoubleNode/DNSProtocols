@@ -64,18 +64,18 @@ public enum WKRPTCLActivityTypesError: DNSError {
 }
 
 // Protocol Result Types
-public typealias WKRPTCLActivityTypesResultArrayActivityType = Result<[DAOActivityType], Error>
+public typealias WKRPTCLActivityTypesResAActivityType = Result<[DAOActivityType], Error>
 //
-public typealias WKRPTCLActivityTypesResultBool = Result<Bool, Error>
-public typealias WKRPTCLActivityTypesResultVoid = Result<Void, Error>
-public typealias WKRPTCLActivityTypesResultActivityType = Result<DAOActivityType?, Error>
+public typealias WKRPTCLActivityTypesResBool = Result<Bool, Error>
+public typealias WKRPTCLActivityTypesResVoid = Result<Void, Error>
+public typealias WKRPTCLActivityTypesResActivityType = Result<DAOActivityType?, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLActivityTypesBlockArrayActivityType = (WKRPTCLActivityTypesResultArrayActivityType) -> Void
+public typealias WKRPTCLActivityTypesBlkAActivityType = (WKRPTCLActivityTypesResAActivityType) -> Void
 //
-public typealias WKRPTCLActivityTypesBlockBool = (WKRPTCLActivityTypesResultBool) -> Void
-public typealias WKRPTCLActivityTypesBlockVoid = (WKRPTCLActivityTypesResultVoid) -> Void
-public typealias WKRPTCLActivityTypesBlockActivityType = (WKRPTCLActivityTypesResultActivityType) -> Void
+public typealias WKRPTCLActivityTypesBlkBool = (WKRPTCLActivityTypesResBool) -> Void
+public typealias WKRPTCLActivityTypesBlkVoid = (WKRPTCLActivityTypesResVoid) -> Void
+public typealias WKRPTCLActivityTypesBlkActivityType = (WKRPTCLActivityTypesResActivityType) -> Void
 
 public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -90,37 +90,37 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     func doFavorite(_ activityType: DAOActivityType,
                     for user: DAOUser,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLActivityTypesBlockVoid?) throws
+                    and block: WKRPTCLActivityTypesBlkVoid?) throws
     func doIsFavorited(_ activityType: DAOActivityType,
                        for user: DAOUser,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLActivityTypesBlockBool?) throws
+                       and block: WKRPTCLActivityTypesBlkBool?) throws
     func doLoadActivityType(for code: String,
                             with progress: DNSPTCLProgressBlock?,
-                            and block: WKRPTCLActivityTypesBlockActivityType?) throws
+                            and block: WKRPTCLActivityTypesBlkActivityType?) throws
     func doLoadActivityTypes(with progress: DNSPTCLProgressBlock?,
-                             and block: WKRPTCLActivityTypesBlockArrayActivityType?) throws
+                             and block: WKRPTCLActivityTypesBlkAActivityType?) throws
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLActivityTypesBlockVoid?) throws
+                      and block: WKRPTCLActivityTypesBlkVoid?) throws
     func doUpdate(_ activityType: DAOActivityType,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLActivityTypesBlockBool?) throws
+                  and block: WKRPTCLActivityTypesBlkBool?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
     func doFavorite(_ activityType: DAOActivityType,
                     for user: DAOUser,
-                    with block: WKRPTCLActivityTypesBlockVoid?) throws
+                    with block: WKRPTCLActivityTypesBlkVoid?) throws
     func doIsFavorited(_ activityType: DAOActivityType,
                        for user: DAOUser,
-                       with block: WKRPTCLActivityTypesBlockBool?) throws
+                       with block: WKRPTCLActivityTypesBlkBool?) throws
     func doLoadActivityType(for code: String,
-                            with block: WKRPTCLActivityTypesBlockActivityType?) throws
-    func doLoadActivityTypes(with block: WKRPTCLActivityTypesBlockArrayActivityType?) throws
+                            with block: WKRPTCLActivityTypesBlkActivityType?) throws
+    func doLoadActivityTypes(with block: WKRPTCLActivityTypesBlkAActivityType?) throws
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
-                      with block: WKRPTCLActivityTypesBlockVoid?) throws
+                      with block: WKRPTCLActivityTypesBlkVoid?) throws
     func doUpdate(_ activityType: DAOActivityType,
-                  with block: WKRPTCLActivityTypesBlockBool?) throws
+                  with block: WKRPTCLActivityTypesBlkBool?) throws
 }

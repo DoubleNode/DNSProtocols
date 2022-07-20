@@ -77,23 +77,26 @@ public enum WKRPTCLCentersError: DNSError {
     }
 }
 
+// Protocol Publisher Types
+public typealias WKRPTCLCentersPubAlertEventStatus = AnyPublisher<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
+
 // Protocol Result Types
-public typealias WKRPTCLCentersResultArrayCenter = Result<[DAOCenter], Error>
-public typealias WKRPTCLCentersResultArrayCenterHoliday = Result<([DAOCenterHoliday]), Error>
-public typealias WKRPTCLCentersResultArrayCenterState = Result<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
+public typealias WKRPTCLCentersResACenter = Result<[DAOCenter], Error>
+public typealias WKRPTCLCentersResACenterHoliday = Result<([DAOCenterHoliday]), Error>
+public typealias WKRPTCLCentersResACenterState = Result<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
 //
-public typealias WKRPTCLCentersResultBool = Result<Bool, Error>
-public typealias WKRPTCLCentersResultCenter = Result<DAOCenter?, Error>
-public typealias WKRPTCLCentersResultCenterHours = Result<DAOCenterHours?, Error>
+public typealias WKRPTCLCentersResBool = Result<Bool, Error>
+public typealias WKRPTCLCentersResCenter = Result<DAOCenter?, Error>
+public typealias WKRPTCLCentersResCenterHours = Result<DAOCenterHours?, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLCentersBlockArrayCenter = (WKRPTCLCentersResultArrayCenter) -> Void
-public typealias WKRPTCLCentersBlockArrayCenterHoliday = (WKRPTCLCentersResultArrayCenterHoliday) -> Void
-public typealias WKRPTCLCentersBlockArrayCenterState = (WKRPTCLCentersResultArrayCenterState) -> Void
+public typealias WKRPTCLCentersBlkACenter = (WKRPTCLCentersResACenter) -> Void
+public typealias WKRPTCLCentersBlkACenterHoliday = (WKRPTCLCentersResACenterHoliday) -> Void
+public typealias WKRPTCLCentersBlkACenterState = (WKRPTCLCentersResACenterState) -> Void
 //
-public typealias WKRPTCLCentersBlockBool = (WKRPTCLCentersResultBool) -> Void
-public typealias WKRPTCLCentersBlockCenter = (WKRPTCLCentersResultCenter) -> Void
-public typealias WKRPTCLCentersBlockCenterHours = (WKRPTCLCentersResultCenterHours) -> Void
+public typealias WKRPTCLCentersBlkBool = (WKRPTCLCentersResBool) -> Void
+public typealias WKRPTCLCentersBlkCenter = (WKRPTCLCentersResCenter) -> Void
+public typealias WKRPTCLCentersBlkCenterHours = (WKRPTCLCentersResCenterHours) -> Void
 
 public protocol WKRPTCLCenters: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -108,48 +111,48 @@ public protocol WKRPTCLCenters: WKRPTCLWorkerBase {
     func doFilterCenters(for activity: DAOActivity,
                          using centers: [DAOCenter],
                          with progress: DNSPTCLProgressBlock?,
-                         and block: WKRPTCLCentersBlockArrayCenter?) throws
+                         and block: WKRPTCLCentersBlkACenter?) throws
     func doLoadCenter(for centerCode: String,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLCentersBlockCenter?) throws
+                      and block: WKRPTCLCentersBlkCenter?) throws
     func doLoadCenters(with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLCentersBlockArrayCenter?) throws
+                       and block: WKRPTCLCentersBlkACenter?) throws
     func doLoadHolidays(for center: DAOCenter,
                         with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLCentersBlockArrayCenterHoliday?) throws
+                        and block: WKRPTCLCentersBlkACenterHoliday?) throws
     func doLoadHours(for center: DAOCenter,
                      with progress: DNSPTCLProgressBlock?,
-                     and block: WKRPTCLCentersBlockCenterHours?) throws
+                     and block: WKRPTCLCentersBlkCenterHours?) throws
     func doLoadState(for center: DAOCenter,
-                     with progress: DNSPTCLProgressBlock?) -> AnyPublisher<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
+                     with progress: DNSPTCLProgressBlock?) -> WKRPTCLCentersPubAlertEventStatus
     func doSearchCenter(for geohash: String,
                         with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLCentersBlockCenter?) throws
+                        and block: WKRPTCLCentersBlkCenter?) throws
     func doUpdate(_ center: DAOCenter,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCentersBlockBool?) throws
+                  and block: WKRPTCLCentersBlkBool?) throws
     func doUpdate(_ hours: DAOCenterHours,
                   for center: DAOCenter,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCentersBlockBool?) throws
+                  and block: WKRPTCLCentersBlkBool?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doFilterCenters(for activity: DAOActivity,
                          using centers: [DAOCenter],
-                         with block: WKRPTCLCentersBlockArrayCenter?) throws
+                         with block: WKRPTCLCentersBlkACenter?) throws
     func doLoadCenter(for centerCode: String,
-                      with block: WKRPTCLCentersBlockCenter?) throws
-    func doLoadCenters(with block: WKRPTCLCentersBlockArrayCenter?) throws
+                      with block: WKRPTCLCentersBlkCenter?) throws
+    func doLoadCenters(with block: WKRPTCLCentersBlkACenter?) throws
     func doLoadHolidays(for center: DAOCenter,
-                        with block: WKRPTCLCentersBlockArrayCenterHoliday?) throws
+                        with block: WKRPTCLCentersBlkACenterHoliday?) throws
     func doLoadHours(for center: DAOCenter,
-                     with block: WKRPTCLCentersBlockCenterHours?) throws
-    func doLoadState(for center: DAOCenter) -> AnyPublisher<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
+                     with block: WKRPTCLCentersBlkCenterHours?) throws
+    func doLoadState(for center: DAOCenter) -> WKRPTCLCentersPubAlertEventStatus
     func doSearchCenter(for geohash: String,
-                        with block: WKRPTCLCentersBlockCenter?) throws
+                        with block: WKRPTCLCentersBlkCenter?) throws
     func doUpdate(_ center: DAOCenter,
-                  with block: WKRPTCLCentersBlockBool?) throws
+                  with block: WKRPTCLCentersBlkBool?) throws
     func doUpdate(_ hours: DAOCenterHours,
                   for center: DAOCenter,
-                  with block: WKRPTCLCentersBlockBool?) throws
+                  with block: WKRPTCLCentersBlkBool?) throws
 }

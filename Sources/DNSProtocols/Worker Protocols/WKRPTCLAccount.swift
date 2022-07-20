@@ -65,13 +65,13 @@ public enum WKRPTCLAccountError: DNSError {
 
 // Protocol Result Types
 //
-public typealias WKRPTCLAccountResultAccount = Result<DAOAccount?, Error>
-public typealias WKRPTCLAccountResultBool = Result<Bool, Error>
+public typealias WKRPTCLAccountResAccount = Result<DAOAccount?, Error>
+public typealias WKRPTCLAccountResBool = Result<Bool, Error>
 
 // Protocol Block Types
 //
-public typealias WKRPTCLAccountBlockAccount = (WKRPTCLAccountResultAccount) -> Void
-public typealias WKRPTCLAccountBlockBool = (WKRPTCLAccountResultBool) -> Void
+public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
+public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
 
 public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -85,14 +85,14 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadAccount(for user: DAOUser,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLAccountBlockAccount?) throws
+                       and block: WKRPTCLAccountBlkAccount?) throws
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLAccountBlockBool?) throws
+                  and block: WKRPTCLAccountBlkBool?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadAccount(for user: DAOUser,
-                       with block: WKRPTCLAccountBlockAccount?) throws
+                       with block: WKRPTCLAccountBlkAccount?) throws
     func doUpdate(account: DAOAccount,
-                  with block: WKRPTCLAccountBlockBool?) throws
+                  with block: WKRPTCLAccountBlkBool?) throws
 }

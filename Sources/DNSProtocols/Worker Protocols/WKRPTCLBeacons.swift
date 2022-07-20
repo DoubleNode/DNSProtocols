@@ -63,11 +63,11 @@ public enum WKRPTCLBeaconsError: DNSError {
 }
 
 // Protocol Result Types
-public typealias WKRPTCLBeaconsResultArrayBeacon = Result<[DAOBeacon], Error>
+public typealias WKRPTCLBeaconsResABeacon = Result<[DAOBeacon], Error>
 //
 
 // Protocol Block Types
-public typealias WKRPTCLBeaconsBlockArrayBeacon = (WKRPTCLBeaconsResultArrayBeacon) -> Void
+public typealias WKRPTCLBeaconsBlkABeacon = (WKRPTCLBeaconsResABeacon) -> Void
 //
 
 public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
@@ -82,24 +82,24 @@ public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadBeacons(in center: DAOCenter,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+                       and block: WKRPTCLBeaconsBlkABeacon?) throws
     func doLoadBeacons(in center: DAOCenter,
                        for activity: DAOActivity,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+                       and block: WKRPTCLBeaconsBlkABeacon?) throws
     func doRangeBeacons(named uuids: [UUID],
                         for processKey: String,
                         with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+                        and block: WKRPTCLBeaconsBlkABeacon?) throws
     func doStopRangeBeacons(for processKey: String) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadBeacons(in center: DAOCenter,
-                       with block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+                       with block: WKRPTCLBeaconsBlkABeacon?) throws
     func doLoadBeacons(in center: DAOCenter,
                        for activity: DAOActivity,
-                       with block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+                       with block: WKRPTCLBeaconsBlkABeacon?) throws
     func doRangeBeacons(named uuids: [UUID],
                         for processKey: String,
-                        with block: WKRPTCLBeaconsBlockArrayBeacon?) throws
+                        with block: WKRPTCLBeaconsBlkABeacon?) throws
 }

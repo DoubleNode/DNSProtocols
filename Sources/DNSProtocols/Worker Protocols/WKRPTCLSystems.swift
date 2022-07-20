@@ -63,19 +63,22 @@ public enum WKRPTCLSystemsError: DNSError {
     }
 }
 
+// Protocol Publisher Types
+public typealias WKRPTCLSystemsPubBool = AnyPublisher<Bool, Error>
+
 // Protocol Result Types
-public typealias WKRPTCLSystemsResultArraySystem = Result<[DAOSystem], Error>
-public typealias WKRPTCLSystemsResultArraySystemEndPoint = Result<[DAOSystemEndPoint], Error>
-public typealias WKRPTCLSystemsResultArraySystemState = Result<[DAOSystemState], Error>
+public typealias WKRPTCLSystemsResASystem = Result<[DAOSystem], Error>
+public typealias WKRPTCLSystemsResASystemEndPoint = Result<[DAOSystemEndPoint], Error>
+public typealias WKRPTCLSystemsResASystemState = Result<[DAOSystemState], Error>
 //
-public typealias WKRPTCLSystemsResultSystem = Result<DAOSystem?, Error>
+public typealias WKRPTCLSystemsResSystem = Result<DAOSystem?, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLSystemsBlockArraySystem = (WKRPTCLSystemsResultArraySystem) -> Void
-public typealias WKRPTCLSystemsBlockArraySystemEndPoint = (WKRPTCLSystemsResultArraySystemEndPoint) -> Void
-public typealias WKRPTCLSystemsBlockArraySystemState = (WKRPTCLSystemsResultArraySystemState) -> Void
+public typealias WKRPTCLSystemsBlkASystem = (WKRPTCLSystemsResASystem) -> Void
+public typealias WKRPTCLSystemsBlkASystemEndPoint = (WKRPTCLSystemsResASystemEndPoint) -> Void
+public typealias WKRPTCLSystemsBlkASystemState = (WKRPTCLSystemsResASystemState) -> Void
 //
-public typealias WKRPTCLSystemsBlockSystem = (WKRPTCLSystemsResultSystem) -> Void
+public typealias WKRPTCLSystemsBlkSystem = (WKRPTCLSystemsResSystem) -> Void
 
 public struct WKRPTCLSystemsData {
     public enum Result: String {
@@ -95,67 +98,67 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadSystem(for id: String,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLSystemsBlockSystem?) throws
+                      and block: WKRPTCLSystemsBlkSystem?) throws
     func doLoadEndPoints(for system: DAOSystem,
                          with progress: DNSPTCLProgressBlock?,
-                         and block: WKRPTCLSystemsBlockArraySystemEndPoint?) throws
+                         and block: WKRPTCLSystemsBlkASystemEndPoint?) throws
     func doLoadHistory(for system: DAOSystem,
                        since time: Date,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLSystemsBlockArraySystemState?) throws
+                       and block: WKRPTCLSystemsBlkASystemState?) throws
     func doLoadHistory(for endPoint: DAOSystemEndPoint,
                        since time: Date,
                        include failureCodes: Bool,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLSystemsBlockArraySystemState?) throws
+                       and block: WKRPTCLSystemsBlkASystemState?) throws
     func doLoadSystems(with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLSystemsBlockArraySystem?) throws
+                       and block: WKRPTCLSystemsBlkASystem?) throws
     func doOverride(system: DAOSystem,
                     with state: DNSSystemState,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLSystemsBlockSystem?) throws
+                    and block: WKRPTCLSystemsBlkSystem?) throws
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubBool
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubBool
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubBool
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadSystem(for id: String,
-                      with block: WKRPTCLSystemsBlockSystem?) throws
+                      with block: WKRPTCLSystemsBlkSystem?) throws
     func doLoadEndPoints(for system: DAOSystem,
-                         with block: WKRPTCLSystemsBlockArraySystemEndPoint?) throws
+                         with block: WKRPTCLSystemsBlkASystemEndPoint?) throws
     func doLoadHistory(for system: DAOSystem,
                        since time: Date,
-                       with block: WKRPTCLSystemsBlockArraySystemState?) throws
+                       with block: WKRPTCLSystemsBlkASystemState?) throws
     func doLoadHistory(for endPoint: DAOSystemEndPoint,
                        since time: Date,
                        include failureCodes: Bool,
-                       with block: WKRPTCLSystemsBlockArraySystemState?) throws
-    func doLoadSystems(with block: WKRPTCLSystemsBlockArraySystem?) throws
+                       with block: WKRPTCLSystemsBlkASystemState?) throws
+    func doLoadSystems(with block: WKRPTCLSystemsBlkASystem?) throws
     func doOverride(system: DAOSystem,
                     with state: DNSSystemState,
-                    with block: WKRPTCLSystemsBlockSystem?) throws
+                    with block: WKRPTCLSystemsBlkSystem?) throws
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
-                  and endPointId: String) -> AnyPublisher<Bool, Error>
+                  and endPointId: String) -> WKRPTCLSystemsPubBool
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
-                  and endPointId: String) -> AnyPublisher<Bool, Error>
+                  and endPointId: String) -> WKRPTCLSystemsPubBool
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
-                  and endPointId: String) -> AnyPublisher<Bool, Error>
+                  and endPointId: String) -> WKRPTCLSystemsPubBool
 }

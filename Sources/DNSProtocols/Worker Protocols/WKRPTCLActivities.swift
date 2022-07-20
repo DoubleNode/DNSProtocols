@@ -64,16 +64,16 @@ public enum WKRPTCLActivitiesError: DNSError {
 }
 
 // Protocol Result Types
-public typealias WKRPTCLActivitiesResultArrayActivity = Result<[DAOActivity], Error>
+public typealias WKRPTCLActivitiesResAActivity = Result<[DAOActivity], Error>
 //
-public typealias WKRPTCLActivitiesResultActivity = Result<DAOActivity?, Error>
-public typealias WKRPTCLActivitiesResultBool = Result<Bool, Error>
+public typealias WKRPTCLActivitiesResActivity = Result<DAOActivity?, Error>
+public typealias WKRPTCLActivitiesResBool = Result<Bool, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLActivitiesBlockArrayActivity = (WKRPTCLActivitiesResultArrayActivity) -> Void
+public typealias WKRPTCLActivitiesBlkAActivity = (WKRPTCLActivitiesResAActivity) -> Void
 //
-public typealias WKRPTCLActivitiesBlockActivity = (WKRPTCLActivitiesResultActivity) -> Void
-public typealias WKRPTCLActivitiesBlockBool = (WKRPTCLActivitiesResultBool) -> Void
+public typealias WKRPTCLActivitiesBlkActivity = (WKRPTCLActivitiesResActivity) -> Void
+public typealias WKRPTCLActivitiesBlkBool = (WKRPTCLActivitiesResBool) -> Void
 
 public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -88,17 +88,17 @@ public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
     func doLoadActivities(for center: DAOCenter,
                           using activityTypes: [DAOActivityType],
                           with progress: DNSPTCLProgressBlock?,
-                          and block: WKRPTCLActivitiesBlockArrayActivity?) throws
+                          and block: WKRPTCLActivitiesBlkAActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
                   for center: DAOCenter,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLActivitiesBlockBool?) throws
+                  and block: WKRPTCLActivitiesBlkBool?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadActivities(for center: DAOCenter,
                           using activityTypes: [DAOActivityType],
-                          with block: WKRPTCLActivitiesBlockArrayActivity?) throws
+                          with block: WKRPTCLActivitiesBlkAActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
                   for center: DAOCenter,
-                  with block: WKRPTCLActivitiesBlockBool?) throws
+                  with block: WKRPTCLActivitiesBlkBool?) throws
 }

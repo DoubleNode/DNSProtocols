@@ -118,6 +118,12 @@ public enum WKRPTCLCacheError: DNSError {
     }
 }
 
+// Protocol Publisher Types
+public typealias WKRPTCLCachePubAny = AnyPublisher<Any, Error>
+public typealias WKRPTCLCachePubBool = AnyPublisher<Bool, Error>
+public typealias WKRPTCLCachePubImage = AnyPublisher<UIImage, Error>
+public typealias WKRPTCLCachePubString = AnyPublisher<String, Error>
+
 public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -130,24 +136,24 @@ public protocol WKRPTCLCache: WKRPTCLWorkerBase
 
     // MARK: - Worker Logic (Public) -
     func doDeleteObject(for id: String,
-                        with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Bool, Error>
+                        with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubBool
     func doLoadImage(from url: NSURL,
                      for id: String,
-                     with progress: DNSPTCLProgressBlock?) -> AnyPublisher<UIImage, Error>
+                     with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubImage
     func doReadObject(for id: String,
-                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubAny
     func doReadObject(for id: String,
-                      with progress: DNSPTCLProgressBlock?) -> AnyPublisher<String, Error>
+                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubString
     func doUpdate(object: Any,
                   for id: String,
-                  with progress: DNSPTCLProgressBlock?) -> AnyPublisher<Any, Error>
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubAny
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doDeleteObject(for id: String) -> AnyPublisher<Bool, Error>
+    func doDeleteObject(for id: String) -> WKRPTCLCachePubBool
     func doLoadImage(from url: NSURL,
-                     for id: String) -> AnyPublisher<UIImage, Error>
-    func doReadObject(for id: String) -> AnyPublisher<Any, Error>
-    func doReadObject(for id: String) -> AnyPublisher<String, Error>
+                     for id: String) -> WKRPTCLCachePubImage
+    func doReadObject(for id: String) -> WKRPTCLCachePubAny
+    func doReadObject(for id: String) -> WKRPTCLCachePubString
     func doUpdate(object: Any,
-                  for id: String) -> AnyPublisher<Any, Error>
+                  for id: String) -> WKRPTCLCachePubAny
 }
