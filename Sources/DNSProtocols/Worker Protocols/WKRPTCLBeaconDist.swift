@@ -72,13 +72,13 @@ public typealias WKRPTCLBeaconDistResABeaconDistance = Result<WKRPTCLBeaconDistR
 // Protocol Block Types
 public typealias WKRPTCLBeaconDistBlkABeaconDistance = (WKRPTCLBeaconDistResABeaconDistance) -> Void
 
-public protocol WKRPTCLBeaconDistances: WKRPTCLWorkerBase {
+public protocol WKRPTCLBeaconDist: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLBeaconDistances? { get }
+    var nextWorker: WKRPTCLBeaconDist? { get }
     var systemsWorker: WKRPTCLSystems? { get }
 
     init()
-    func register(nextWorker: WKRPTCLBeaconDistances,
+    func register(nextWorker: WKRPTCLBeaconDist,
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
