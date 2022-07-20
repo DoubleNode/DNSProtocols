@@ -88,12 +88,13 @@ public enum WKRPTCLGeoError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLGeoRtnString = String
+
 // Protocol Result Types
-//
-public typealias WKRPTCLGeoResString = Result<String, Error>
+public typealias WKRPTCLGeoResString = Result<WKRPTCLGeoRtnString, Error>
 
 // Protocol Block Types
-//
 public typealias WKRPTCLGeoBlkString = (WKRPTCLGeoResString) -> Void
 
 public protocol WKRPTCLGeo: WKRPTCLWorkerBase {

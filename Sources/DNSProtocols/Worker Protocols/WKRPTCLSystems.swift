@@ -63,22 +63,27 @@ public enum WKRPTCLSystemsError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLSystemsRtnBool = Bool
+public typealias WKRPTCLSystemsRtnASystem = [DAOSystem]
+public typealias WKRPTCLSystemsRtnSystem = DAOSystem?
+public typealias WKRPTCLSystemsRtnASystemEndPoint = [DAOSystemEndPoint]
+public typealias WKRPTCLSystemsRtnASystemState = [DAOSystemState]
+
 // Protocol Publisher Types
-public typealias WKRPTCLSystemsPubBool = AnyPublisher<Bool, Error>
+public typealias WKRPTCLSystemsPubBool = AnyPublisher<WKRPTCLSystemsRtnBool, Error>
 
 // Protocol Result Types
-public typealias WKRPTCLSystemsResASystem = Result<[DAOSystem], Error>
-public typealias WKRPTCLSystemsResASystemEndPoint = Result<[DAOSystemEndPoint], Error>
-public typealias WKRPTCLSystemsResASystemState = Result<[DAOSystemState], Error>
-//
-public typealias WKRPTCLSystemsResSystem = Result<DAOSystem?, Error>
+public typealias WKRPTCLSystemsResASystem = Result<WKRPTCLSystemsRtnASystem, Error>
+public typealias WKRPTCLSystemsResSystem = Result<WKRPTCLSystemsRtnSystem, Error>
+public typealias WKRPTCLSystemsResASystemEndPoint = Result<WKRPTCLSystemsRtnASystemEndPoint, Error>
+public typealias WKRPTCLSystemsResASystemState = Result<WKRPTCLSystemsRtnASystemState, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLSystemsBlkASystem = (WKRPTCLSystemsResASystem) -> Void
+public typealias WKRPTCLSystemsBlkSystem = (WKRPTCLSystemsResSystem) -> Void
 public typealias WKRPTCLSystemsBlkASystemEndPoint = (WKRPTCLSystemsResASystemEndPoint) -> Void
 public typealias WKRPTCLSystemsBlkASystemState = (WKRPTCLSystemsResASystemState) -> Void
-//
-public typealias WKRPTCLSystemsBlkSystem = (WKRPTCLSystemsResSystem) -> Void
 
 public struct WKRPTCLSystemsData {
     public enum Result: String {

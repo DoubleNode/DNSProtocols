@@ -63,13 +63,15 @@ public enum WKRPTCLAccountError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLAccountRtnAccount = DAOAccount?
+public typealias WKRPTCLAccountRtnBool = Bool
+
 // Protocol Result Types
-//
-public typealias WKRPTCLAccountResAccount = Result<DAOAccount?, Error>
-public typealias WKRPTCLAccountResBool = Result<Bool, Error>
+public typealias WKRPTCLAccountResAccount = Result<WKRPTCLAccountRtnAccount, Error>
+public typealias WKRPTCLAccountResBool = Result<WKRPTCLAccountRtnBool, Error>
 
 // Protocol Block Types
-//
 public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
 public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
 

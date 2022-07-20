@@ -94,8 +94,11 @@ public enum WKRPTCLUserIdentityError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLUserIdentityRtnBool = Bool
+
 // Protocol Publisher Types
-public typealias WKRPTCLUserIdentityPubBool = AnyPublisher<Bool, Error>
+public typealias WKRPTCLUserIdentityPubBool = AnyPublisher<WKRPTCLUserIdentityRtnBool, Error>
 
 public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

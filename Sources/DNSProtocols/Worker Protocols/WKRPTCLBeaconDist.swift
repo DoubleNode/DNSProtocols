@@ -63,13 +63,14 @@ public enum WKRPTCLBeaconDistError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLBeaconDistRtnABeaconDistance = [DNSBeaconDistance]
+
 // Protocol Result Types
-public typealias WKRPTCLBeaconDistResABeaconDistance = Result<[DNSBeaconDistance], Error>
-//
+public typealias WKRPTCLBeaconDistResABeaconDistance = Result<WKRPTCLBeaconDistRtnABeaconDistance, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLBeaconDistBlkABeaconDistance = (WKRPTCLBeaconDistResABeaconDistance) -> Void
-//
 
 public protocol WKRPTCLBeaconDistances: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

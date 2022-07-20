@@ -63,16 +63,19 @@ public enum WKRPTCLActivitiesError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLActivitiesRtnActivity = DAOActivity?
+public typealias WKRPTCLActivitiesRtnAActivity = [DAOActivity]
+public typealias WKRPTCLActivitiesRtnBool = Bool
+
 // Protocol Result Types
-public typealias WKRPTCLActivitiesResAActivity = Result<[DAOActivity], Error>
-//
-public typealias WKRPTCLActivitiesResActivity = Result<DAOActivity?, Error>
-public typealias WKRPTCLActivitiesResBool = Result<Bool, Error>
+public typealias WKRPTCLActivitiesResActivity = Result<WKRPTCLActivitiesRtnActivity, Error>
+public typealias WKRPTCLActivitiesResAActivity = Result<WKRPTCLActivitiesRtnAActivity, Error>
+public typealias WKRPTCLActivitiesResBool = Result<WKRPTCLActivitiesRtnBool, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLActivitiesBlkAActivity = (WKRPTCLActivitiesResAActivity) -> Void
-//
 public typealias WKRPTCLActivitiesBlkActivity = (WKRPTCLActivitiesResActivity) -> Void
+public typealias WKRPTCLActivitiesBlkAActivity = (WKRPTCLActivitiesResAActivity) -> Void
 public typealias WKRPTCLActivitiesBlkBool = (WKRPTCLActivitiesResBool) -> Void
 
 public protocol WKRPTCLActivities: WKRPTCLWorkerBase {

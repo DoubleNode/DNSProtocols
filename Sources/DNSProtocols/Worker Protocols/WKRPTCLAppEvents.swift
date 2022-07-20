@@ -64,13 +64,14 @@ public enum WKRPTCLAppEventsError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLAppEventsRtnAAppEvent = [DAOAppEvent]
+
 // Protocol Result Types
-public typealias WKRPTCLAppEventsResAAppEvent = Result<[DAOAppEvent], Error>
-//
+public typealias WKRPTCLAppEventsResAAppEvent = Result<WKRPTCLAppEventsRtnAAppEvent, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLAppEventsBlkAAppEvent = (WKRPTCLAppEventsResAAppEvent) -> Void
-//
 
 public protocol WKRPTCLAppEvents: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

@@ -77,8 +77,11 @@ public enum WKRPTCLPassportsError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLPassportsRtnData = Data
+
 // Protocol Publisher Types
-public typealias WKRPTCLPassportsPubData = AnyPublisher<Data, Error>
+public typealias WKRPTCLPassportsPubData = AnyPublisher<WKRPTCLPassportsRtnData, Error>
 
 public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

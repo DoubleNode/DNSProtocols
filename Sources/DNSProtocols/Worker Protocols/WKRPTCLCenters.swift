@@ -77,17 +77,25 @@ public enum WKRPTCLCentersError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLCentersRtnAlertEventStatus = ([DAOAlert], [DAOCenterEvent], [DAOCenterStatus])
+public typealias WKRPTCLCentersRtnBool = Bool
+public typealias WKRPTCLCentersRtnACenter = [DAOCenter]
+public typealias WKRPTCLCentersRtnCenter = DAOCenter?
+public typealias WKRPTCLCentersRtnACenterHoliday = [DAOCenterHoliday]
+public typealias WKRPTCLCentersRtnCenterHours = DAOCenterHours?
+public typealias WKRPTCLCentersRtnACenterState = ([DAOAlert], [DAOCenterEvent], [DAOCenterStatus])
+
 // Protocol Publisher Types
-public typealias WKRPTCLCentersPubAlertEventStatus = AnyPublisher<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
+public typealias WKRPTCLCentersPubAlertEventStatus = AnyPublisher<WKRPTCLCentersRtnAlertEventStatus, Error>
 
 // Protocol Result Types
-public typealias WKRPTCLCentersResACenter = Result<[DAOCenter], Error>
-public typealias WKRPTCLCentersResACenterHoliday = Result<([DAOCenterHoliday]), Error>
-public typealias WKRPTCLCentersResACenterState = Result<([DAOAlert], [DAOCenterEvent], [DAOCenterStatus]), Error>
-//
-public typealias WKRPTCLCentersResBool = Result<Bool, Error>
-public typealias WKRPTCLCentersResCenter = Result<DAOCenter?, Error>
-public typealias WKRPTCLCentersResCenterHours = Result<DAOCenterHours?, Error>
+public typealias WKRPTCLCentersResBool = Result<WKRPTCLCentersRtnBool, Error>
+public typealias WKRPTCLCentersResACenter = Result<WKRPTCLCentersRtnACenter, Error>
+public typealias WKRPTCLCentersResCenter = Result<WKRPTCLCentersRtnCenter, Error>
+public typealias WKRPTCLCentersResACenterHoliday = Result<WKRPTCLCentersRtnACenterHoliday, Error>
+public typealias WKRPTCLCentersResCenterHours = Result<WKRPTCLCentersRtnCenterHours, Error>
+public typealias WKRPTCLCentersResACenterState = Result<WKRPTCLCentersRtnACenterState, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLCentersBlkACenter = (WKRPTCLCentersResACenter) -> Void

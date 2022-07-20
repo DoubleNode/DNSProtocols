@@ -63,19 +63,23 @@ public enum WKRPTCLActivityTypesError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLActivityTypesRtnBool = Bool
+public typealias WKRPTCLActivityTypesRtnVoid = Void
+public typealias WKRPTCLActivityTypesRtnActivityType = DAOActivityType?
+public typealias WKRPTCLActivityTypesRtnAActivityType = [DAOActivityType]
+
 // Protocol Result Types
-public typealias WKRPTCLActivityTypesResAActivityType = Result<[DAOActivityType], Error>
-//
-public typealias WKRPTCLActivityTypesResBool = Result<Bool, Error>
-public typealias WKRPTCLActivityTypesResVoid = Result<Void, Error>
-public typealias WKRPTCLActivityTypesResActivityType = Result<DAOActivityType?, Error>
+public typealias WKRPTCLActivityTypesResBool = Result<WKRPTCLActivityTypesRtnBool, Error>
+public typealias WKRPTCLActivityTypesResVoid = Result<WKRPTCLActivityTypesRtnVoid, Error>
+public typealias WKRPTCLActivityTypesResActivityType = Result<WKRPTCLActivityTypesRtnActivityType, Error>
+public typealias WKRPTCLActivityTypesResAActivityType = Result<WKRPTCLActivityTypesRtnAActivityType, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLActivityTypesBlkAActivityType = (WKRPTCLActivityTypesResAActivityType) -> Void
-//
 public typealias WKRPTCLActivityTypesBlkBool = (WKRPTCLActivityTypesResBool) -> Void
 public typealias WKRPTCLActivityTypesBlkVoid = (WKRPTCLActivityTypesResVoid) -> Void
 public typealias WKRPTCLActivityTypesBlkActivityType = (WKRPTCLActivityTypesResActivityType) -> Void
+public typealias WKRPTCLActivityTypesBlkAActivityType = (WKRPTCLActivityTypesResAActivityType) -> Void
 
 public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

@@ -62,13 +62,14 @@ public enum WKRPTCLCmsError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLCmsRtnAAny = [Any]
+
 // Protocol Result Types
-public typealias WKRPTCLCmsResAAny = Result<[Any], Error>
-//
+public typealias WKRPTCLCmsResAAny = Result<WKRPTCLCmsRtnAAny, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLCmsBlkAAny = (WKRPTCLCmsResAAny) -> Void
-//
 
 public protocol WKRPTCLCms: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

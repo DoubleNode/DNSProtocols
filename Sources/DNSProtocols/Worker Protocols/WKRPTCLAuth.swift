@@ -117,17 +117,20 @@ public enum WKRPTCLAuthError: DNSError {
 
 public protocol WKRPTCLAuthAccessData { }
 
+// Protocol Return Types
+public typealias WKRPTCLAuthRtnBool = Bool
+public typealias WKRPTCLAuthRtnBoolAccessData = (Bool, WKRPTCLAuthAccessData)
+public typealias WKRPTCLAuthRtnBoolBoolAccessData = (Bool, Bool, WKRPTCLAuthAccessData)
+
 // Protocol Result Types
-public typealias WKRPTCLAuthResBoolBoolAccessData = Result<(Bool, Bool, WKRPTCLAuthAccessData), Error>
-//
-public typealias WKRPTCLAuthResBool = Result<Bool, Error>
-public typealias WKRPTCLAuthResBoolAccessData = Result<(Bool, WKRPTCLAuthAccessData), Error>
+public typealias WKRPTCLAuthResBool = Result<WKRPTCLAuthRtnBool, Error>
+public typealias WKRPTCLAuthResBoolAccessData = Result<WKRPTCLAuthRtnBoolAccessData, Error>
+public typealias WKRPTCLAuthResBoolBoolAccessData = Result<WKRPTCLAuthRtnBoolBoolAccessData, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLAuthBlkBoolBoolAccessData = (WKRPTCLAuthResBoolBoolAccessData) -> Void
-//
 public typealias WKRPTCLAuthBlkBool = (WKRPTCLAuthResBool) -> Void
 public typealias WKRPTCLAuthBlkBoolAccessData = (WKRPTCLAuthResBoolAccessData) -> Void
+public typealias WKRPTCLAuthBlkBoolBoolAccessData = (WKRPTCLAuthResBoolBoolAccessData) -> Void
 
 public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
     typealias AccessData = WKRPTCLAuthAccessData

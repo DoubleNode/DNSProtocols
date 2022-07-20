@@ -79,10 +79,15 @@ public enum WKRPTCLAdminError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLAdminRtnAString = [String]
+public typealias WKRPTCLAdminRtnBool = Bool
+public typealias WKRPTCLAdminRtnUserChangeRequest = (DAOUserChangeRequest?, [DAOUserChangeRequest])
+
 // Protocol Publisher Types
-public typealias WKRPTCLAdminPubAString = AnyPublisher<[String], Error>
-public typealias WKRPTCLAdminPubBool = AnyPublisher<Bool, Error>
-public typealias WKRPTCLAdminPubUserChangeRequest = AnyPublisher<(DAOUserChangeRequest?, [DAOUserChangeRequest]), Error>
+public typealias WKRPTCLAdminPubAString = AnyPublisher<WKRPTCLAdminRtnAString, Error>
+public typealias WKRPTCLAdminPubBool = AnyPublisher<WKRPTCLAdminRtnBool, Error>
+public typealias WKRPTCLAdminPubUserChangeRequest = AnyPublisher<WKRPTCLAdminRtnUserChangeRequest, Error>
 
 public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

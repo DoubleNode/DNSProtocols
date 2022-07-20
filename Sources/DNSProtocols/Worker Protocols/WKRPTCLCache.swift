@@ -118,11 +118,17 @@ public enum WKRPTCLCacheError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLCacheRtnAny = Any
+public typealias WKRPTCLCacheRtnBool = Bool
+public typealias WKRPTCLCacheRtnImage = UIImage
+public typealias WKRPTCLCacheRtnString = String
+
 // Protocol Publisher Types
-public typealias WKRPTCLCachePubAny = AnyPublisher<Any, Error>
-public typealias WKRPTCLCachePubBool = AnyPublisher<Bool, Error>
-public typealias WKRPTCLCachePubImage = AnyPublisher<UIImage, Error>
-public typealias WKRPTCLCachePubString = AnyPublisher<String, Error>
+public typealias WKRPTCLCachePubAny = AnyPublisher<WKRPTCLCacheRtnAny, Error>
+public typealias WKRPTCLCachePubBool = AnyPublisher<WKRPTCLCacheRtnBool, Error>
+public typealias WKRPTCLCachePubImage = AnyPublisher<WKRPTCLCacheRtnImage, Error>
+public typealias WKRPTCLCachePubString = AnyPublisher<WKRPTCLCacheRtnString, Error>
 
 public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {

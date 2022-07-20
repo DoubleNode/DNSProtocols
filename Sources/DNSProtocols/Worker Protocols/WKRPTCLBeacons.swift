@@ -62,13 +62,14 @@ public enum WKRPTCLBeaconsError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLBeaconsRtnABeacon = [DAOBeacon]
+
 // Protocol Result Types
-public typealias WKRPTCLBeaconsResABeacon = Result<[DAOBeacon], Error>
-//
+public typealias WKRPTCLBeaconsResABeacon = Result<WKRPTCLBeaconsRtnABeacon, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLBeaconsBlkABeacon = (WKRPTCLBeaconsResABeacon) -> Void
-//
 
 public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

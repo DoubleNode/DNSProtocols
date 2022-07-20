@@ -64,9 +64,11 @@ public enum WKRPTCLAlertsError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLAlertsRtnAAlert = [DAOAlert]
+
 // Protocol Publisher Types
-public typealias WKRPTCLAlertsPubAAlert = AnyPublisher<[DAOAlert], Error>
-//
+public typealias WKRPTCLAlertsPubAAlert = AnyPublisher<WKRPTCLAlertsRtnAAlert, Error>
 
 public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

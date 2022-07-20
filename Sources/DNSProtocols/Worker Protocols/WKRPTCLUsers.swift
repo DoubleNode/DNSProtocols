@@ -74,13 +74,15 @@ public enum WKRPTCLUsersError: DNSError {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLUsersRtnBool = Bool
+public typealias WKRPTCLUsersRtnUser = DAOUser?
+
 // Protocol Result Types
-//
-public typealias WKRPTCLUsersResBool = Result<Bool, Error>
-public typealias WKRPTCLUsersResUser = Result<DAOUser?, Error>
+public typealias WKRPTCLUsersResBool = Result<WKRPTCLUsersRtnBool, Error>
+public typealias WKRPTCLUsersResUser = Result<WKRPTCLUsersRtnUser, Error>
 
 // Protocol Block Types
-//
 public typealias WKRPTCLUsersBlkBool = (WKRPTCLUsersResBool) -> Void
 public typealias WKRPTCLUsersBlkUser = (WKRPTCLUsersResUser) -> Void
 

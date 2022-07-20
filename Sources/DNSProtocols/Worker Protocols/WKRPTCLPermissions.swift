@@ -61,12 +61,6 @@ public enum WKRPTCLPermissionsError: DNSError {
     }
 }
 
-public typealias WKRPTCLPermissionsResAAction = Result<[WKRPTCLPermissionAction], Error>
-public typealias WKRPTCLPermissionsResAction = Result<WKRPTCLPermissionAction, Error>
-
-public typealias WKRPTCLPermissionsBlkAAction = (WKRPTCLPermissionsResAAction) -> Void
-public typealias WKRPTCLPermissionsBlkAction = (WKRPTCLPermissionsResAction) -> Void
-
 public enum WKRPTCLPermissionsData {
     public enum Action: String, Codable {
         case allowed
@@ -144,6 +138,18 @@ public struct WKRPTCLPermissionAction : Codable {
         self.action = action
     }
 }
+
+// Protocol Return Types
+public typealias WKRPTCLPermissionsRtnAAction = [WKRPTCLPermissionAction]
+public typealias WKRPTCLPermissionsRtnAction = WKRPTCLPermissionAction
+
+// Protocol Result Types
+public typealias WKRPTCLPermissionsResAAction = Result<WKRPTCLPermissionsRtnAAction, Error>
+public typealias WKRPTCLPermissionsResAction = Result<WKRPTCLPermissionsRtnAction, Error>
+
+// Protocol Block Types
+public typealias WKRPTCLPermissionsBlkAAction = (WKRPTCLPermissionsResAAction) -> Void
+public typealias WKRPTCLPermissionsBlkAction = (WKRPTCLPermissionsResAction) -> Void
 
 public protocol WKRPTCLPermissions: WKRPTCLWorkerBase {
     typealias Data = WKRPTCLPermissionsData
