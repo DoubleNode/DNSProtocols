@@ -100,10 +100,15 @@ public struct WKRPTCLSupportAttachment: Hashable {
     }
 }
 
+// Protocol Return Types
+public typealias WKRPTCLSupportRtnAttach = WKRPTCLSupportAttachment
+public typealias WKRPTCLSupportRtnBool = Bool
+public typealias WKRPTCLSupportRtnInt = Int
+
 // Protocol Publisher Types
-public typealias WKRPTCLSupportPubAttachment = AnyPublisher<WKRPTCLSupportAttachment, Error>
-public typealias WKRPTCLSupportPubBool = AnyPublisher<Bool, Error>
-public typealias WKRPTCLSupportPubInt = AnyPublisher<Data, Error>
+public typealias WKRPTCLSupportPubAttach = AnyPublisher<WKRPTCLSupportRtnAttach, Error>
+public typealias WKRPTCLSupportPubBool = AnyPublisher<WKRPTCLSupportRtnBool, Error>
+public typealias WKRPTCLSupportPubInt = AnyPublisher<WKRPTCLSupportRtnInt, Error>
 
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -117,7 +122,7 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doGetUpdatedCount(with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubInt
     func doPrepare(attachment image: UIImage,
-                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubAttachment
+                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubAttach
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
@@ -127,7 +132,7 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Shortcuts) -
     func doGetUpdatedCount() -> WKRPTCLSupportPubInt
-    func doPrepare(attachment image: UIImage) -> WKRPTCLSupportPubAttachment
+    func doPrepare(attachment image: UIImage) -> WKRPTCLSupportPubAttach
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
