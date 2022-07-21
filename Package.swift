@@ -4,7 +4,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2020 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import PackageDescription
@@ -28,7 +28,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.1"),
         .package(url: "https://github.com/DoubleNode/DNSCoreThreading.git", from: "1.8.0"),
-        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.8.23"),
+        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.8.24"),
         .package(url: "https://github.com/DoubleNode/DNSError.git", from: "1.8.0"),
     ],
     targets: [
