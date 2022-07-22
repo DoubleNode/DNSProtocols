@@ -88,20 +88,20 @@ public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
     
     // MARK: - Worker Logic (Public) -
-    func doLoadActivities(for center: DAOCenter,
+    func doLoadActivities(for place: DAOPlace,
                           using activityTypes: [DAOActivityType],
                           with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLActivitiesBlkAActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
-                  for center: DAOCenter,
+                  for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLActivitiesBlkBool?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadActivities(for center: DAOCenter,
+    func doLoadActivities(for place: DAOPlace,
                           using activityTypes: [DAOActivityType],
                           with block: WKRPTCLActivitiesBlkAActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
-                  for center: DAOCenter,
+                  for place: DAOPlace,
                   with block: WKRPTCLActivitiesBlkBool?) throws
 }

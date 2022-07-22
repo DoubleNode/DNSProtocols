@@ -80,7 +80,7 @@ public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
     
     // MARK: - Worker Logic (Public) -
-    func doLoadAlerts(for center: DAOCenter,
+    func doLoadAlerts(for place: DAOPlace,
                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts(for district: DAODistrict,
                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
@@ -89,7 +89,7 @@ public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
     func doLoadAlerts(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
     
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadAlerts(for center: DAOCenter) -> WKRPTCLAlertsPubAAlert
+    func doLoadAlerts(for place: DAOPlace) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts(for district: DAODistrict) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts(for region: DAORegion) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts() -> WKRPTCLAlertsPubAAlert

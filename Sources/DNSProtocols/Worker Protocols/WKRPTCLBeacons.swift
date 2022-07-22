@@ -81,10 +81,10 @@ public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
-    func doLoadBeacons(in center: DAOCenter,
+    func doLoadBeacons(in place: DAOPlace,
                        with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLBeaconsBlkABeacon?) throws
-    func doLoadBeacons(in center: DAOCenter,
+    func doLoadBeacons(in place: DAOPlace,
                        for activity: DAOActivity,
                        with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLBeaconsBlkABeacon?) throws
@@ -95,9 +95,9 @@ public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
     func doStopRangeBeacons(for processKey: String) throws
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadBeacons(in center: DAOCenter,
+    func doLoadBeacons(in place: DAOPlace,
                        with block: WKRPTCLBeaconsBlkABeacon?) throws
-    func doLoadBeacons(in center: DAOCenter,
+    func doLoadBeacons(in place: DAOPlace,
                        for activity: DAOActivity,
                        with block: WKRPTCLBeaconsBlkABeacon?) throws
     func doRangeBeacons(named uuids: [UUID],
