@@ -76,14 +76,17 @@ public enum WKRPTCLUsersError: DNSError {
 
 // Protocol Return Types
 public typealias WKRPTCLUsersRtnBool = Bool
+public typealias WKRPTCLUsersRtnAUser = [DAOUser]
 public typealias WKRPTCLUsersRtnUser = DAOUser?
 
 // Protocol Result Types
 public typealias WKRPTCLUsersResBool = Result<WKRPTCLUsersRtnBool, Error>
+public typealias WKRPTCLUsersResAUser = Result<WKRPTCLUsersRtnAUser, Error>
 public typealias WKRPTCLUsersResUser = Result<WKRPTCLUsersRtnUser, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLUsersBlkBool = (WKRPTCLUsersResBool) -> Void
+public typealias WKRPTCLUsersBlkAUser = (WKRPTCLUsersResAUser) -> Void
 public typealias WKRPTCLUsersBlkUser = (WKRPTCLUsersResUser) -> Void
 
 public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
@@ -100,6 +103,9 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doLoadUser(for id: String,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLUsersBlkUser?) throws
+    func doLoadUsers(for account: DAOAccount,
+                     with progress: DNSPTCLProgressBlock?,
+                     and block: WKRPTCLUsersBlkAUser?) throws
     func doRemoveCurrentUser(with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLUsersBlkBool?) throws
     func doRemove(_ user: DAOUser,
@@ -113,6 +119,8 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doLoadCurrentUser(with block: WKRPTCLUsersBlkUser?) throws
     func doLoadUser(for id: String,
                     with progress: WKRPTCLUsersBlkUser?) throws
+    func doLoadUsers(for account: DAOAccount,
+                     with block: WKRPTCLUsersBlkAUser?) throws
     func doRemoveCurrentUser(with block: WKRPTCLUsersBlkBool?) throws
     func doRemove(_ user: DAOUser,
                   with block: WKRPTCLUsersBlkBool?) throws

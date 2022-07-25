@@ -64,14 +64,17 @@ public enum WKRPTCLAccountError: DNSError {
 }
 
 // Protocol Return Types
-public typealias WKRPTCLAccountRtnAccount = DAOAccount?
+public typealias WKRPTCLAccountRtnAAccount = [DAOAccount]
+public typealias WKRPTCLAccountRtnAccount = DAOAccount
 public typealias WKRPTCLAccountRtnBool = Bool
 
 // Protocol Result Types
+public typealias WKRPTCLAccountResAAccount = Result<WKRPTCLAccountRtnAAccount, Error>
 public typealias WKRPTCLAccountResAccount = Result<WKRPTCLAccountRtnAccount, Error>
 public typealias WKRPTCLAccountResBool = Result<WKRPTCLAccountRtnBool, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLAccountBlkAAccount = (WKRPTCLAccountResAAccount) -> Void
 public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
 public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
 
@@ -85,16 +88,19 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
     
     // MARK: - Worker Logic (Public) -
-    func doLoadAccount(for user: DAOUser,
-                       with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLAccountBlkAccount?) throws
+    func doLoadAccounts(for user: DAOUser,
+                        with progress: DNSPTCLProgressBlock?,
+                        and block: WKRPTCLAccountBlkAAccount?) throws
+    func doLoadCurrentAccount(with progress: DNSPTCLProgressBlock?,
+                              and block: WKRPTCLAccountBlkAccount?) throws
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkBool?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadAccount(for user: DAOUser,
-                       with block: WKRPTCLAccountBlkAccount?) throws
+    func doLoadAccounts(for user: DAOUser,
+                        with block: WKRPTCLAccountBlkAAccount?) throws
+    func doLoadCurrentAccount(with block: WKRPTCLAccountBlkAccount?) throws
     func doUpdate(account: DAOAccount,
                   with block: WKRPTCLAccountBlkBool?) throws
 }
