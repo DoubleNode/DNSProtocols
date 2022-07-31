@@ -137,7 +137,7 @@ public enum SYSPTCLSystemBaseError: DNSError {
 }
 
 public protocol SYSPTCLSystemBase: AnyObject {
-    var networkConfigurator: NETPTCLConfigurator { get }
+    var netConfig: NETPTCLConfig { get }
 
     func configure()
 

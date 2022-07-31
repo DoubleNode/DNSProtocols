@@ -1,5 +1,5 @@
 //
-//  NETPTCLConfigurator.swift
+//  NETPTCLConfig.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
@@ -12,9 +12,9 @@ import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias NetworkConfigurator = NETPTCLConfiguratorError
+    typealias NetConfig = NETPTCLConfigError
 }
-public enum NETPTCLConfiguratorError: DNSError {
+public enum NETPTCLConfigError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
 
@@ -63,7 +63,7 @@ public enum NETPTCLConfiguratorError: DNSError {
     }
 }
 
-public protocol NETPTCLConfigurator: NETPTCLNetworkBase {
+public protocol NETPTCLConfig: NETPTCLNetworkBase {
     init()
 
     // MARK: - Worker Logic (Public) -

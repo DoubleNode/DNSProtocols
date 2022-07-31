@@ -90,7 +90,7 @@ public enum WKRPTCLWorkerBaseError: DNSError {
 }
 
 public protocol WKRPTCLWorkerBase: AnyObject {
-    var networkConfigurator: NETPTCLConfigurator { get }
+    var netConfig: NETPTCLConfig { get }
 
     func configure()
 
