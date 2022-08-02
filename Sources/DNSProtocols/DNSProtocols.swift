@@ -8,8 +8,8 @@
 
 import DNSError
 
-public typealias DNSPTCLCallBlock = () throws -> Any?
-public typealias DNSPTCLCallResultBlockThrows = (DNSPTCLResultBlock?) throws -> Any?
+public typealias DNSPTCLCallBlock = () -> Any?
+public typealias DNSPTCLCallResultBlock = (DNSPTCLResultBlock?) -> Any?
 public typealias DNSPTCLResultBlock = (DNSPTCLWorker.Call.Result) -> Any?
 
 public protocol DNSPTCLWorker {

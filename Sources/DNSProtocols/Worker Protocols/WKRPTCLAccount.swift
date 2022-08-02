@@ -6,62 +6,8 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias Account = WKRPTCLAccountError
-}
-public enum WKRPTCLAccountError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRACCOUNT"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRACCOUNT-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRACCOUNT-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
-            return codeLocation.failureReason
-        }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLAccountRtnAAccount = [DAOAccount]
@@ -90,17 +36,17 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadAccounts(for user: DAOUser,
                         with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLAccountBlkAAccount?) throws
+                        and block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccount(with progress: DNSPTCLProgressBlock?,
-                              and block: WKRPTCLAccountBlkAccount?) throws
+                              and block: WKRPTCLAccountBlkAccount?)
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLAccountBlkVoid?) throws
+                  and block: WKRPTCLAccountBlkVoid?)
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadAccounts(for user: DAOUser,
-                        with block: WKRPTCLAccountBlkAAccount?) throws
-    func doLoadCurrentAccount(with block: WKRPTCLAccountBlkAccount?) throws
+                        with block: WKRPTCLAccountBlkAAccount?)
+    func doLoadCurrentAccount(with block: WKRPTCLAccountBlkAccount?)
     func doUpdate(account: DAOAccount,
-                  with block: WKRPTCLAccountBlkVoid?) throws
+                  with block: WKRPTCLAccountBlkVoid?)
 }

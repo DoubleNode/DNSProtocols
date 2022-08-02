@@ -6,61 +6,8 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias Cards = WKRPTCLCardsError
-}
-public enum WKRPTCLCardsError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRCARDS"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRCARDS-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRCARDS-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation),
-             .notImplemented(let codeLocation):
-                return codeLocation.failureReason
-       }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLCardsRtnACard = [DAOCard]
@@ -92,42 +39,42 @@ public protocol WKRPTCLCards: WKRPTCLWorkerBase {
     func doAdd(_ card: DAOCard,
                to user: DAOUser,
                with progress: DNSPTCLProgressBlock?,
-               and block: WKRPTCLCardsBlkVoid?) throws
+               and block: WKRPTCLCardsBlkVoid?)
     func doLoadCard(for id: String,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLCardsBlkCard?) throws
+                    and block: WKRPTCLCardsBlkCard?)
     func doLoadCard(for transaction: DAOTransaction,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLCardsBlkCard?) throws
+                    and block: WKRPTCLCardsBlkCard?)
     func doLoadCards(for user: DAOUser,
                      with progress: DNSPTCLProgressBlock?,
-                     and block: WKRPTCLCardsBlkACard?) throws
+                     and block: WKRPTCLCardsBlkACard?)
     func doLoadTransactions(for card: DAOCard,
                             with progress: DNSPTCLProgressBlock?,
-                            and block: WKRPTCLCardsBlkATransaction?) throws
+                            and block: WKRPTCLCardsBlkATransaction?)
     func doRemove(_ card: DAOCard,
                   from user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCardsBlkVoid?) throws
+                  and block: WKRPTCLCardsBlkVoid?)
     func doUpdate(_ card: DAOCard,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCardsBlkVoid?) throws
+                  and block: WKRPTCLCardsBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doAdd(_ card: DAOCard,
                to user: DAOUser,
-               with block: WKRPTCLCardsBlkVoid?) throws
+               with block: WKRPTCLCardsBlkVoid?)
     func doLoadCard(for id: String,
-                    with block: WKRPTCLCardsBlkCard?) throws
+                    with block: WKRPTCLCardsBlkCard?)
     func doLoadCard(for transaction: DAOTransaction,
-                    with block: WKRPTCLCardsBlkCard?) throws
+                    with block: WKRPTCLCardsBlkCard?)
     func doLoadCards(for user: DAOUser,
-                     with block: WKRPTCLCardsBlkACard?) throws
+                     with block: WKRPTCLCardsBlkACard?)
     func doLoadTransactions(for card: DAOCard,
-                            with block: WKRPTCLCardsBlkATransaction?) throws
+                            with block: WKRPTCLCardsBlkATransaction?)
     func doRemove(_ card: DAOCard,
                   from user: DAOUser,
-                  with block: WKRPTCLCardsBlkVoid?) throws
+                  with block: WKRPTCLCardsBlkVoid?)
     func doUpdate(_ card: DAOCard,
-                  with block: WKRPTCLCardsBlkVoid?) throws
+                  with block: WKRPTCLCardsBlkVoid?)
 }

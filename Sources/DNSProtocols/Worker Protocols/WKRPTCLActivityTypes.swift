@@ -6,62 +6,8 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias ActivityTypes = WKRPTCLActivityTypesError
-}
-public enum WKRPTCLActivityTypesError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRACTTYPES"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("ACTTYPES-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("ACTTYPES-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
-            return codeLocation.failureReason
-        }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLActivityTypesRtnActivityType = DAOActivityType
@@ -94,37 +40,37 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     func doFavorite(_ activityType: DAOActivityType,
                     for user: DAOUser,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLActivityTypesBlkVoid?) throws
+                    and block: WKRPTCLActivityTypesBlkVoid?)
     func doIsFavorited(_ activityType: DAOActivityType,
                        for user: DAOUser,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLActivityTypesBlkBool?) throws
+                       and block: WKRPTCLActivityTypesBlkBool?)
     func doLoadActivityType(for code: String,
                             with progress: DNSPTCLProgressBlock?,
-                            and block: WKRPTCLActivityTypesBlkActivityType?) throws
+                            and block: WKRPTCLActivityTypesBlkActivityType?)
     func doLoadActivityTypes(with progress: DNSPTCLProgressBlock?,
-                             and block: WKRPTCLActivityTypesBlkAActivityType?) throws
+                             and block: WKRPTCLActivityTypesBlkAActivityType?)
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLActivityTypesBlkVoid?) throws
+                      and block: WKRPTCLActivityTypesBlkVoid?)
     func doUpdate(_ activityType: DAOActivityType,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLActivityTypesBlkVoid?) throws
+                  and block: WKRPTCLActivityTypesBlkVoid?)
     
     // MARK: - Worker Logic (Shortcuts) -
     func doFavorite(_ activityType: DAOActivityType,
                     for user: DAOUser,
-                    with block: WKRPTCLActivityTypesBlkVoid?) throws
+                    with block: WKRPTCLActivityTypesBlkVoid?)
     func doIsFavorited(_ activityType: DAOActivityType,
                        for user: DAOUser,
-                       with block: WKRPTCLActivityTypesBlkBool?) throws
+                       with block: WKRPTCLActivityTypesBlkBool?)
     func doLoadActivityType(for code: String,
-                            with block: WKRPTCLActivityTypesBlkActivityType?) throws
-    func doLoadActivityTypes(with block: WKRPTCLActivityTypesBlkAActivityType?) throws
+                            with block: WKRPTCLActivityTypesBlkActivityType?)
+    func doLoadActivityTypes(with block: WKRPTCLActivityTypesBlkAActivityType?)
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
-                      with block: WKRPTCLActivityTypesBlkVoid?) throws
+                      with block: WKRPTCLActivityTypesBlkVoid?)
     func doUpdate(_ activityType: DAOActivityType,
-                  with block: WKRPTCLActivityTypesBlkVoid?) throws
+                  with block: WKRPTCLActivityTypesBlkVoid?)
 }

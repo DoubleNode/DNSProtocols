@@ -1,20 +1,18 @@
 //
-//  WKRPTCLUserIdentity.swift
+//  WKRPTCLIdentity+Error.swift
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import Combine
-import DNSCoreThreading
 import DNSError
 import Foundation
 
 public extension DNSError {
-    typealias UserIdentity = WKRPTCLUserIdentityError
+    typealias Identity = WKRPTCLIdentityError
 }
-public enum WKRPTCLUserIdentityError: DNSError {
+public enum WKRPTCLIdentityError: DNSError {
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case unableToJoin(group: String, error: Error, _ codeLocation: DNSCodeLocation)
@@ -92,38 +90,4 @@ public enum WKRPTCLUserIdentityError: DNSError {
             return codeLocation.failureReason
         }
     }
-}
-
-// Protocol Return Types
-public typealias WKRPTCLUserIdentityRtnVoid = Void
-
-// Protocol Publisher Types
-public typealias WKRPTCLUserIdentityPubVoid = AnyPublisher<WKRPTCLUserIdentityRtnVoid, Error>
-
-// Protocol Future Types
-public typealias WKRPTCLUserIdentityFutVoid = Future<WKRPTCLUserIdentityRtnVoid, Error>
-
-public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
-    var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLUserIdentity? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
-
-    init()
-    func register(nextWorker: WKRPTCLUserIdentity,
-                  for callNextWhen: DNSPTCLWorker.Call.NextWhen)
-
-    // MARK: - Worker Logic (Public) -
-    func doClearIdentity(with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
-    func doJoin(group: String,
-                with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
-    func doLeave(group: String,
-                 with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
-    func doSetIdentity(using data: [String: Any?],
-                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
-
-    // MARK: - Worker Logic (Shortcuts) -
-    func doClearIdentity() -> WKRPTCLUserIdentityPubVoid
-    func doJoin(group: String) -> WKRPTCLUserIdentityPubVoid
-    func doLeave(group: String) -> WKRPTCLUserIdentityPubVoid
-    func doSetIdentity(using data: [String: Any?]) -> WKRPTCLUserIdentityPubVoid
 }

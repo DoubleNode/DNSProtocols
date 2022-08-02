@@ -6,61 +6,8 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias Products = WKRPTCLProductsError
-}
-public enum WKRPTCLProductsError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRPRODUCTS"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRPRODUCTS-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRPRODUCTS-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation),
-             .notImplemented(let codeLocation):
-                return codeLocation.failureReason
-       }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLProductsRtnAProduct = [DAOProduct]
@@ -88,22 +35,22 @@ public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadProduct(for id: String,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLProductsBlkProduct?) throws
+                       and block: WKRPTCLProductsBlkProduct?)
     func doLoadProducts(with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLProductsBlkAProduct?) throws
+                        and block: WKRPTCLProductsBlkAProduct?)
     func doRemove(_ product: DAOProduct,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLProductsBlkVoid?) throws
+                  and block: WKRPTCLProductsBlkVoid?)
     func doUpdate(_ product: DAOProduct,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLProductsBlkVoid?) throws
+                  and block: WKRPTCLProductsBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadProduct(for id: String,
-                       with block: WKRPTCLProductsBlkProduct?) throws
-    func doLoadProducts(with block: WKRPTCLProductsBlkAProduct?) throws
+                       with block: WKRPTCLProductsBlkProduct?)
+    func doLoadProducts(with block: WKRPTCLProductsBlkAProduct?)
     func doRemove(_ product: DAOProduct,
-                  with block: WKRPTCLProductsBlkVoid?) throws
+                  with block: WKRPTCLProductsBlkVoid?)
     func doUpdate(_ product: DAOProduct,
-                  with block: WKRPTCLProductsBlkVoid?) throws
+                  with block: WKRPTCLProductsBlkVoid?)
 }
