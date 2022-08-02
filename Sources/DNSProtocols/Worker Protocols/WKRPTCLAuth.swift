@@ -118,19 +118,19 @@ public enum WKRPTCLAuthError: DNSError {
 public protocol WKRPTCLAuthAccessData { }
 
 // Protocol Return Types
-public typealias WKRPTCLAuthRtnBool = Bool
 public typealias WKRPTCLAuthRtnBoolAccessData = (Bool, WKRPTCLAuthAccessData)
 public typealias WKRPTCLAuthRtnBoolBoolAccessData = (Bool, Bool, WKRPTCLAuthAccessData)
+public typealias WKRPTCLAuthRtnVoid = Void
 
 // Protocol Result Types
-public typealias WKRPTCLAuthResBool = Result<WKRPTCLAuthRtnBool, Error>
 public typealias WKRPTCLAuthResBoolAccessData = Result<WKRPTCLAuthRtnBoolAccessData, Error>
 public typealias WKRPTCLAuthResBoolBoolAccessData = Result<WKRPTCLAuthRtnBoolBoolAccessData, Error>
+public typealias WKRPTCLAuthResVoid = Result<WKRPTCLAuthRtnVoid, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLAuthBlkBool = (WKRPTCLAuthResBool) -> Void
 public typealias WKRPTCLAuthBlkBoolAccessData = (WKRPTCLAuthResBoolAccessData) -> Void
 public typealias WKRPTCLAuthBlkBoolBoolAccessData = (WKRPTCLAuthResBoolBoolAccessData) -> Void
+public typealias WKRPTCLAuthBlkVoid = (WKRPTCLAuthResVoid) -> Void
 
 public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
     typealias AccessData = WKRPTCLAuthAccessData
@@ -155,7 +155,7 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
                   and block: WKRPTCLAuthBlkBoolAccessData?) throws
     func doSignOut(using parameters: [String: Any],
                    with progress: DNSPTCLProgressBlock?,
-                   and block: WKRPTCLAuthBlkBool?) throws
+                   and block: WKRPTCLAuthBlkVoid?) throws
     func doSignUp(from user: DAOUser?,
                   and password: String?,
                   using parameters: [String: Any],
@@ -170,7 +170,7 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
                   using parameters: [String: Any],
                   with block: WKRPTCLAuthBlkBoolAccessData?) throws
     func doSignOut(using parameters: [String: Any],
-                   with block: WKRPTCLAuthBlkBool?) throws
+                   with block: WKRPTCLAuthBlkVoid?) throws
     func doSignUp(from user: DAOUser?,
                   and password: String?,
                   using parameters: [String: Any],

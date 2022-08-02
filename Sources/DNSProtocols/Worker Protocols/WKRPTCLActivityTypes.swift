@@ -64,22 +64,22 @@ public enum WKRPTCLActivityTypesError: DNSError {
 }
 
 // Protocol Return Types
+public typealias WKRPTCLActivityTypesRtnActivityType = DAOActivityType
+public typealias WKRPTCLActivityTypesRtnAActivityType = [DAOActivityType]
 public typealias WKRPTCLActivityTypesRtnBool = Bool
 public typealias WKRPTCLActivityTypesRtnVoid = Void
-public typealias WKRPTCLActivityTypesRtnActivityType = DAOActivityType?
-public typealias WKRPTCLActivityTypesRtnAActivityType = [DAOActivityType]
 
 // Protocol Result Types
-public typealias WKRPTCLActivityTypesResBool = Result<WKRPTCLActivityTypesRtnBool, Error>
-public typealias WKRPTCLActivityTypesResVoid = Result<WKRPTCLActivityTypesRtnVoid, Error>
 public typealias WKRPTCLActivityTypesResActivityType = Result<WKRPTCLActivityTypesRtnActivityType, Error>
 public typealias WKRPTCLActivityTypesResAActivityType = Result<WKRPTCLActivityTypesRtnAActivityType, Error>
+public typealias WKRPTCLActivityTypesResBool = Result<WKRPTCLActivityTypesRtnBool, Error>
+public typealias WKRPTCLActivityTypesResVoid = Result<WKRPTCLActivityTypesRtnVoid, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLActivityTypesBlkBool = (WKRPTCLActivityTypesResBool) -> Void
-public typealias WKRPTCLActivityTypesBlkVoid = (WKRPTCLActivityTypesResVoid) -> Void
 public typealias WKRPTCLActivityTypesBlkActivityType = (WKRPTCLActivityTypesResActivityType) -> Void
 public typealias WKRPTCLActivityTypesBlkAActivityType = (WKRPTCLActivityTypesResAActivityType) -> Void
+public typealias WKRPTCLActivityTypesBlkBool = (WKRPTCLActivityTypesResBool) -> Void
+public typealias WKRPTCLActivityTypesBlkVoid = (WKRPTCLActivityTypesResVoid) -> Void
 
 public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -110,7 +110,7 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                       and block: WKRPTCLActivityTypesBlkVoid?) throws
     func doUpdate(_ activityType: DAOActivityType,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLActivityTypesBlkBool?) throws
+                  and block: WKRPTCLActivityTypesBlkVoid?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
     func doFavorite(_ activityType: DAOActivityType,
@@ -126,5 +126,5 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                       for user: DAOUser,
                       with block: WKRPTCLActivityTypesBlkVoid?) throws
     func doUpdate(_ activityType: DAOActivityType,
-                  with block: WKRPTCLActivityTypesBlkBool?) throws
+                  with block: WKRPTCLActivityTypesBlkVoid?) throws
 }

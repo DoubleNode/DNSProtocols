@@ -102,13 +102,13 @@ public struct WKRPTCLSupportAttachment: Hashable {
 
 // Protocol Return Types
 public typealias WKRPTCLSupportRtnAttach = WKRPTCLSupportAttachment
-public typealias WKRPTCLSupportRtnBool = Bool
 public typealias WKRPTCLSupportRtnInt = Int
+public typealias WKRPTCLSupportRtnVoid = Void
 
 // Protocol Publisher Types
 public typealias WKRPTCLSupportPubAttach = AnyPublisher<WKRPTCLSupportRtnAttach, Error>
-public typealias WKRPTCLSupportPubBool = AnyPublisher<WKRPTCLSupportRtnBool, Error>
 public typealias WKRPTCLSupportPubInt = AnyPublisher<WKRPTCLSupportRtnInt, Error>
+public typealias WKRPTCLSupportPubVoid = AnyPublisher<WKRPTCLSupportRtnVoid, Error>
 
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -128,7 +128,7 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
                        tags: [String],
                        attachments: [WKRPTCLSupportAttachment],
                        properties: [String: String],
-                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubBool
+                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubVoid
 
     // MARK: - Worker Logic (Shortcuts) -
     func doGetUpdatedCount() -> WKRPTCLSupportPubInt
@@ -137,5 +137,5 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
                        body: String,
                        tags: [String],
                        attachments: [WKRPTCLSupportAttachment],
-                       properties: [String: String]) -> WKRPTCLSupportPubBool
+                       properties: [String: String]) -> WKRPTCLSupportPubVoid
 }

@@ -120,15 +120,15 @@ public enum WKRPTCLCacheError: DNSError {
 
 // Protocol Return Types
 public typealias WKRPTCLCacheRtnAny = Any
-public typealias WKRPTCLCacheRtnBool = Bool
 public typealias WKRPTCLCacheRtnImage = UIImage
 public typealias WKRPTCLCacheRtnString = String
+public typealias WKRPTCLCacheRtnVoid = Void
 
 // Protocol Publisher Types
 public typealias WKRPTCLCachePubAny = AnyPublisher<WKRPTCLCacheRtnAny, Error>
-public typealias WKRPTCLCachePubBool = AnyPublisher<WKRPTCLCacheRtnBool, Error>
 public typealias WKRPTCLCachePubImage = AnyPublisher<WKRPTCLCacheRtnImage, Error>
 public typealias WKRPTCLCachePubString = AnyPublisher<WKRPTCLCacheRtnString, Error>
+public typealias WKRPTCLCachePubVoid = AnyPublisher<WKRPTCLCacheRtnVoid, Error>
 
 public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
@@ -142,7 +142,7 @@ public protocol WKRPTCLCache: WKRPTCLWorkerBase
 
     // MARK: - Worker Logic (Public) -
     func doDeleteObject(for id: String,
-                        with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubBool
+                        with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubVoid
     func doLoadImage(from url: NSURL,
                      for id: String,
                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubImage
@@ -155,7 +155,7 @@ public protocol WKRPTCLCache: WKRPTCLWorkerBase
                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubAny
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doDeleteObject(for id: String) -> WKRPTCLCachePubBool
+    func doDeleteObject(for id: String) -> WKRPTCLCachePubVoid
     func doLoadImage(from url: NSURL,
                      for id: String) -> WKRPTCLCachePubImage
     func doReadObject(for id: String) -> WKRPTCLCachePubAny

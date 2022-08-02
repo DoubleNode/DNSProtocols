@@ -95,10 +95,10 @@ public enum WKRPTCLUserIdentityError: DNSError {
 }
 
 // Protocol Return Types
-public typealias WKRPTCLUserIdentityRtnBool = Bool
+public typealias WKRPTCLUserIdentityRtnVoid = Void
 
 // Protocol Publisher Types
-public typealias WKRPTCLUserIdentityPubBool = AnyPublisher<WKRPTCLUserIdentityRtnBool, Error>
+public typealias WKRPTCLUserIdentityPubVoid = AnyPublisher<WKRPTCLUserIdentityRtnVoid, Error>
 
 public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -110,17 +110,17 @@ public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
-    func doClearIdentity(with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubBool
+    func doClearIdentity(with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
     func doJoin(group: String,
-                with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubBool
+                with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
     func doLeave(group: String,
-                 with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubBool
+                 with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
     func doSetIdentity(using data: [String: Any?],
-                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubBool
+                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLUserIdentityPubVoid
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doClearIdentity() -> WKRPTCLUserIdentityPubBool
-    func doJoin(group: String) -> WKRPTCLUserIdentityPubBool
-    func doLeave(group: String) -> WKRPTCLUserIdentityPubBool
-    func doSetIdentity(using data: [String: Any?]) -> WKRPTCLUserIdentityPubBool
+    func doClearIdentity() -> WKRPTCLUserIdentityPubVoid
+    func doJoin(group: String) -> WKRPTCLUserIdentityPubVoid
+    func doLeave(group: String) -> WKRPTCLUserIdentityPubVoid
+    func doSetIdentity(using data: [String: Any?]) -> WKRPTCLUserIdentityPubVoid
 }

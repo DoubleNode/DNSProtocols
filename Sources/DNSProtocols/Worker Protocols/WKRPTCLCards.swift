@@ -63,22 +63,22 @@ public enum WKRPTCLCardsError: DNSError {
 }
 
 // Protocol Return Types
-public typealias WKRPTCLCardsRtnBool = Bool
 public typealias WKRPTCLCardsRtnACard = [DAOCard]
 public typealias WKRPTCLCardsRtnCard = DAOCard
 public typealias WKRPTCLCardsRtnATransaction = [DAOTransaction]
+public typealias WKRPTCLCardsRtnVoid = Void
 
 // Protocol Result Types
-public typealias WKRPTCLCardsResBool = Result<WKRPTCLCardsRtnBool, Error>
 public typealias WKRPTCLCardsResACard = Result<WKRPTCLCardsRtnACard, Error>
 public typealias WKRPTCLCardsResCard = Result<WKRPTCLCardsRtnCard, Error>
 public typealias WKRPTCLCardsResATransaction = Result<WKRPTCLCardsRtnATransaction, Error>
+public typealias WKRPTCLCardsResVoid = Result<WKRPTCLCardsRtnVoid, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLCardsBlkBool = (WKRPTCLCardsResBool) -> Void
 public typealias WKRPTCLCardsBlkACard = (WKRPTCLCardsResACard) -> Void
 public typealias WKRPTCLCardsBlkCard = (WKRPTCLCardsResCard) -> Void
 public typealias WKRPTCLCardsBlkATransaction = (WKRPTCLCardsResATransaction) -> Void
+public typealias WKRPTCLCardsBlkVoid = (WKRPTCLCardsResVoid) -> Void
 
 public protocol WKRPTCLCards: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -92,7 +92,7 @@ public protocol WKRPTCLCards: WKRPTCLWorkerBase {
     func doAdd(_ card: DAOCard,
                to user: DAOUser,
                with progress: DNSPTCLProgressBlock?,
-               and block: WKRPTCLCardsBlkBool?) throws
+               and block: WKRPTCLCardsBlkVoid?) throws
     func doLoadCard(for id: String,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLCardsBlkCard?) throws
@@ -108,15 +108,15 @@ public protocol WKRPTCLCards: WKRPTCLWorkerBase {
     func doRemove(_ card: DAOCard,
                   from user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCardsBlkBool?) throws
+                  and block: WKRPTCLCardsBlkVoid?) throws
     func doUpdate(_ card: DAOCard,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCardsBlkBool?) throws
+                  and block: WKRPTCLCardsBlkVoid?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doAdd(_ card: DAOCard,
                to user: DAOUser,
-               with block: WKRPTCLCardsBlkBool?) throws
+               with block: WKRPTCLCardsBlkVoid?) throws
     func doLoadCard(for id: String,
                     with block: WKRPTCLCardsBlkCard?) throws
     func doLoadCard(for transaction: DAOTransaction,
@@ -127,7 +127,7 @@ public protocol WKRPTCLCards: WKRPTCLWorkerBase {
                             with block: WKRPTCLCardsBlkATransaction?) throws
     func doRemove(_ card: DAOCard,
                   from user: DAOUser,
-                  with block: WKRPTCLCardsBlkBool?) throws
+                  with block: WKRPTCLCardsBlkVoid?) throws
     func doUpdate(_ card: DAOCard,
-                  with block: WKRPTCLCardsBlkBool?) throws
+                  with block: WKRPTCLCardsBlkVoid?) throws
 }

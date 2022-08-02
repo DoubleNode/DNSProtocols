@@ -79,32 +79,31 @@ public enum WKRPTCLPlacesError: DNSError {
 
 // Protocol Return Types
 public typealias WKRPTCLPlacesRtnAlertEventStatus = ([DAOAlert], [DAOPlaceEvent], [DAOPlaceStatus])
-public typealias WKRPTCLPlacesRtnBool = Bool
 public typealias WKRPTCLPlacesRtnAPlace = [DAOPlace]
-public typealias WKRPTCLPlacesRtnPlace = DAOPlace?
+public typealias WKRPTCLPlacesRtnPlace = DAOPlace
 public typealias WKRPTCLPlacesRtnAPlaceHoliday = [DAOPlaceHoliday]
-public typealias WKRPTCLPlacesRtnPlaceHours = DAOPlaceHours?
+public typealias WKRPTCLPlacesRtnPlaceHours = DAOPlaceHours
 public typealias WKRPTCLPlacesRtnAPlaceState = ([DAOAlert], [DAOPlaceEvent], [DAOPlaceStatus])
+public typealias WKRPTCLPlacesRtnVoid = Void
 
 // Protocol Publisher Types
 public typealias WKRPTCLPlacesPubAlertEventStatus = AnyPublisher<WKRPTCLPlacesRtnAlertEventStatus, Error>
 
 // Protocol Result Types
-public typealias WKRPTCLPlacesResBool = Result<WKRPTCLPlacesRtnBool, Error>
 public typealias WKRPTCLPlacesResAPlace = Result<WKRPTCLPlacesRtnAPlace, Error>
 public typealias WKRPTCLPlacesResPlace = Result<WKRPTCLPlacesRtnPlace, Error>
 public typealias WKRPTCLPlacesResAPlaceHoliday = Result<WKRPTCLPlacesRtnAPlaceHoliday, Error>
 public typealias WKRPTCLPlacesResPlaceHours = Result<WKRPTCLPlacesRtnPlaceHours, Error>
 public typealias WKRPTCLPlacesResAPlaceState = Result<WKRPTCLPlacesRtnAPlaceState, Error>
+public typealias WKRPTCLPlacesResVoid = Result<WKRPTCLPlacesRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLPlacesBlkAPlace = (WKRPTCLPlacesResAPlace) -> Void
-public typealias WKRPTCLPlacesBlkAPlaceHoliday = (WKRPTCLPlacesResAPlaceHoliday) -> Void
-public typealias WKRPTCLPlacesBlkAPlaceState = (WKRPTCLPlacesResAPlaceState) -> Void
-//
-public typealias WKRPTCLPlacesBlkBool = (WKRPTCLPlacesResBool) -> Void
 public typealias WKRPTCLPlacesBlkPlace = (WKRPTCLPlacesResPlace) -> Void
+public typealias WKRPTCLPlacesBlkAPlaceHoliday = (WKRPTCLPlacesResAPlaceHoliday) -> Void
 public typealias WKRPTCLPlacesBlkPlaceHours = (WKRPTCLPlacesResPlaceHours) -> Void
+public typealias WKRPTCLPlacesBlkAPlaceState = (WKRPTCLPlacesResAPlaceState) -> Void
+public typealias WKRPTCLPlacesBlkVoid = (WKRPTCLPlacesResVoid) -> Void
 
 public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -138,11 +137,11 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
                         and block: WKRPTCLPlacesBlkPlace?) throws
     func doUpdate(_ place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLPlacesBlkBool?) throws
+                  and block: WKRPTCLPlacesBlkVoid?) throws
     func doUpdate(_ hours: DAOPlaceHours,
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLPlacesBlkBool?) throws
+                  and block: WKRPTCLPlacesBlkVoid?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doFilterPlaces(for activity: DAOActivity,
@@ -159,8 +158,8 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     func doSearchPlace(for geohash: String,
                         with block: WKRPTCLPlacesBlkPlace?) throws
     func doUpdate(_ place: DAOPlace,
-                  with block: WKRPTCLPlacesBlkBool?) throws
+                  with block: WKRPTCLPlacesBlkVoid?) throws
     func doUpdate(_ hours: DAOPlaceHours,
                   for place: DAOPlace,
-                  with block: WKRPTCLPlacesBlkBool?) throws
+                  with block: WKRPTCLPlacesBlkVoid?) throws
 }

@@ -66,17 +66,17 @@ public enum WKRPTCLAccountError: DNSError {
 // Protocol Return Types
 public typealias WKRPTCLAccountRtnAAccount = [DAOAccount]
 public typealias WKRPTCLAccountRtnAccount = DAOAccount
-public typealias WKRPTCLAccountRtnBool = Bool
+public typealias WKRPTCLAccountRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLAccountResAAccount = Result<WKRPTCLAccountRtnAAccount, Error>
 public typealias WKRPTCLAccountResAccount = Result<WKRPTCLAccountRtnAccount, Error>
-public typealias WKRPTCLAccountResBool = Result<WKRPTCLAccountRtnBool, Error>
+public typealias WKRPTCLAccountResVoid = Result<WKRPTCLAccountRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLAccountBlkAAccount = (WKRPTCLAccountResAAccount) -> Void
 public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
-public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
+public typealias WKRPTCLAccountBlkVoid = (WKRPTCLAccountResVoid) -> Void
 
 public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -95,12 +95,12 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                               and block: WKRPTCLAccountBlkAccount?) throws
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLAccountBlkBool?) throws
+                  and block: WKRPTCLAccountBlkVoid?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?) throws
     func doLoadCurrentAccount(with block: WKRPTCLAccountBlkAccount?) throws
     func doUpdate(account: DAOAccount,
-                  with block: WKRPTCLAccountBlkBool?) throws
+                  with block: WKRPTCLAccountBlkVoid?) throws
 }

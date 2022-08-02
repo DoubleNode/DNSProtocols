@@ -76,21 +76,21 @@ public enum WKRPTCLCartError: DNSError {
 
 // Protocol Return Types
 public typealias WKRPTCLCartRtnBasket = DAOBasket
-public typealias WKRPTCLCartRtnBool = Bool
 public typealias WKRPTCLCartRtnAOrder = [DAOOrder]
 public typealias WKRPTCLCartRtnOrder = DAOOrder
+public typealias WKRPTCLCartRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLCartResBasket = Result<WKRPTCLCartRtnBasket, Error>
-public typealias WKRPTCLCartResBool = Result<WKRPTCLCartRtnBool, Error>
 public typealias WKRPTCLCartResAOrder = Result<WKRPTCLCartRtnAOrder, Error>
 public typealias WKRPTCLCartResOrder = Result<WKRPTCLCartRtnOrder, Error>
+public typealias WKRPTCLCartResVoid = Result<WKRPTCLCartRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLCartBlkBasket = (WKRPTCLCartResBasket) -> Void
-public typealias WKRPTCLCartBlkBool = (WKRPTCLCartResBool) -> Void
 public typealias WKRPTCLCartBlkAOrder = (WKRPTCLCartResAOrder) -> Void
 public typealias WKRPTCLCartBlkOrder = (WKRPTCLCartResOrder) -> Void
+public typealias WKRPTCLCartBlkVoid = (WKRPTCLCartResVoid) -> Void
 
 public protocol WKRPTCLCart: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -125,16 +125,16 @@ public protocol WKRPTCLCart: WKRPTCLWorkerBase {
                       and block: WKRPTCLCartBlkAOrder?) throws
     func doRemove(_ basket: DAOBasket,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkBool?) throws
+                  and block: WKRPTCLCartBlkVoid?) throws
     func doRemove(_ basketItem: DAOBasketItem,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkBool?) throws
+                  and block: WKRPTCLCartBlkVoid?) throws
     func doUpdate(_ basket: DAOBasket,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkBool?) throws
+                  and block: WKRPTCLCartBlkVoid?) throws
     func doUpdate(_ basketItem: DAOBasketItem,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkBool?) throws
+                  and block: WKRPTCLCartBlkVoid?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doAdd(_ basketItem: DAOBasketItem,
@@ -153,11 +153,11 @@ public protocol WKRPTCLCart: WKRPTCLWorkerBase {
                       and state: DNSOrderState,
                       with block: WKRPTCLCartBlkAOrder?) throws
     func doRemove(_ basket: DAOBasket,
-                  with block: WKRPTCLCartBlkBool?) throws
+                  with block: WKRPTCLCartBlkVoid?) throws
     func doRemove(_ basketItem: DAOBasketItem,
-                  with block: WKRPTCLCartBlkBool?) throws
+                  with block: WKRPTCLCartBlkVoid?) throws
     func doUpdate(_ basket: DAOBasket,
-                  with block: WKRPTCLCartBlkBool?) throws
+                  with block: WKRPTCLCartBlkVoid?) throws
     func doUpdate(_ basketItem: DAOBasketItem,
-                  with block: WKRPTCLCartBlkBool?) throws
+                  with block: WKRPTCLCartBlkVoid?) throws
 }

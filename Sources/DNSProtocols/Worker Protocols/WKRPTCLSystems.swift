@@ -64,14 +64,14 @@ public enum WKRPTCLSystemsError: DNSError {
 }
 
 // Protocol Return Types
-public typealias WKRPTCLSystemsRtnBool = Bool
 public typealias WKRPTCLSystemsRtnASystem = [DAOSystem]
-public typealias WKRPTCLSystemsRtnSystem = DAOSystem?
+public typealias WKRPTCLSystemsRtnSystem = DAOSystem
 public typealias WKRPTCLSystemsRtnASystemEndPoint = [DAOSystemEndPoint]
 public typealias WKRPTCLSystemsRtnASystemState = [DAOSystemState]
+public typealias WKRPTCLSystemsRtnVoid = Void
 
 // Protocol Publisher Types
-public typealias WKRPTCLSystemsPubBool = AnyPublisher<WKRPTCLSystemsRtnBool, Error>
+public typealias WKRPTCLSystemsPubVoid = AnyPublisher<WKRPTCLSystemsRtnVoid, Error>
 
 // Protocol Result Types
 public typealias WKRPTCLSystemsResASystem = Result<WKRPTCLSystemsRtnASystem, Error>
@@ -125,18 +125,18 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubBool
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubVoid
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubBool
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubVoid
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
                   and endPointId: String,
-                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubBool
+                  with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubVoid
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadSystem(for id: String,
@@ -156,14 +156,14 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
                     with block: WKRPTCLSystemsBlkSystem?) throws
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
-                  and endPointId: String) -> WKRPTCLSystemsPubBool
+                  and endPointId: String) -> WKRPTCLSystemsPubVoid
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   for systemId: String,
-                  and endPointId: String) -> WKRPTCLSystemsPubBool
+                  and endPointId: String) -> WKRPTCLSystemsPubVoid
     func doReport(result: WKRPTCLSystemsData.Result,
                   and failureCode: String,
                   and debugString: String,
                   for systemId: String,
-                  and endPointId: String) -> WKRPTCLSystemsPubBool
+                  and endPointId: String) -> WKRPTCLSystemsPubVoid
 }

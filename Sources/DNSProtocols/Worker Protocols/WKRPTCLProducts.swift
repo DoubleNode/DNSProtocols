@@ -63,19 +63,19 @@ public enum WKRPTCLProductsError: DNSError {
 }
 
 // Protocol Return Types
-public typealias WKRPTCLProductsRtnBool = Bool
 public typealias WKRPTCLProductsRtnAProduct = [DAOProduct]
 public typealias WKRPTCLProductsRtnProduct = DAOProduct
+public typealias WKRPTCLProductsRtnVoid = Void
 
 // Protocol Result Types
-public typealias WKRPTCLProductsResBool = Result<WKRPTCLProductsRtnBool, Error>
 public typealias WKRPTCLProductsResAProduct = Result<WKRPTCLProductsRtnAProduct, Error>
 public typealias WKRPTCLProductsResProduct = Result<WKRPTCLProductsRtnProduct, Error>
+public typealias WKRPTCLProductsResVoid = Result<WKRPTCLProductsRtnVoid, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLProductsBlkBool = (WKRPTCLProductsResBool) -> Void
 public typealias WKRPTCLProductsBlkAProduct = (WKRPTCLProductsResAProduct) -> Void
 public typealias WKRPTCLProductsBlkProduct = (WKRPTCLProductsResProduct) -> Void
+public typealias WKRPTCLProductsBlkVoid = (WKRPTCLProductsResVoid) -> Void
 
 public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -93,17 +93,17 @@ public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
                         and block: WKRPTCLProductsBlkAProduct?) throws
     func doRemove(_ product: DAOProduct,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLProductsBlkBool?) throws
+                  and block: WKRPTCLProductsBlkVoid?) throws
     func doUpdate(_ product: DAOProduct,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLProductsBlkBool?) throws
+                  and block: WKRPTCLProductsBlkVoid?) throws
 
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadProduct(for id: String,
                        with block: WKRPTCLProductsBlkProduct?) throws
     func doLoadProducts(with block: WKRPTCLProductsBlkAProduct?) throws
     func doRemove(_ product: DAOProduct,
-                  with block: WKRPTCLProductsBlkBool?) throws
+                  with block: WKRPTCLProductsBlkVoid?) throws
     func doUpdate(_ product: DAOProduct,
-                  with block: WKRPTCLProductsBlkBool?) throws
+                  with block: WKRPTCLProductsBlkVoid?) throws
 }

@@ -64,19 +64,19 @@ public enum WKRPTCLActivitiesError: DNSError {
 }
 
 // Protocol Return Types
-public typealias WKRPTCLActivitiesRtnActivity = DAOActivity?
+public typealias WKRPTCLActivitiesRtnActivity = DAOActivity
 public typealias WKRPTCLActivitiesRtnAActivity = [DAOActivity]
-public typealias WKRPTCLActivitiesRtnBool = Bool
+public typealias WKRPTCLActivitiesRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLActivitiesResActivity = Result<WKRPTCLActivitiesRtnActivity, Error>
 public typealias WKRPTCLActivitiesResAActivity = Result<WKRPTCLActivitiesRtnAActivity, Error>
-public typealias WKRPTCLActivitiesResBool = Result<WKRPTCLActivitiesRtnBool, Error>
+public typealias WKRPTCLActivitiesResVoid = Result<WKRPTCLActivitiesRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLActivitiesBlkActivity = (WKRPTCLActivitiesResActivity) -> Void
 public typealias WKRPTCLActivitiesBlkAActivity = (WKRPTCLActivitiesResAActivity) -> Void
-public typealias WKRPTCLActivitiesBlkBool = (WKRPTCLActivitiesResBool) -> Void
+public typealias WKRPTCLActivitiesBlkVoid = (WKRPTCLActivitiesResVoid) -> Void
 
 public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
@@ -95,7 +95,7 @@ public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
     func doUpdate(_ activities: [DAOActivity],
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLActivitiesBlkBool?) throws
+                  and block: WKRPTCLActivitiesBlkVoid?) throws
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadActivities(for place: DAOPlace,
@@ -103,5 +103,5 @@ public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
                           with block: WKRPTCLActivitiesBlkAActivity?) throws
     func doUpdate(_ activities: [DAOActivity],
                   for place: DAOPlace,
-                  with block: WKRPTCLActivitiesBlkBool?) throws
+                  with block: WKRPTCLActivitiesBlkVoid?) throws
 }
