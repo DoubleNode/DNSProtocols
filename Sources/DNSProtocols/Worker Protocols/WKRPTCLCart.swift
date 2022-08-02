@@ -6,73 +6,8 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias Cart = WKRPTCLCartError
-}
-public enum WKRPTCLCartError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-    case emptyBasket(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRCART"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-        case emptyBasket = 1003
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        case .emptyBasket(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.emptyBasket.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRCART-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRCART-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        case .emptyBasket:
-            return String(format: NSLocalizedString("WKRCART-Empty Basket%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.emptyBasket.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation),
-             .notImplemented(let codeLocation),
-             .emptyBasket(let codeLocation):
-                return codeLocation.failureReason
-       }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLCartRtnBasket = DAOBasket
@@ -104,60 +39,60 @@ public protocol WKRPTCLCart: WKRPTCLWorkerBase {
     func doAdd(_ basketItem: DAOBasketItem,
                to basket: DAOBasket,
                with progress: DNSPTCLProgressBlock?,
-               and block: WKRPTCLCartBlkBasket?) throws
+               and block: WKRPTCLCartBlkBasket?)
     func doCheckout(for basket: DAOBasket,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLCartBlkOrder?) throws
+                    and block: WKRPTCLCartBlkOrder?)
     func doCreate(with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkBasket?) throws
+                  and block: WKRPTCLCartBlkBasket?)
     func doCreate(and add: DAOBasketItem,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkBasket?) throws
+                  and block: WKRPTCLCartBlkBasket?)
     func doLoadOrder(for id: String,
                      with progress: DNSPTCLProgressBlock?,
-                     and block: WKRPTCLCartBlkOrder?) throws
+                     and block: WKRPTCLCartBlkOrder?)
     func doLoadOrders(for account: DAOAccount,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLCartBlkAOrder?) throws
+                      and block: WKRPTCLCartBlkAOrder?)
     func doLoadOrders(for account: DAOAccount,
                       and state: DNSOrderState,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLCartBlkAOrder?) throws
+                      and block: WKRPTCLCartBlkAOrder?)
     func doRemove(_ basket: DAOBasket,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkVoid?) throws
+                  and block: WKRPTCLCartBlkVoid?)
     func doRemove(_ basketItem: DAOBasketItem,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkVoid?) throws
+                  and block: WKRPTCLCartBlkVoid?)
     func doUpdate(_ basket: DAOBasket,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkVoid?) throws
+                  and block: WKRPTCLCartBlkVoid?)
     func doUpdate(_ basketItem: DAOBasketItem,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLCartBlkVoid?) throws
+                  and block: WKRPTCLCartBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doAdd(_ basketItem: DAOBasketItem,
                to basket: DAOBasket,
-               with block: WKRPTCLCartBlkBasket?) throws
+               with block: WKRPTCLCartBlkBasket?)
     func doCheckout(for basket: DAOBasket,
-                    with block: WKRPTCLCartBlkOrder?) throws
-    func doCreate(with block: WKRPTCLCartBlkBasket?) throws
+                    with block: WKRPTCLCartBlkOrder?)
+    func doCreate(with block: WKRPTCLCartBlkBasket?)
     func doCreate(and add: DAOBasketItem,
-                  with block: WKRPTCLCartBlkBasket?) throws
+                  with block: WKRPTCLCartBlkBasket?)
     func doLoadOrder(for id: String,
-                     with block: WKRPTCLCartBlkOrder?) throws
+                     with block: WKRPTCLCartBlkOrder?)
     func doLoadOrders(for account: DAOAccount,
-                      with block: WKRPTCLCartBlkAOrder?) throws
+                      with block: WKRPTCLCartBlkAOrder?)
     func doLoadOrders(for account: DAOAccount,
                       and state: DNSOrderState,
-                      with block: WKRPTCLCartBlkAOrder?) throws
+                      with block: WKRPTCLCartBlkAOrder?)
     func doRemove(_ basket: DAOBasket,
-                  with block: WKRPTCLCartBlkVoid?) throws
+                  with block: WKRPTCLCartBlkVoid?)
     func doRemove(_ basketItem: DAOBasketItem,
-                  with block: WKRPTCLCartBlkVoid?) throws
+                  with block: WKRPTCLCartBlkVoid?)
     func doUpdate(_ basket: DAOBasket,
-                  with block: WKRPTCLCartBlkVoid?) throws
+                  with block: WKRPTCLCartBlkVoid?)
     func doUpdate(_ basketItem: DAOBasketItem,
-                  with block: WKRPTCLCartBlkVoid?) throws
+                  with block: WKRPTCLCartBlkVoid?)
 }

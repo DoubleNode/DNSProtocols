@@ -6,62 +6,8 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias Activities = WKRPTCLActivitiesError
-}
-public enum WKRPTCLActivitiesError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRACTIVITIES"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRACTIVITIES-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRACTIVITIES-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation):
-            return codeLocation.failureReason
-        case .notImplemented(let codeLocation):
-            return codeLocation.failureReason
-        }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLActivitiesRtnActivity = DAOActivity
@@ -91,17 +37,17 @@ public protocol WKRPTCLActivities: WKRPTCLWorkerBase {
     func doLoadActivities(for place: DAOPlace,
                           using activityTypes: [DAOActivityType],
                           with progress: DNSPTCLProgressBlock?,
-                          and block: WKRPTCLActivitiesBlkAActivity?) throws
+                          and block: WKRPTCLActivitiesBlkAActivity?)
     func doUpdate(_ activities: [DAOActivity],
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLActivitiesBlkVoid?) throws
+                  and block: WKRPTCLActivitiesBlkVoid?)
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadActivities(for place: DAOPlace,
                           using activityTypes: [DAOActivityType],
-                          with block: WKRPTCLActivitiesBlkAActivity?) throws
+                          with block: WKRPTCLActivitiesBlkAActivity?)
     func doUpdate(_ activities: [DAOActivity],
                   for place: DAOPlace,
-                  with block: WKRPTCLActivitiesBlkVoid?) throws
+                  with block: WKRPTCLActivitiesBlkVoid?)
 }

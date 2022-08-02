@@ -7,61 +7,8 @@
 //
 
 import Combine
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
-import UIKit
-
-public extension DNSError {
-    typealias Systems = WKRPTCLSystemsError
-}
-public enum WKRPTCLSystemsError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRSYSTEMS"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRSYSTEMS-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRSYSTEMS-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation),
-            .notImplemented(let codeLocation):
-            return codeLocation.failureReason
-        }
-    }
-}
+import Foundation
 
 // Protocol Return Types
 public typealias WKRPTCLSystemsRtnASystem = [DAOSystem]
@@ -106,25 +53,25 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadSystem(for id: String,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLSystemsBlkSystem?) throws
+                      and block: WKRPTCLSystemsBlkSystem?)
     func doLoadEndPoints(for system: DAOSystem,
                          with progress: DNSPTCLProgressBlock?,
-                         and block: WKRPTCLSystemsBlkASystemEndPoint?) throws
+                         and block: WKRPTCLSystemsBlkASystemEndPoint?)
     func doLoadHistory(for system: DAOSystem,
                        since time: Date,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLSystemsBlkASystemState?) throws
+                       and block: WKRPTCLSystemsBlkASystemState?)
     func doLoadHistory(for endPoint: DAOSystemEndPoint,
                        since time: Date,
                        include failureCodes: Bool,
                        with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLSystemsBlkASystemState?) throws
+                       and block: WKRPTCLSystemsBlkASystemState?)
     func doLoadSystems(with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLSystemsBlkASystem?) throws
+                       and block: WKRPTCLSystemsBlkASystem?)
     func doOverride(system: DAOSystem,
                     with state: DNSSystemState,
                     with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLSystemsBlkSystem?) throws
+                    and block: WKRPTCLSystemsBlkSystem?)
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
@@ -143,20 +90,20 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadSystem(for id: String,
-                      with block: WKRPTCLSystemsBlkSystem?) throws
+                      with block: WKRPTCLSystemsBlkSystem?)
     func doLoadEndPoints(for system: DAOSystem,
-                         with block: WKRPTCLSystemsBlkASystemEndPoint?) throws
+                         with block: WKRPTCLSystemsBlkASystemEndPoint?)
     func doLoadHistory(for system: DAOSystem,
                        since time: Date,
-                       with block: WKRPTCLSystemsBlkASystemState?) throws
+                       with block: WKRPTCLSystemsBlkASystemState?)
     func doLoadHistory(for endPoint: DAOSystemEndPoint,
                        since time: Date,
                        include failureCodes: Bool,
-                       with block: WKRPTCLSystemsBlkASystemState?) throws
-    func doLoadSystems(with block: WKRPTCLSystemsBlkASystem?) throws
+                       with block: WKRPTCLSystemsBlkASystemState?)
+    func doLoadSystems(with block: WKRPTCLSystemsBlkASystem?)
     func doOverride(system: DAOSystem,
                     with state: DNSSystemState,
-                    with block: WKRPTCLSystemsBlkSystem?) throws
+                    with block: WKRPTCLSystemsBlkSystem?)// Protocol Return Types
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String) -> WKRPTCLSystemsPubVoid

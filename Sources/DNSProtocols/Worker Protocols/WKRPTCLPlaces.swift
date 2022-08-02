@@ -7,75 +7,8 @@
 //
 
 import Combine
-import DNSCoreThreading
 import DNSDataObjects
-import DNSError
 import Foundation
-
-public extension DNSError {
-    typealias Places = WKRPTCLPlacesError
-}
-public enum WKRPTCLPlacesError: DNSError {
-    case unknown(_ codeLocation: DNSCodeLocation)
-    case notImplemented(_ codeLocation: DNSCodeLocation)
-    case notFound(placeId: String, _ codeLocation: DNSCodeLocation)
-
-    public static let domain = "WKRPLACES"
-    public enum Code: Int {
-        case unknown = 1001
-        case notImplemented = 1002
-        case notFound = 1003
-    }
-
-    public var nsError: NSError! {
-        switch self {
-        case .unknown(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .notImplemented(let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        case .notFound(let placeId, let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo["placeId"] = placeId
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.notImplemented.rawValue,
-                                userInfo: userInfo)
-        }
-    }
-    public var errorDescription: String? {
-        return self.errorString
-    }
-    public var errorString: String {
-        switch self {
-        case .unknown:
-            return String(format: NSLocalizedString("WKRPLACES-Unknown Error%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented:
-            return String(format: NSLocalizedString("WKRPLACES-Not Implemented%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        case .notFound(let placeId, _):
-            return String(format: NSLocalizedString("WKRPLACES-Not Found%@%@", comment: ""),
-                          "\(placeId)",
-                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
-        }
-    }
-    public var failureReason: String? {
-        switch self {
-        case .unknown(let codeLocation),
-             .notImplemented(let codeLocation),
-             .notFound(_, let codeLocation):
-            return codeLocation.failureReason
-        }
-    }
-}
 
 // Protocol Return Types
 public typealias WKRPTCLPlacesRtnAlertEventStatus = ([DAOAlert], [DAOPlaceEvent], [DAOPlaceStatus])
@@ -121,48 +54,48 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     func doFilterPlaces(for activity: DAOActivity,
                          using places: [DAOPlace],
                          with progress: DNSPTCLProgressBlock?,
-                         and block: WKRPTCLPlacesBlkAPlace?) throws
+                         and block: WKRPTCLPlacesBlkAPlace?)
     func doLoadPlace(for placeCode: String,
                       with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLPlacesBlkPlace?) throws
+                      and block: WKRPTCLPlacesBlkPlace?)
     func doLoadPlaces(with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLPlacesBlkAPlace?) throws
+                       and block: WKRPTCLPlacesBlkAPlace?)
     func doLoadHolidays(for place: DAOPlace,
                         with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLPlacesBlkAPlaceHoliday?) throws
+                        and block: WKRPTCLPlacesBlkAPlaceHoliday?)
     func doLoadHours(for place: DAOPlace,
                      with progress: DNSPTCLProgressBlock?,
-                     and block: WKRPTCLPlacesBlkPlaceHours?) throws
+                     and block: WKRPTCLPlacesBlkPlaceHours?)
     func doLoadState(for place: DAOPlace,
                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLPlacesPubAlertEventStatus
     func doSearchPlace(for geohash: String,
                         with progress: DNSPTCLProgressBlock?,
-                        and block: WKRPTCLPlacesBlkPlace?) throws
+                        and block: WKRPTCLPlacesBlkPlace?)
     func doUpdate(_ place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLPlacesBlkVoid?) throws
+                  and block: WKRPTCLPlacesBlkVoid?)
     func doUpdate(_ hours: DAOPlaceHours,
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
-                  and block: WKRPTCLPlacesBlkVoid?) throws
+                  and block: WKRPTCLPlacesBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doFilterPlaces(for activity: DAOActivity,
                          using places: [DAOPlace],
-                         with block: WKRPTCLPlacesBlkAPlace?) throws
+                         with block: WKRPTCLPlacesBlkAPlace?)
     func doLoadPlace(for placeCode: String,
-                      with block: WKRPTCLPlacesBlkPlace?) throws
-    func doLoadPlaces(with block: WKRPTCLPlacesBlkAPlace?) throws
+                      with block: WKRPTCLPlacesBlkPlace?)
+    func doLoadPlaces(with block: WKRPTCLPlacesBlkAPlace?)
     func doLoadHolidays(for place: DAOPlace,
-                        with block: WKRPTCLPlacesBlkAPlaceHoliday?) throws
+                        with block: WKRPTCLPlacesBlkAPlaceHoliday?)
     func doLoadHours(for place: DAOPlace,
-                     with block: WKRPTCLPlacesBlkPlaceHours?) throws
+                     with block: WKRPTCLPlacesBlkPlaceHours?)
     func doLoadState(for place: DAOPlace) -> WKRPTCLPlacesPubAlertEventStatus
     func doSearchPlace(for geohash: String,
-                        with block: WKRPTCLPlacesBlkPlace?) throws
+                        with block: WKRPTCLPlacesBlkPlace?)
     func doUpdate(_ place: DAOPlace,
-                  with block: WKRPTCLPlacesBlkVoid?) throws
+                  with block: WKRPTCLPlacesBlkVoid?)
     func doUpdate(_ hours: DAOPlaceHours,
                   for place: DAOPlace,
-                  with block: WKRPTCLPlacesBlkVoid?) throws
+                  with block: WKRPTCLPlacesBlkVoid?)
 }
