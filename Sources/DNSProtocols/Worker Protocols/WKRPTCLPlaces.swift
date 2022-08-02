@@ -89,6 +89,9 @@ public typealias WKRPTCLPlacesRtnVoid = Void
 // Protocol Publisher Types
 public typealias WKRPTCLPlacesPubAlertEventStatus = AnyPublisher<WKRPTCLPlacesRtnAlertEventStatus, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLPlacesFutAlertEventStatus = Future<WKRPTCLPlacesRtnAlertEventStatus, Error>
+
 // Protocol Result Types
 public typealias WKRPTCLPlacesResAPlace = Result<WKRPTCLPlacesRtnAPlace, Error>
 public typealias WKRPTCLPlacesResPlace = Result<WKRPTCLPlacesRtnPlace, Error>

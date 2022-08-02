@@ -130,6 +130,12 @@ public typealias WKRPTCLCachePubImage = AnyPublisher<WKRPTCLCacheRtnImage, Error
 public typealias WKRPTCLCachePubString = AnyPublisher<WKRPTCLCacheRtnString, Error>
 public typealias WKRPTCLCachePubVoid = AnyPublisher<WKRPTCLCacheRtnVoid, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLCacheFutAny = Future<WKRPTCLCacheRtnAny, Error>
+public typealias WKRPTCLCacheFutImage = Future<WKRPTCLCacheRtnImage, Error>
+public typealias WKRPTCLCacheFutString = Future<WKRPTCLCacheRtnString, Error>
+public typealias WKRPTCLCacheFutVoid = Future<WKRPTCLCacheRtnVoid, Error>
+
 public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }

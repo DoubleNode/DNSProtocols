@@ -100,6 +100,9 @@ public typealias WKRPTCLUserIdentityRtnVoid = Void
 // Protocol Publisher Types
 public typealias WKRPTCLUserIdentityPubVoid = AnyPublisher<WKRPTCLUserIdentityRtnVoid, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLUserIdentityFutVoid = Future<WKRPTCLUserIdentityRtnVoid, Error>
+
 public protocol WKRPTCLUserIdentity: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLUserIdentity? { get }

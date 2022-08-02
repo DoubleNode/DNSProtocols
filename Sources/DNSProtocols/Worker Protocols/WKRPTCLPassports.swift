@@ -83,6 +83,9 @@ public typealias WKRPTCLPassportsRtnData = Data
 // Protocol Publisher Types
 public typealias WKRPTCLPassportsPubData = AnyPublisher<WKRPTCLPassportsRtnData, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLPassportsFutData = Future<WKRPTCLPassportsRtnData, Error>
+
 public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPassports? { get }

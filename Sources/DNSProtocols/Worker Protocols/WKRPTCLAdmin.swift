@@ -91,6 +91,12 @@ public typealias WKRPTCLAdminPubBool = AnyPublisher<WKRPTCLAdminRtnBool, Error>
 public typealias WKRPTCLAdminPubUserChangeRequest = AnyPublisher<WKRPTCLAdminRtnUserChangeRequest, Error>
 public typealias WKRPTCLAdminPubVoid = AnyPublisher<WKRPTCLAdminRtnVoid, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLAdminFutAString = Future<WKRPTCLAdminRtnAString, Error>
+public typealias WKRPTCLAdminFutBool = Future<WKRPTCLAdminRtnBool, Error>
+public typealias WKRPTCLAdminFutUserChangeRequest = Future<WKRPTCLAdminRtnUserChangeRequest, Error>
+public typealias WKRPTCLAdminFutVoid = Future<WKRPTCLAdminRtnVoid, Error>
+
 public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAdmin? { get }

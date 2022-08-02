@@ -70,6 +70,9 @@ public typealias WKRPTCLAlertsRtnAAlert = [DAOAlert]
 // Protocol Publisher Types
 public typealias WKRPTCLAlertsPubAAlert = AnyPublisher<WKRPTCLAlertsRtnAAlert, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLAlertsFutAAlert = Future<WKRPTCLAlertsRtnAAlert, Error>
+
 public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAlerts? { get }

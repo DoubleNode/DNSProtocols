@@ -110,6 +110,11 @@ public typealias WKRPTCLSupportPubAttach = AnyPublisher<WKRPTCLSupportRtnAttach,
 public typealias WKRPTCLSupportPubInt = AnyPublisher<WKRPTCLSupportRtnInt, Error>
 public typealias WKRPTCLSupportPubVoid = AnyPublisher<WKRPTCLSupportRtnVoid, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLSupportFutAttach = Future<WKRPTCLSupportRtnAttach, Error>
+public typealias WKRPTCLSupportFutInt = Future<WKRPTCLSupportRtnInt, Error>
+public typealias WKRPTCLSupportFutVoid = Future<WKRPTCLSupportRtnVoid, Error>
+
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLSupport? { get }

@@ -73,6 +73,9 @@ public typealias WKRPTCLSystemsRtnVoid = Void
 // Protocol Publisher Types
 public typealias WKRPTCLSystemsPubVoid = AnyPublisher<WKRPTCLSystemsRtnVoid, Error>
 
+// Protocol Future Types
+public typealias WKRPTCLSystemsFutVoid = Future<WKRPTCLSystemsRtnVoid, Error>
+
 // Protocol Result Types
 public typealias WKRPTCLSystemsResASystem = Result<WKRPTCLSystemsRtnASystem, Error>
 public typealias WKRPTCLSystemsResSystem = Result<WKRPTCLSystemsRtnSystem, Error>
