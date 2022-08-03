@@ -17,7 +17,7 @@ public typealias WKRPTCLAppReviewResVoid = Result<WKRPTCLAppReviewRtnVoid, Error
 public protocol WKRPTCLAppReview: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAppReview? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
+    var systemsWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLAppReview,

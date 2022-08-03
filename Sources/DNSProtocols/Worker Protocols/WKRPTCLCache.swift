@@ -31,7 +31,7 @@ public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLCache? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
+    var systemsWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLCache,

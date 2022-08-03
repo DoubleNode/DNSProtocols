@@ -44,7 +44,7 @@ public struct WKRPTCLSystemsData {
 
 public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLSystems? { get }
+    var nextWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLSystems,

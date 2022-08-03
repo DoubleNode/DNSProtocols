@@ -21,7 +21,7 @@ public typealias WKRPTCLAppEventsBlkAAppEvent = (WKRPTCLAppEventsResAAppEvent) -
 public protocol WKRPTCLAppEvents: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAppEvents? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
+    var systemsWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLAppEvents,

@@ -44,7 +44,7 @@ public typealias WKRPTCLPlacesBlkVoid = (WKRPTCLPlacesResVoid) -> Void
 public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPlaces? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
+    var systemsWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLPlaces,
