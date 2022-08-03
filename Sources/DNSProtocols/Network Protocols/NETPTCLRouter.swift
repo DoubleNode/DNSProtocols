@@ -23,7 +23,9 @@ public protocol NETPTCLRouter: URLRequestConvertible, NETPTCLNetworkBase {
     init(with netConfig: NETPTCLConfig)
 
     // MARK: - Network Router Logic (Public) -
-    func dataRequest(for code: String) -> NETPTCLRouterResDataRequest
     func asURLRequest() throws -> NETPTCLRouterRtnURLRequest
     func asURLRequest(for code: String) -> NETPTCLRouterResURLRequest
+    func dataRequest(for code: String) -> NETPTCLRouterResDataRequest
+    func urlRequest(using url: URL) -> NETPTCLRouterResURLRequest
+    func urlRequest(for code: String, using url: URL) -> NETPTCLRouterResURLRequest
 }
