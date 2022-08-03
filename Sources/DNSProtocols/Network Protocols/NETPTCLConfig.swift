@@ -29,5 +29,6 @@ public protocol NETPTCLConfig: NETPTCLNetworkBase {
     func urlComponents() -> NETPTCLConfigResURLComponents
     func urlComponents(for code: String) -> NETPTCLConfigResURLComponents
     func urlComponents(set components: URLComponents, for code: String) -> NETPTCLConfigResVoid
+    func restHeaders() -> NETPTCLConfigResHeaders
     func restHeaders(for code: String) -> NETPTCLConfigResHeaders
 }
