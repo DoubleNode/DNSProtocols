@@ -6,10 +6,14 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import Foundation
 
 public protocol WKRPTCLWorkerBase: AnyObject {
-    var netConfig: NETPTCLConfig { get }
+    static var xlt: DNSDataTranslation { get }
+
+    var netConfig: NETPTCLConfig { get set }
+    var netRouter: NETPTCLRouter { get set }
 
     func configure()
 

@@ -11,14 +11,23 @@ import DNSError
 import Foundation
 
 // Protocol Return Types
+public typealias NETPTCLConfigRtnDataRequest = DataRequest
 public typealias NETPTCLConfigRtnHeaders = HTTPHeaders
+public typealias NETPTCLConfigRtnURLComponents = URLComponents
+public typealias NETPTCLConfigRtnVoid = Void
 
 // Protocol Result Types
+public typealias NETPTCLConfigResDataRequest = Result<NETPTCLConfigRtnDataRequest, Error>
 public typealias NETPTCLConfigResHeaders = Result<NETPTCLConfigRtnHeaders, Error>
+public typealias NETPTCLConfigResURLComponents = Result<NETPTCLConfigRtnURLComponents, Error>
+public typealias NETPTCLConfigResVoid = Result<NETPTCLConfigRtnVoid, Error>
 
 public protocol NETPTCLConfig: NETPTCLNetworkBase {
     init()
 
-    // MARK: - Worker Logic (Public) -
-    func restHeaders() -> NETPTCLConfigResHeaders
+    // MARK: - Network Config Logic (Public) -
+    func dataRequest(for code: String) -> NETPTCLConfigResDataRequest
+    func urlComponents(for code: String) -> NETPTCLConfigResURLComponents
+    func urlComponents(set components: URLComponents, for code: String) -> NETPTCLConfigResVoid
+    func restHeaders(for code: String) -> NETPTCLConfigResHeaders
 }
