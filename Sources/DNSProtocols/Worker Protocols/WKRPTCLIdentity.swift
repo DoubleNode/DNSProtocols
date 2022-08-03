@@ -22,7 +22,7 @@ public typealias WKRPTCLIdentityFutVoid = Future<WKRPTCLIdentityRtnVoid, Error>
 public protocol WKRPTCLIdentity: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLIdentity? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
+    var systemsWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLIdentity,

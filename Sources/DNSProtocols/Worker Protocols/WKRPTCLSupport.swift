@@ -39,7 +39,7 @@ public typealias WKRPTCLSupportFutVoid = Future<WKRPTCLSupportRtnVoid, Error>
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLSupport? { get }
-    var systemsWorker: WKRPTCLSystems? { get }
+    var systemsWorker: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLSupport,
