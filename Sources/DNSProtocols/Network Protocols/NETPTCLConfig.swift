@@ -26,7 +26,6 @@ public protocol NETPTCLConfig: NETPTCLNetworkBase {
     init()
 
     // MARK: - Network Config Logic (Public) -
-    func dataRequest(for code: String) -> NETPTCLConfigResDataRequest
     func urlComponents(for code: String) -> NETPTCLConfigResURLComponents
     func urlComponents(set components: URLComponents, for code: String) -> NETPTCLConfigResVoid
     func restHeaders(for code: String) -> NETPTCLConfigResHeaders
