@@ -50,27 +50,42 @@ public protocol WKRPTCLAnalytics: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Auto-Track -
+    @discardableResult
     func doAutoTrack(class: String, method: String) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doAutoTrack(class: String, method: String, properties: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doAutoTrack(class: String, method: String, properties: DNSDataDictionary, options: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
 
     // MARK: - Group -
+    @discardableResult
     func doGroup(groupId: String) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doGroup(groupId: String, traits: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doGroup(groupId: String, traits: DNSDataDictionary, options: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
 
     // MARK: - Identify -
+    @discardableResult
     func doIdentify(userId: String) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doIdentify(userId: String, traits: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doIdentify(userId: String, traits: DNSDataDictionary, options: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
 
     // MARK: - Screen -
+    @discardableResult
     func doScreen(screenTitle: String) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doScreen(screenTitle: String, properties: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doScreen(screenTitle: String, properties: DNSDataDictionary, options: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
     
     // MARK: - Track -
+    @discardableResult
     func doTrack(event: WKRPTCLAnalytics.Events) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doTrack(event: WKRPTCLAnalytics.Events, properties: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
+    @discardableResult
     func doTrack(event: WKRPTCLAnalytics.Events, properties: DNSDataDictionary, options: DNSDataDictionary) -> WKRPTCLAnalyticsResVoid
 }
