@@ -18,13 +18,11 @@ public typealias NETPTCLRouterRtnURLRequest = URLRequest
 public typealias NETPTCLRouterResDataRequest = Result<NETPTCLRouterRtnDataRequest, Error>
 public typealias NETPTCLRouterResURLRequest = Result<NETPTCLRouterRtnURLRequest, Error>
 
-public protocol NETPTCLRouter: URLRequestConvertible, NETPTCLNetworkBase {
+public protocol NETPTCLRouter: NETPTCLNetworkBase {
     init()
     init(with netConfig: NETPTCLConfig)
 
     // MARK: - Network Router Logic (Public) -
-    func asURLRequest() throws -> NETPTCLRouterRtnURLRequest
-    func asURLRequest(for code: String) -> NETPTCLRouterResURLRequest
     func dataRequest(for code: String) -> NETPTCLRouterResDataRequest
     func urlRequest(using url: URL) -> NETPTCLRouterResURLRequest
     func urlRequest(for code: String, using url: URL) -> NETPTCLRouterResURLRequest
