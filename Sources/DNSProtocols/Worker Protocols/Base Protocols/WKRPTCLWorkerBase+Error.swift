@@ -13,33 +13,33 @@ public extension DNSError {
     typealias WorkerBase = WKRPTCLWorkerBaseError
 }
 public enum WKRPTCLWorkerBaseError: DNSError {
+    // Common Errors
     case unknown(_ codeLocation: DNSCodeLocation)
-    case invalidParameter(parameter: String, _ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
+    case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
+    case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    // Domain-Specific Errors
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
     
     public static let domain = "WKRBASE"
     public enum Code: Int {
+        // Common Errors
         case unknown = 1001
-        case invalidParameter = 1002
-        case notImplemented = 1003
-        case systemError = 1004
+        case notImplemented = 1002
+        case notFound = 1003
+        case invalidParameters = 1004
+        // Domain-Specific Errors
+        case systemError = 2001
     }
     
     public var nsError: NSError! {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
-                                userInfo: userInfo)
-        case .invalidParameter(let parameter, let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo["Parameter"] = parameter
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.invalidParameter.rawValue,
                                 userInfo: userInfo)
         case .notImplemented(let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -47,6 +47,22 @@ public enum WKRPTCLWorkerBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
+        case .notFound(let field, let value, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["field"] = field
+            userInfo["value"] = value
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notFound.rawValue,
+                                userInfo: userInfo)
+        case .invalidParameters(let parameters, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            userInfo["Parameters"] = parameters
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+            // Domain-Specific Errors
         case .systemError(let error, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["Error"] = error
@@ -61,16 +77,23 @@ public enum WKRPTCLWorkerBaseError: DNSError {
     }
     public var errorString: String {
         switch self {
+            // Common Errors
         case .unknown:
             return String(format: NSLocalizedString("WKRBASE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .invalidParameter(let parameter, _):
-            return String(format: NSLocalizedString("WKRBASE-Invalid Parameter%@%@", comment: ""),
-                          "\(parameter)",
-                          " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))")
         case .notImplemented:
             return String(format: NSLocalizedString("WKRBASE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        case .notFound(let field, let value, _):
+            return String(format: NSLocalizedString("WKRBASE-Not Found(%@=\"%@\")%@", comment: ""),
+                          "\(field)", "\(value)",
+                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
+        case .invalidParameters(let parameters, _):
+            let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
+            return String(format: NSLocalizedString("WKRBASE-Invalid Parameters(%@)%@", comment: ""),
+                          "\(parametersString)",
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+            // Domain-Specific Errors
         case .systemError(let error, _):
             return String(format: NSLocalizedString("WKRBASE-System Error%@%@", comment: ""),
                           error.localizedDescription,
@@ -79,10 +102,13 @@ public enum WKRPTCLWorkerBaseError: DNSError {
     }
     public var failureReason: String? {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation),
-            .notImplemented(let codeLocation),
-            .systemError(_, let codeLocation),
-            .invalidParameter(_, let codeLocation):
+             .notImplemented(let codeLocation),
+             .notFound(_, _, let codeLocation),
+             .invalidParameters(_, let codeLocation),
+            // Domain-Specific Errors
+            .systemError(_, let codeLocation):
             return codeLocation.failureReason
         }
     }

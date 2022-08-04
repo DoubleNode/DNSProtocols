@@ -13,8 +13,12 @@ public extension DNSError {
     typealias NetworkBase = NETPTCLNetworkBaseError
 }
 public enum NETPTCLNetworkBaseError: DNSError {
+    // Common Errors
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
+    case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
+    case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    // Domain-Specific Errors
     case noConnection(_ codeLocation: DNSCodeLocation)
     case dataError(_ codeLocation: DNSCodeLocation)
     case invalidUrl(_ codeLocation: DNSCodeLocation)
@@ -24,26 +28,29 @@ public enum NETPTCLNetworkBaseError: DNSError {
     case forbidden(_ codeLocation: DNSCodeLocation)
     case upgradeClient(message: String, _ codeLocation: DNSCodeLocation)
     case adminRequired(_ codeLocation: DNSCodeLocation)
-    case invalidParameter(parameter: String, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "NETBASE"
     public enum Code: Int {
+        // Common Errors
         case unknown = 1001
         case notImplemented = 1002
-        case noConnection = 1003
-        case dataError = 1004
-        case invalidUrl = 1005
-        case networkError = 1006
-        case serverError = 1007
-        case unauthorized = 1008
-        case forbidden = 1009
-        case upgradeClient = 1010
-        case adminRequired = 1011
-        case invalidParameter = 1012
+        case notFound = 1003
+        case invalidParameters = 1004
+        // Domain-Specific Errors
+        case noConnection = 2001
+        case dataError = 2002
+        case invalidUrl = 2003
+        case networkError = 2004
+        case serverError = 2005
+        case unauthorized = 2006
+        case forbidden = 2007
+        case upgradeClient = 2008
+        case adminRequired = 2009
     }
 
     public var nsError: NSError! {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
@@ -56,6 +63,22 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
+        case .notFound(let field, let value, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["field"] = field
+            userInfo["value"] = value
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notFound.rawValue,
+                                userInfo: userInfo)
+        case .invalidParameters(let parameters, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            userInfo["Parameters"] = parameters
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+            // Domain-Specific Errors
         case .noConnection(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
@@ -113,13 +136,6 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.adminRequired.rawValue,
                                 userInfo: userInfo)
-        case .invalidParameter(let parameter, let codeLocation):
-            var userInfo = codeLocation.userInfo
-            userInfo["Parameter"] = parameter
-            userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain,
-                                code: Self.Code.invalidParameter.rawValue,
-                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -127,12 +143,23 @@ public enum NETPTCLNetworkBaseError: DNSError {
     }
     public var errorString: String {
         switch self {
+            // Common Errors
         case .unknown:
             return String(format: NSLocalizedString("NETBASE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
             return String(format: NSLocalizedString("NETBASE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        case .notFound(let field, let value, _):
+            return String(format: NSLocalizedString("NETBASE-Not Found(%@=\"%@\")%@", comment: ""),
+                          "\(field)", "\(value)",
+                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
+        case .invalidParameters(let parameters, _):
+            let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
+            return String(format: NSLocalizedString("NETBASE-Invalid Parameters(%@)%@", comment: ""),
+                          "\(parametersString)",
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+            // Domain-Specific Errors
         case .noConnection:
             return String(format: NSLocalizedString("NETBASE-No Connection%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.noConnection.rawValue))")
@@ -163,16 +190,16 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case .adminRequired:
             return String(format: NSLocalizedString("NETBASE-AdminRequired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.adminRequired.rawValue))")
-        case .invalidParameter(let parameter, _):
-            return String(format: NSLocalizedString("NETBASE-Invalid Parameter%@%@", comment: ""),
-                          "\(parameter)",
-                          " (\(Self.domain):\(Self.Code.invalidParameter.rawValue))")
         }
     }
     public var failureReason: String? {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
+             .notFound(_, _, let codeLocation),
+             .invalidParameters(_, let codeLocation),
+            // Domain-Specific Errors
              .noConnection(let codeLocation),
              .dataError(let codeLocation),
              .invalidUrl(let codeLocation),
@@ -181,8 +208,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
              .unauthorized(let codeLocation),
              .forbidden(let codeLocation),
              .upgradeClient(_, let codeLocation),
-             .adminRequired(let codeLocation),
-             .invalidParameter(_, let codeLocation):
+             .adminRequired(let codeLocation):
             return codeLocation.failureReason
         }
     }

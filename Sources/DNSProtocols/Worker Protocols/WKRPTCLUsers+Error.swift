@@ -13,19 +13,26 @@ public extension DNSError {
     typealias Users = WKRPTCLUsersError
 }
 public enum WKRPTCLUsersError: DNSError {
+    // Common Errors
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
-    case noAccounts(_ codeLocation: DNSCodeLocation)
+    case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
+    case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    // Domain-Specific Errors
 
     public static let domain = "WKRUSERS"
     public enum Code: Int {
+        // Common Errors
         case unknown = 1001
         case notImplemented = 1002
-        case noAccounts = 1003
+        case notFound = 1003
+        case invalidParameters = 1004
+        // Domain-Specific Errors
     }
 
     public var nsError: NSError! {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
@@ -38,12 +45,22 @@ public enum WKRPTCLUsersError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
-        case .noAccounts(let codeLocation):
+        case .notFound(let field, let value, let codeLocation):
             var userInfo = codeLocation.userInfo
+            userInfo["field"] = field
+            userInfo["value"] = value
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
-                                code: Self.Code.noAccounts.rawValue,
+                                code: Self.Code.notFound.rawValue,
                                 userInfo: userInfo)
+        case .invalidParameters(let parameters, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            userInfo["Parameters"] = parameters
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+            // Domain-Specific Errors
         }
     }
     public var errorDescription: String? {
@@ -51,22 +68,33 @@ public enum WKRPTCLUsersError: DNSError {
     }
     public var errorString: String {
         switch self {
+            // Common Errors
         case .unknown:
             return String(format: NSLocalizedString("WKRUSERS-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
             return String(format: NSLocalizedString("WKRUSERS-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        case .noAccounts:
-            return String(format: NSLocalizedString("WKRUSERS-No Accounts Found%@", comment: ""),
-                          " (\(Self.domain):\(Self.Code.noAccounts.rawValue))")
+        case .notFound(let field, let value, _):
+            return String(format: NSLocalizedString("WKRUSERS-Not Found(%@=\"%@\")%@", comment: ""),
+                          "\(field)", "\(value)",
+                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
+        case .invalidParameters(let parameters, _):
+            let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
+            return String(format: NSLocalizedString("WKRUSERS-Invalid Parameters(%@)%@", comment: ""),
+                          "\(parametersString)",
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+            // Domain-Specific Errors
         }
     }
     public var failureReason: String? {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
-             .noAccounts(let codeLocation):
+             .notFound(_, _, let codeLocation),
+             .invalidParameters(_, let codeLocation):
+            // Domain-Specific Errors
                 return codeLocation.failureReason
        }
     }

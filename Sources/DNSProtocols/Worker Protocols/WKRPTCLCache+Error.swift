@@ -13,8 +13,12 @@ public extension DNSError {
     typealias Cache = WKRPTCLCacheError
 }
 public enum WKRPTCLCacheError: DNSError {
+    // Common Errors
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
+    case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
+    case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    // Domain-Specific Errors
     case createError(error: Error, _ codeLocation: DNSCodeLocation)
     case deleteError(error: Error, _ codeLocation: DNSCodeLocation)
     case readError(error: Error, _ codeLocation: DNSCodeLocation)
@@ -22,16 +26,21 @@ public enum WKRPTCLCacheError: DNSError {
 
     public static let domain = "WKRCACHE"
     public enum Code: Int {
+        // Common Errors
         case unknown = 1001
         case notImplemented = 1002
-        case createError = 1003
-        case deleteError = 1004
-        case readError = 1005
-        case writeError = 1006
+        case notFound = 1003
+        case invalidParameters = 1004
+        // Domain-Specific Errors
+        case createError = 2001
+        case deleteError = 2002
+        case readError = 2003
+        case writeError = 2004
     }
     
     public var nsError: NSError! {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
@@ -44,6 +53,22 @@ public enum WKRPTCLCacheError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
+        case .notFound(let field, let value, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["field"] = field
+            userInfo["value"] = value
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notFound.rawValue,
+                                userInfo: userInfo)
+        case .invalidParameters(let parameters, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            userInfo["Parameters"] = parameters
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+            // Domain-Specific Errors
         case .createError(let error, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["Error"] = error
@@ -79,12 +104,23 @@ public enum WKRPTCLCacheError: DNSError {
     }
     public var errorString: String {
         switch self {
+            // Common Errors
         case .unknown:
             return String(format: NSLocalizedString("WKRCACHE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
             return String(format: NSLocalizedString("WKRCACHE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        case .notFound(let field, let value, _):
+            return String(format: NSLocalizedString("WKRCACHE-Not Found(%@=\"%@\")%@", comment: ""),
+                          "\(field)", "\(value)",
+                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
+        case .invalidParameters(let parameters, _):
+            let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
+            return String(format: NSLocalizedString("WKRCACHE-Invalid Parameters(%@)%@", comment: ""),
+                          "\(parametersString)",
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+            // Domain-Specific Errors
         case .createError(let error, _):
             return String(format: NSLocalizedString("WKRCACHE-Object Create Error%@%@", comment: ""),
                           error.localizedDescription,
@@ -105,8 +141,12 @@ public enum WKRPTCLCacheError: DNSError {
     }
     public var failureReason: String? {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
+             .notFound(_, _, let codeLocation),
+             .invalidParameters(_, let codeLocation),
+            // Domain-Specific Errors
              .createError(_, let codeLocation),
              .deleteError(_, let codeLocation),
              .readError(_, let codeLocation),

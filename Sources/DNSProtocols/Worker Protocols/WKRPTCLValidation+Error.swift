@@ -13,8 +13,12 @@ public extension DNSError {
     typealias Validation = WKRPTCLValidationError
 }
 public enum WKRPTCLValidationError: DNSError {
+    // Common Errors
     case unknown(_ codeLocation: DNSCodeLocation)
     case notImplemented(_ codeLocation: DNSCodeLocation)
+    case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
+    case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    // Domain-Specific Errors
     case invalid(fieldName: String, _ codeLocation: DNSCodeLocation)
     case noValue(fieldName: String, _ codeLocation: DNSCodeLocation)
     case tooHigh(fieldName: String, _ codeLocation: DNSCodeLocation)
@@ -28,30 +32,55 @@ public enum WKRPTCLValidationError: DNSError {
 
     public static let domain = "WKRVALIDATE"
     public enum Code: Int {
+        // Common Errors
         case unknown = 1001
         case notImplemented = 1002
-        case invalid = 1003
-        case noValue = 1004
-        case tooHigh = 1005
-        case tooLong = 1006
-        case tooLow = 1007
-        case tooOld = 1008
-        case tooShort = 1009
-        case tooWeak = 1010
-        case tooYoung = 1011
-        case required = 1012
+        case notFound = 1003
+        case invalidParameters = 1004
+        // Domain-Specific Errors
+        case invalid = 2001
+        case noValue = 2002
+        case tooHigh = 2003
+        case tooLong = 2004
+        case tooLow = 2005
+        case tooOld = 2006
+        case tooShort = 2007
+        case tooWeak = 2008
+        case tooYoung = 2009
+        case required = 2010
     }
 
     public var nsError: NSError! {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain, code: Self.Code.unknown.rawValue, userInfo: userInfo)
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.unknown.rawValue,
+                                userInfo: userInfo)
         case .notImplemented(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
-            return NSError.init(domain: Self.domain, code: Self.Code.notImplemented.rawValue, userInfo: userInfo)
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notImplemented.rawValue,
+                                userInfo: userInfo)
+        case .notFound(let field, let value, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["field"] = field
+            userInfo["value"] = value
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notFound.rawValue,
+                                userInfo: userInfo)
+        case .invalidParameters(let parameters, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            userInfo["Parameters"] = parameters
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+            // Domain-Specific Errors
         case .invalid(let fieldName, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["fieldName"] = fieldName
@@ -109,12 +138,23 @@ public enum WKRPTCLValidationError: DNSError {
     }
     public var errorString: String {
         switch self {
+            // Common Errors
         case .unknown:
             return String(format: NSLocalizedString("WKRVALIDATE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
         case .notImplemented:
             return String(format: NSLocalizedString("WKRVALIDATE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+        case .notFound(let field, let value, _):
+            return String(format: NSLocalizedString("WKRVALIDATE-Not Found(%@=\"%@\")%@", comment: ""),
+                          "\(field)", "\(value)",
+                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
+        case .invalidParameters(let parameters, _):
+            let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
+            return String(format: NSLocalizedString("WKRVALIDATE-Invalid Parameters(%@)%@", comment: ""),
+                          "\(parametersString)",
+                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+            // Domain-Specific Errors
         case .invalid(let fieldName, _):
             return String(format: NSLocalizedString("WKRVALIDATE-Invalid Entry%@%@", comment: ""),
                           "\(fieldName)",
@@ -159,8 +199,12 @@ public enum WKRPTCLValidationError: DNSError {
     }
     public var failureReason: String? {
         switch self {
+            // Common Errors
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
+             .notFound(_, _, let codeLocation),
+             .invalidParameters(_, let codeLocation),
+            // Domain-Specific Errors
              .invalid(_, let codeLocation),
              .noValue(_, let codeLocation),
              .tooHigh(_, let codeLocation),
