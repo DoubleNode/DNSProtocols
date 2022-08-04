@@ -11,7 +11,7 @@ import Foundation
 
 // Protocol Return Types
 public typealias WKRPTCLUsersRtnAUser = [DAOUser]
-public typealias WKRPTCLUsersRtnUser = DAOUser?
+public typealias WKRPTCLUsersRtnUser = DAOUser
 public typealias WKRPTCLUsersRtnVoid = Void
 
 // Protocol Result Types

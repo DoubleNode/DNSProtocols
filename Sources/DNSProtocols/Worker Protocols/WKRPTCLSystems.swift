@@ -41,6 +41,19 @@ public struct WKRPTCLSystemsData {
         case success
     }
 }
+public struct WKRPTCLSystemsStateData {
+    public static var empty = WKRPTCLSystemsStateData(system: "", endPoint: "", sendDebug: false)
+
+    public var system: String
+    public var endPoint: String
+    public var sendDebug: Bool
+    
+    public init(system: String, endPoint: String, sendDebug: Bool) {
+        self.system = system
+        self.endPoint = endPoint
+        self.sendDebug = sendDebug
+    }
+}
 
 public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
