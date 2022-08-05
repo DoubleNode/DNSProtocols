@@ -158,7 +158,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("NETBASE-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+                          " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
         case .noConnection:
             return String(format: NSLocalizedString("NETBASE-No Connection%@", comment: ""),

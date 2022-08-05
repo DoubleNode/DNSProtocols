@@ -108,7 +108,7 @@ public enum WKRPTCLAuthError: DNSError {
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("WKRAUTH-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+                          " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
         case .failure(let error, _):
             return String(format: NSLocalizedString("WKRAUTH-SignIn Failure%@%@", comment: ""),

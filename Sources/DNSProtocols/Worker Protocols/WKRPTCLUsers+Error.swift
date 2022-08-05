@@ -83,7 +83,7 @@ public enum WKRPTCLUsersError: DNSError {
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("WKRUSERS-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+                          " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
         }
     }

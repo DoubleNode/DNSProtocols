@@ -92,7 +92,7 @@ public enum WKRPTCLAdminError: DNSError {
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("WKRADMIN-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+                          " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
         case .unauthorized(let accountId, _):
             return String(format: NSLocalizedString("WKRADMIN-Unauthorized%@%@", comment: ""),

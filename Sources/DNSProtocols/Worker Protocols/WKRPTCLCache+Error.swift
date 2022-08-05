@@ -119,7 +119,7 @@ public enum WKRPTCLCacheError: DNSError {
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("WKRCACHE-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+                          " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
         case .createError(let error, _):
             return String(format: NSLocalizedString("WKRCACHE-Object Create Error%@%@", comment: ""),

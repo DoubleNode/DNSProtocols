@@ -103,7 +103,7 @@ public enum WKRPTCLIdentityError: DNSError {
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("WKRIDENTITY-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
-                          " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
+                          " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
         case .unableToJoin(let group, let error, _):
             return String(format: NSLocalizedString("WKRIDENTITY-Unable to Join Group%@%@%@", comment: ""),
