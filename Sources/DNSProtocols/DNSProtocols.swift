@@ -24,7 +24,7 @@ public enum DNSPTCLCall {
     }
     public enum Result {
         case completed
-        case error
+        case error(error: Error? = nil)
         case notFound
         case unhandled
     }
