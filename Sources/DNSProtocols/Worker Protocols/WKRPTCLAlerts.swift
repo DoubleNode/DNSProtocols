@@ -22,7 +22,7 @@ public typealias WKRPTCLAlertsFutAAlert = Future<WKRPTCLAlertsRtnAAlert, Error>
 public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAlerts? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
     
     init()
     func register(nextWorker: WKRPTCLAlerts,

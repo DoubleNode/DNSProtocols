@@ -21,7 +21,7 @@ public typealias WKRPTCLBeaconDistBlkABeaconDistance = (WKRPTCLBeaconDistResABea
 public protocol WKRPTCLBeaconDist: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLBeaconDist? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLBeaconDist,

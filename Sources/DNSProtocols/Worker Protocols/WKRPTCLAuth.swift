@@ -32,7 +32,7 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
     
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAuth? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
 
 
     init()

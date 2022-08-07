@@ -31,7 +31,7 @@ public typealias WKRPTCLAdminFutVoid = Future<WKRPTCLAdminRtnVoid, Error>
 public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAdmin? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLAdmin,

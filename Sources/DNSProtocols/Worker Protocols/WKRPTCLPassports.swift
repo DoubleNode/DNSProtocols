@@ -22,7 +22,7 @@ public typealias WKRPTCLPassportsFutData = Future<WKRPTCLPassportsRtnData, Error
 public protocol WKRPTCLPassports: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPassports? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLPassports,

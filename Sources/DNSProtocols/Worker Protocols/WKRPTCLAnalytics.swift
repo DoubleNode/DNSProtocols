@@ -43,7 +43,7 @@ public protocol WKRPTCLAnalytics: WKRPTCLWorkerBase {
 
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLAnalytics? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLAnalytics,

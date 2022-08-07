@@ -21,7 +21,7 @@ public protocol WKRPTCLValidation: WKRPTCLWorkerBase {
 
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLValidation? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
 
     init()
     func register(nextWorker: WKRPTCLValidation,

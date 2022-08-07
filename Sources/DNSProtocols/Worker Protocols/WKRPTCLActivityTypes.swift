@@ -30,7 +30,7 @@ public typealias WKRPTCLActivityTypesBlkVoid = (WKRPTCLActivityTypesResVoid) -> 
 public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLActivityTypes? { get }
-    var systemsWorker: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems { get }
     
     init()
     func register(nextWorker: WKRPTCLActivityTypes,
