@@ -40,9 +40,9 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
-    func doCheckAuthentication(using parameters: DNSDataDictionary,
-                               with progress: DNSPTCLProgressBlock?,
-                               and block: WKRPTCLAuthBlkBoolBoolAccessData?)
+    func doCheckAuth(using parameters: DNSDataDictionary,
+                     with progress: DNSPTCLProgressBlock?,
+                     and block: WKRPTCLAuthBlkBoolBoolAccessData?)
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
