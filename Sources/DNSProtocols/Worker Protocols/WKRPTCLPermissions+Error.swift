@@ -19,6 +19,7 @@ public enum WKRPTCLPermissionsError: DNSError {
     case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case noPermission(permission: String, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRPERMISSIONS"
     public enum Code: Int {
@@ -28,6 +29,7 @@ public enum WKRPTCLPermissionsError: DNSError {
         case notFound = 1003
         case invalidParameters = 1004
         // Domain-Specific Errors
+        case noPermission = 2001
     }
 
     public var nsError: NSError! {
@@ -61,6 +63,13 @@ public enum WKRPTCLPermissionsError: DNSError {
                                 code: Self.Code.invalidParameters.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .noPermission(let permission, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["permission"] = permission
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.noPermission.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -85,6 +94,10 @@ public enum WKRPTCLPermissionsError: DNSError {
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
             // Domain-Specific Errors
+        case .noPermission(let permission, _):
+            return String(format: NSLocalizedString("WKRPERMISSIONS-No Permission(%@)%@", comment: ""),
+                          "\(permission)",
+                          "(\(Self.domain):\(Self.Code.notFound.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -93,8 +106,9 @@ public enum WKRPTCLPermissionsError: DNSError {
         case .unknown(let codeLocation),
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
-             .invalidParameters(_, let codeLocation):
+             .invalidParameters(_, let codeLocation),
             // Domain-Specific Errors
+             .noPermission(_, let codeLocation):
             return codeLocation.failureReason
         }
     }
