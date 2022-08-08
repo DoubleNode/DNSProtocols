@@ -119,7 +119,7 @@ public enum WKRPTCLAuthError: DNSError {
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
         case .lowerError(let error, _):
-            return String(format: NSLocalizedString("WKRAUTH-Lower Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Lower Error [%@]%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors

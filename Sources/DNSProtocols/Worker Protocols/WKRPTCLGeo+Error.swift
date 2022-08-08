@@ -111,7 +111,7 @@ public enum WKRPTCLGeoError: DNSError {
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
         case .lowerError(let error, _):
-            return String(format: NSLocalizedString("WKRGEO-Lower Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRGEO-Lower Error [%@]%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors

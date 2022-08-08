@@ -102,7 +102,7 @@ public enum WKRPTCLCartError: DNSError {
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
         case .lowerError(let error, _):
-            return String(format: NSLocalizedString("WKRCART-Lower Error%@%@", comment: ""),
+            return String(format: NSLocalizedString("WKRCART-Lower Error [%@]%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
