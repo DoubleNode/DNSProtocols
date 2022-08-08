@@ -18,6 +18,7 @@ public enum SYSPTCLSystemBaseError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
     case duplicateKey(_ codeLocation: DNSCodeLocation)
     case noPermission(permission: String, _ codeLocation: DNSCodeLocation)
@@ -32,6 +33,7 @@ public enum SYSPTCLSystemBaseError: DNSError {
         case notImplemented = 1002
         case notFound = 1003
         case invalidParameters = 1004
+        case lowerError = 1005
         // Domain-Specific Errors
         case duplicateKey = 2001
         case noPermission = 2002
@@ -69,6 +71,13 @@ public enum SYSPTCLSystemBaseError: DNSError {
             userInfo["Parameters"] = parameters
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+        case .lowerError(let error, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["Error"] = error
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
         case .duplicateKey(let codeLocation):
@@ -126,6 +135,10 @@ public enum SYSPTCLSystemBaseError: DNSError {
             return String(format: NSLocalizedString("SYSBASE-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
+        case .lowerError(let error, _):
+            return String(format: NSLocalizedString("SYSBASE-Lower Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
         case .duplicateKey:
             return String(format: NSLocalizedString("SYSBASE-Duplicate Key%@", comment: ""),
@@ -153,6 +166,7 @@ public enum SYSPTCLSystemBaseError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
+             .lowerError(_, let codeLocation),
             // Domain-Specific Errors
              .duplicateKey(let codeLocation),
              .noPermission(_, let codeLocation),

@@ -18,6 +18,7 @@ public enum WKRPTCLCartError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
     case emptyBasket(_ codeLocation: DNSCodeLocation)
 
@@ -28,6 +29,7 @@ public enum WKRPTCLCartError: DNSError {
         case notImplemented = 1002
         case notFound = 1003
         case invalidParameters = 1004
+        case lowerError = 1005
         // Domain-Specific Errors
         case emptyBasket = 2001
     }
@@ -62,6 +64,13 @@ public enum WKRPTCLCartError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidParameters.rawValue,
                                 userInfo: userInfo)
+        case .lowerError(let error, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["Error"] = error
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.lowerError.rawValue,
+                                userInfo: userInfo)
             // Domain-Specific Errors
         case .emptyBasket(let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -92,6 +101,10 @@ public enum WKRPTCLCartError: DNSError {
             return String(format: NSLocalizedString("WKRCART-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
+        case .lowerError(let error, _):
+            return String(format: NSLocalizedString("WKRCART-Lower Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
         case .emptyBasket:
             return String(format: NSLocalizedString("WKRCART-Empty Basket%@", comment: ""),
@@ -105,6 +118,7 @@ public enum WKRPTCLCartError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
+             .lowerError(_, let codeLocation),
             // Domain-Specific Errors
              .emptyBasket(let codeLocation):
                 return codeLocation.failureReason

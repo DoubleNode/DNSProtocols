@@ -18,6 +18,7 @@ public enum WKRPTCLIdentityError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
     case unableToJoin(group: String, error: Error, _ codeLocation: DNSCodeLocation)
     case unableToLeave(group: String, error: Error, _ codeLocation: DNSCodeLocation)
@@ -29,6 +30,7 @@ public enum WKRPTCLIdentityError: DNSError {
         case notImplemented = 1002
         case notFound = 1003
         case invalidParameters = 1004
+        case lowerError = 1005
         // Domain-Specific Errors
         case unableToJoin = 2001
         case unableToLeave = 2002
@@ -63,6 +65,13 @@ public enum WKRPTCLIdentityError: DNSError {
             userInfo["Parameters"] = parameters
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidParameters.rawValue,
+                                userInfo: userInfo)
+        case .lowerError(let error, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["Error"] = error
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
         case .unableToJoin(let group, let error, let codeLocation):
@@ -104,6 +113,10 @@ public enum WKRPTCLIdentityError: DNSError {
             return String(format: NSLocalizedString("WKRIDENTITY-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
+        case .lowerError(let error, _):
+            return String(format: NSLocalizedString("WKRIDENTITY-Lower Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
         case .unableToJoin(let group, let error, _):
             return String(format: NSLocalizedString("WKRIDENTITY-Unable to Join Group%@%@%@", comment: ""),
@@ -124,6 +137,7 @@ public enum WKRPTCLIdentityError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
+             .lowerError(_, let codeLocation),
             // Domain-Specific Errors
              .unableToJoin(_, _, let codeLocation),
              .unableToLeave(_, _, let codeLocation):

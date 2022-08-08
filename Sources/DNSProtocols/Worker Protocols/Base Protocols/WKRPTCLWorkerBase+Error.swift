@@ -18,6 +18,7 @@ public enum WKRPTCLWorkerBaseError: DNSError {
     case notImplemented(_ codeLocation: DNSCodeLocation)
     case notFound(field: String, value: String, _ codeLocation: DNSCodeLocation)
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
+    case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
     case systemError(error: Error, _ codeLocation: DNSCodeLocation)
     
@@ -28,6 +29,7 @@ public enum WKRPTCLWorkerBaseError: DNSError {
         case notImplemented = 1002
         case notFound = 1003
         case invalidParameters = 1004
+        case lowerError = 1005
         // Domain-Specific Errors
         case systemError = 2001
     }
@@ -62,6 +64,13 @@ public enum WKRPTCLWorkerBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidParameters.rawValue,
                                 userInfo: userInfo)
+        case .lowerError(let error, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["Error"] = error
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.lowerError.rawValue,
+                                userInfo: userInfo)
             // Domain-Specific Errors
         case .systemError(let error, let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -93,6 +102,10 @@ public enum WKRPTCLWorkerBaseError: DNSError {
             return String(format: NSLocalizedString("WKRBASE-Invalid Parameters(%@)%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
+        case .lowerError(let error, _):
+            return String(format: NSLocalizedString("WKRBASE-Lower Error%@%@", comment: ""),
+                          error.localizedDescription,
+                          " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
         case .systemError(let error, _):
             return String(format: NSLocalizedString("WKRBASE-System Error%@%@", comment: ""),
@@ -107,6 +120,7 @@ public enum WKRPTCLWorkerBaseError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
+             .lowerError(_, let codeLocation),
             // Domain-Specific Errors
             .systemError(_, let codeLocation):
             return codeLocation.failureReason
