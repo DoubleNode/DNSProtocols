@@ -25,7 +25,7 @@ public protocol WKRPTCLPassStrength: WKRPTCLWorkerBase {
     
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLPassStrength? { get }
-    var wkrSystems: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems? { get }
 
     var minimumLength: Int32 { get set }
 

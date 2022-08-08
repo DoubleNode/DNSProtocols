@@ -23,7 +23,7 @@ public typealias WKRPTCLBeaconsBlkABeacon = (WKRPTCLBeaconsResABeacon) -> Void
 public protocol WKRPTCLBeacons: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLBeacons? { get }
-    var wkrSystems: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLBeacons,

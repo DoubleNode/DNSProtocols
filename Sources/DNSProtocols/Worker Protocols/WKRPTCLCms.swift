@@ -20,7 +20,7 @@ public typealias WKRPTCLCmsBlkAAny = (WKRPTCLCmsResAAny) -> Void
 public protocol WKRPTCLCms: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLCms? { get }
-    var wkrSystems: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLCms,

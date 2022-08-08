@@ -22,7 +22,7 @@ public typealias WKRPTCLGeoBlkString = (WKRPTCLGeoResString) -> Void
 public protocol WKRPTCLGeo: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
     var nextWorker: WKRPTCLGeo? { get }
-    var wkrSystems: WKRPTCLSystems { get }
+    var wkrSystems: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLGeo,
