@@ -110,16 +110,16 @@ public enum WKRPTCLAuthError: DNSError {
             return String(format: NSLocalizedString("WKRAUTH-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
         case .notFound(let field, let value, _):
-            return String(format: NSLocalizedString("WKRAUTH-Not Found(%@=\"%@\")%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Not Found%@%@%@", comment: ""),
                           "\(field)", "\(value)",
                           "(\(Self.domain):\(Self.Code.notFound.rawValue))")
         case .invalidParameters(let parameters, _):
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
-            return String(format: NSLocalizedString("WKRAUTH-Invalid Parameters(%@)%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Invalid Parameters%@%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
         case .lowerError(let error, _):
-            return String(format: NSLocalizedString("WKRAUTH-Lower Error [%@]%@", comment: ""),
+            return String(format: NSLocalizedString("WKRAUTH-Lower Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
