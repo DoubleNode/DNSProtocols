@@ -29,6 +29,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
     case forbidden(_ codeLocation: DNSCodeLocation)
     case upgradeClient(message: String, _ codeLocation: DNSCodeLocation)
     case adminRequired(_ codeLocation: DNSCodeLocation)
+    case insufficientAccess(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "NETBASE"
     public enum Code: Int {
@@ -48,6 +49,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case forbidden = 2007
         case upgradeClient = 2008
         case adminRequired = 2009
+        case insufficientAccess = 2010
     }
 
     public var nsError: NSError! {
@@ -145,6 +147,12 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.adminRequired.rawValue,
                                 userInfo: userInfo)
+        case .insufficientAccess(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.insufficientAccess.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -203,6 +211,9 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case .adminRequired:
             return String(format: NSLocalizedString("NETBASE-AdminRequired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.adminRequired.rawValue))")
+        case .insufficientAccess:
+            return String(format: NSLocalizedString("NETBASE-InsufficientAccess%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.insufficientAccess.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -222,7 +233,8 @@ public enum NETPTCLNetworkBaseError: DNSError {
              .unauthorized(let codeLocation),
              .forbidden(let codeLocation),
              .upgradeClient(_, let codeLocation),
-             .adminRequired(let codeLocation):
+             .adminRequired(let codeLocation),
+             .insufficientAccess(let codeLocation):
             return codeLocation.failureReason
         }
     }
