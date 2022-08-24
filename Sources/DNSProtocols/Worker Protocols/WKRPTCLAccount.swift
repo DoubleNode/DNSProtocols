@@ -12,16 +12,19 @@ import Foundation
 // Protocol Return Types
 public typealias WKRPTCLAccountRtnAAccount = [DAOAccount]
 public typealias WKRPTCLAccountRtnAccount = DAOAccount
+public typealias WKRPTCLAccountRtnBool = Bool
 public typealias WKRPTCLAccountRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLAccountResAAccount = Result<WKRPTCLAccountRtnAAccount, Error>
 public typealias WKRPTCLAccountResAccount = Result<WKRPTCLAccountRtnAccount, Error>
+public typealias WKRPTCLAccountResBool = Result<WKRPTCLAccountRtnBool, Error>
 public typealias WKRPTCLAccountResVoid = Result<WKRPTCLAccountRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLAccountBlkAAccount = (WKRPTCLAccountResAAccount) -> Void
 public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
+public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
 public typealias WKRPTCLAccountBlkVoid = (WKRPTCLAccountResVoid) -> Void
 
 public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
@@ -34,6 +37,15 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
     
     // MARK: - Worker Logic (Public) -
+    func doActivate(account: DAOAccount,
+                    with progress: DNSPTCLProgressBlock?,
+                    and block: WKRPTCLAccountBlkBool?)
+    func doDeactivate(account: DAOAccount,
+                      with progress: DNSPTCLProgressBlock?,
+                      and block: WKRPTCLAccountBlkVoid?)
+    func doDelete(account: DAOAccount,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAccountBlkVoid?)
     func doLoadAccounts(for user: DAOUser,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLAccountBlkAAccount?)
@@ -44,6 +56,12 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                   and block: WKRPTCLAccountBlkVoid?)
     
     // MARK: - Worker Logic (Shortcuts) -
+    func doActivate(account: DAOAccount,
+                    and block: WKRPTCLAccountBlkBool?)
+    func doDeactivate(account: DAOAccount,
+                      and block: WKRPTCLAccountBlkVoid?)
+    func doDelete(account: DAOAccount,
+                  and block: WKRPTCLAccountBlkVoid?)
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccount(with block: WKRPTCLAccountBlkAccount?)
