@@ -17,7 +17,7 @@ public typealias WKRPTCLAnalyticsResVoid = Result<WKRPTCLAnalyticsRtnVoid, Error
 
 public enum WKRPTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case addToCart
-    case appInCenter
+    case appInPlace
     case applyPromoToCart
     case beginCheckout
     case login
