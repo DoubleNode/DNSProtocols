@@ -10,7 +10,9 @@ import DNSCore
 import DNSDataObjects
 import UIKit
 
-public protocol WKRPTCLAuthAccessData { }
+public protocol WKRPTCLAuthAccessData {
+    var accessToken: String { get }
+}
 
 // Protocol Return Types
 public typealias WKRPTCLAuthRtnBoolAccessData = (Bool, WKRPTCLAuthAccessData)
