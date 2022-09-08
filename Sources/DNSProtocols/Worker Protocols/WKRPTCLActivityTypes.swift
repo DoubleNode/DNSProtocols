@@ -6,6 +6,7 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import DNSDataObjects
 import Foundation
 
@@ -48,6 +49,9 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     func doLoadActivityType(for code: String,
                             with progress: DNSPTCLProgressBlock?,
                             and block: WKRPTCLActivityTypesBlkActivityType?)
+    func doLoadActivityType(for tag: DNSString,
+                            with progress: DNSPTCLProgressBlock?,
+                            and block: WKRPTCLActivityTypesBlkActivityType?)
     func doLoadActivityTypes(with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLActivityTypesBlkAActivityType?)
     func doUnfavorite(_ activityType: DAOActivityType,
@@ -66,6 +70,8 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                        for user: DAOUser,
                        with block: WKRPTCLActivityTypesBlkBool?)
     func doLoadActivityType(for code: String,
+                            with block: WKRPTCLActivityTypesBlkActivityType?)
+    func doLoadActivityType(for tag: DNSString,
                             with block: WKRPTCLActivityTypesBlkActivityType?)
     func doLoadActivityTypes(with block: WKRPTCLActivityTypesBlkAActivityType?)
     func doUnfavorite(_ activityType: DAOActivityType,
