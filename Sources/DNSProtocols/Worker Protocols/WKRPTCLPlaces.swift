@@ -60,6 +60,9 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
                       and block: WKRPTCLPlacesBlkPlace?)
     func doLoadPlaces(with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLPlacesBlkAPlace?)
+    func doLoadPlaces(for section: DAOSection,
+                      with progress: DNSPTCLProgressBlock?,
+                      and block: WKRPTCLPlacesBlkAPlace?)
     func doLoadHolidays(for place: DAOPlace,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLPlacesBlkAPlaceHoliday?)
@@ -86,6 +89,8 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     func doLoadPlace(for placeCode: String,
                       with block: WKRPTCLPlacesBlkPlace?)
     func doLoadPlaces(with block: WKRPTCLPlacesBlkAPlace?)
+    func doLoadPlaces(for section: DAOSection,
+                      with block: WKRPTCLPlacesBlkAPlace?)
     func doLoadHolidays(for place: DAOPlace,
                         with block: WKRPTCLPlacesBlkAPlaceHoliday?)
     func doLoadHours(for place: DAOPlace,

@@ -31,15 +31,12 @@ public protocol WKRPTCLAlerts: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Public) -
     func doLoadAlerts(for place: DAOPlace,
                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
-    func doLoadAlerts(for district: DAODistrict,
-                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
-    func doLoadAlerts(for region: DAORegion,
+    func doLoadAlerts(for section: DAOSection,
                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAlertsPubAAlert
     
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadAlerts(for place: DAOPlace) -> WKRPTCLAlertsPubAAlert
-    func doLoadAlerts(for district: DAODistrict) -> WKRPTCLAlertsPubAAlert
-    func doLoadAlerts(for region: DAORegion) -> WKRPTCLAlertsPubAAlert
+    func doLoadAlerts(for section: DAOSection) -> WKRPTCLAlertsPubAAlert
     func doLoadAlerts() -> WKRPTCLAlertsPubAAlert
 }
