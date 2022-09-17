@@ -45,7 +45,7 @@ public protocol WKRPTCLCache: WKRPTCLWorkerBase
                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubImage
     func doReadObject(for id: String,
                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubAny
-    func doReadObject(for id: String,
+    func doReadString(for id: String,
                       with progress: DNSPTCLProgressBlock?) -> WKRPTCLCachePubString
     func doUpdate(object: Any,
                   for id: String,
@@ -56,7 +56,7 @@ public protocol WKRPTCLCache: WKRPTCLWorkerBase
     func doLoadImage(from url: NSURL,
                      for id: String) -> WKRPTCLCachePubImage
     func doReadObject(for id: String) -> WKRPTCLCachePubAny
-    func doReadObject(for id: String) -> WKRPTCLCachePubString
+    func doReadString(for id: String) -> WKRPTCLCachePubString
     func doUpdate(object: Any,
                   for id: String) -> WKRPTCLCachePubAny
 }
