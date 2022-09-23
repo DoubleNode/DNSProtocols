@@ -45,6 +45,11 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
     func doCheckAuth(using parameters: DNSDataDictionary,
                      with progress: DNSPTCLProgressBlock?,
                      and block: WKRPTCLAuthBlkBoolBoolAccessData?)
+    func doLinkAuth(from username: String,
+                    and password: String,
+                    using parameters: DNSDataDictionary,
+                    with progress: DNSPTCLProgressBlock?,
+                    and block: WKRPTCLAuthBlkBoolAccessData?)
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
@@ -61,7 +66,11 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Shortcuts) -
     func doCheckAuth(using parameters: DNSDataDictionary,
-                               with block: WKRPTCLAuthBlkBoolBoolAccessData?)
+                     with block: WKRPTCLAuthBlkBoolBoolAccessData?)
+    func doLinkAuth(from username: String,
+                    and password: String,
+                    using parameters: DNSDataDictionary,
+                    and block: WKRPTCLAuthBlkBoolAccessData?)
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
