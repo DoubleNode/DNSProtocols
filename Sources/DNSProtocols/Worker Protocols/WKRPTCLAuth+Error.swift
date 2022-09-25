@@ -23,6 +23,7 @@ public enum WKRPTCLAuthError: DNSError {
     case failure(error: Error, _ codeLocation: DNSCodeLocation)
     case lockedOut(_ codeLocation: DNSCodeLocation)
     case passwordExpired(_ codeLocation: DNSCodeLocation)
+    case existingAccount(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRAUTH"
     public enum Code: Int {
@@ -36,6 +37,7 @@ public enum WKRPTCLAuthError: DNSError {
         case failure = 2001
         case lockedOut = 2002
         case passwordExpired = 2003
+        case existingAccount = 2004
     }
 
     public var nsError: NSError! {
@@ -95,6 +97,12 @@ public enum WKRPTCLAuthError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.passwordExpired.rawValue,
                                 userInfo: userInfo)
+        case .existingAccount(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.existingAccount.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -133,6 +141,9 @@ public enum WKRPTCLAuthError: DNSError {
         case .passwordExpired:
             return String(format: NSLocalizedString("WKRAUTH-Password Expired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.passwordExpired.rawValue))")
+        case .existingAccount:
+            return String(format: NSLocalizedString("WKRAUTH-ExistingAccount%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.existingAccount.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -146,7 +157,8 @@ public enum WKRPTCLAuthError: DNSError {
             // Domain-Specific Errors
              .failure(_, let codeLocation),
              .lockedOut(let codeLocation),
-             .passwordExpired(let codeLocation):
+             .passwordExpired(let codeLocation),
+             .existingAccount(let codeLocation):
             return codeLocation.failureReason
         }
     }
