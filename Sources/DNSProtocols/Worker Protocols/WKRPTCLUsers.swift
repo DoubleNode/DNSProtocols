@@ -10,16 +10,19 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
+public typealias WKRPTCLUsersRtnBool = Bool
 public typealias WKRPTCLUsersRtnAUser = [DAOUser]
 public typealias WKRPTCLUsersRtnUser = DAOUser
 public typealias WKRPTCLUsersRtnVoid = Void
 
 // Protocol Result Types
+public typealias WKRPTCLUsersResBool = Result<WKRPTCLUsersRtnBool, Error>
 public typealias WKRPTCLUsersResAUser = Result<WKRPTCLUsersRtnAUser, Error>
 public typealias WKRPTCLUsersResUser = Result<WKRPTCLUsersRtnUser, Error>
 public typealias WKRPTCLUsersResVoid = Result<WKRPTCLUsersRtnVoid, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLUsersBlkBool = (WKRPTCLUsersResBool) -> Void
 public typealias WKRPTCLUsersBlkAUser = (WKRPTCLUsersResAUser) -> Void
 public typealias WKRPTCLUsersBlkUser = (WKRPTCLUsersResUser) -> Void
 public typealias WKRPTCLUsersBlkVoid = (WKRPTCLUsersResVoid) -> Void
@@ -33,6 +36,9 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
+    func doActivate(_ user: DAOUser,
+                    with progress: DNSPTCLProgressBlock?,
+                    and block: WKRPTCLUsersBlkBool?)
     func doLoadCurrentUser(with progress: DNSPTCLProgressBlock?,
                            and block: WKRPTCLUsersBlkUser?)
     func doLoadUser(for id: String,
@@ -51,6 +57,8 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                   and block: WKRPTCLUsersBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    func doActivate(_ user: DAOUser,
+                    with block: WKRPTCLUsersBlkBool?)
     func doLoadCurrentUser(with block: WKRPTCLUsersBlkUser?)
     func doLoadUser(for id: String,
                     with progress: WKRPTCLUsersBlkUser?)

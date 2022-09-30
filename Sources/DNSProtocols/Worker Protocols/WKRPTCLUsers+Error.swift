@@ -20,6 +20,7 @@ public enum WKRPTCLUsersError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case notDeactivated(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRUSERS"
     public enum Code: Int {
@@ -30,6 +31,7 @@ public enum WKRPTCLUsersError: DNSError {
         case invalidParameters = 1004
         case lowerError = 1005
         // Domain-Specific Errors
+        case notDeactivated = 2001
     }
 
     public var nsError: NSError! {
@@ -70,6 +72,12 @@ public enum WKRPTCLUsersError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .notDeactivated(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.notDeactivated.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -98,6 +106,9 @@ public enum WKRPTCLUsersError: DNSError {
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
+        case .notDeactivated:
+            return String(format: NSLocalizedString("WKRUSERS-Not Deactivated%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.notDeactivated.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -107,9 +118,10 @@ public enum WKRPTCLUsersError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
-             .lowerError(_, let codeLocation):
+             .lowerError(_, let codeLocation),
             // Domain-Specific Errors
-                return codeLocation.failureReason
+             .notDeactivated(let codeLocation):
+            return codeLocation.failureReason
        }
     }
 }
