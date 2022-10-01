@@ -49,8 +49,8 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadAccounts(for user: DAOUser,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLAccountBlkAAccount?)
-    func doLoadCurrentAccount(with progress: DNSPTCLProgressBlock?,
-                              and block: WKRPTCLAccountBlkAccount?)
+    func doLoadCurrentAccounts(with progress: DNSPTCLProgressBlock?,
+                              and block: WKRPTCLAccountBlkAAccount?)
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkVoid?)
@@ -64,7 +64,7 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                   and block: WKRPTCLAccountBlkVoid?)
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?)
-    func doLoadCurrentAccount(with block: WKRPTCLAccountBlkAccount?)
+    func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
     func doUpdate(account: DAOAccount,
                   with block: WKRPTCLAccountBlkVoid?)
 }
