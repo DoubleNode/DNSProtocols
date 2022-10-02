@@ -47,8 +47,6 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doLoadUsers(for account: DAOAccount,
                      with progress: DNSPTCLProgressBlock?,
                      and block: WKRPTCLUsersBlkAUser?)
-    func doRemoveCurrentUser(with progress: DNSPTCLProgressBlock?,
-                             and block: WKRPTCLUsersBlkVoid?)
     func doRemove(_ user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLUsersBlkVoid?)
@@ -64,7 +62,6 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                     with progress: WKRPTCLUsersBlkUser?)
     func doLoadUsers(for account: DAOAccount,
                      with block: WKRPTCLUsersBlkAUser?)
-    func doRemoveCurrentUser(with block: WKRPTCLUsersBlkVoid?)
     func doRemove(_ user: DAOUser,
                   with block: WKRPTCLUsersBlkVoid?)
     func doUpdate(_ user: DAOUser,
