@@ -50,6 +50,10 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
                     using parameters: DNSDataDictionary,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLAuthBlkBoolAccessData?)
+    func doPasswordResetStart(from username: String?,
+                              using parameters: DNSDataDictionary,
+                              with progress: DNSPTCLProgressBlock?,
+                              and block: WKRPTCLAuthBlkBoolAccessData?)
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
@@ -71,6 +75,9 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
                     and password: String,
                     using parameters: DNSDataDictionary,
                     and block: WKRPTCLAuthBlkBoolAccessData?)
+    func doPasswordResetStart(from username: String?,
+                              using parameters: DNSDataDictionary,
+                              with block: WKRPTCLAuthBlkBoolAccessData?)
     func doSignIn(from username: String?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
