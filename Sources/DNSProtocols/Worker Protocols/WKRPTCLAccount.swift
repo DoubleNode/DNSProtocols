@@ -46,6 +46,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doDelete(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkVoid?)
+    func doLoadAccount(for id: String,
+                       with progress: DNSPTCLProgressBlock?,
+                       and block: WKRPTCLAccountBlkAccount?)
     func doLoadAccounts(for user: DAOUser,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLAccountBlkAAccount?)
@@ -62,6 +65,8 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                       and block: WKRPTCLAccountBlkVoid?)
     func doDelete(account: DAOAccount,
                   and block: WKRPTCLAccountBlkVoid?)
+    func doLoadAccount(for id: String,
+                       with block: WKRPTCLAccountBlkAccount?)
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
