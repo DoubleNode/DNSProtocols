@@ -6,6 +6,7 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import DNSDataObjects
 import Foundation
 
@@ -54,6 +55,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                         and block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with progress: DNSPTCLProgressBlock?,
                               and block: WKRPTCLAccountBlkAAccount?)
+    func doSearchAccounts(using parameters: DNSDataDictionary,
+                          with progress: DNSPTCLProgressBlock?,
+                          and block: WKRPTCLAccountBlkAAccount?)
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkVoid?)
@@ -70,6 +74,8 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
+    func doSearchAccounts(using parameters: DNSDataDictionary,
+                          with block: WKRPTCLAccountBlkAAccount?)
     func doUpdate(account: DAOAccount,
                   with block: WKRPTCLAccountBlkVoid?)
 }
