@@ -21,6 +21,7 @@ public enum WKRPTCLAccountError: DNSError {
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
     case notDeactivated(_ codeLocation: DNSCodeLocation)
+    case alreadyLinked(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRACCOUNT"
     public enum Code: Int {
@@ -32,6 +33,7 @@ public enum WKRPTCLAccountError: DNSError {
         case lowerError = 1005
         // Domain-Specific Errors
         case notDeactivated = 2001
+        case alreadyLinked = 2002
     }
 
     public var nsError: NSError! {
@@ -78,6 +80,12 @@ public enum WKRPTCLAccountError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notDeactivated.rawValue,
                                 userInfo: userInfo)
+        case .alreadyLinked(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.alreadyLinked.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -109,6 +117,9 @@ public enum WKRPTCLAccountError: DNSError {
         case .notDeactivated:
             return String(format: NSLocalizedString("WKRACCOUNT-Not Deactivated%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notDeactivated.rawValue))")
+        case .alreadyLinked:
+            return String(format: NSLocalizedString("WKRACCOUNT-Already Linked%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.alreadyLinked.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -120,7 +131,8 @@ public enum WKRPTCLAccountError: DNSError {
              .invalidParameters(_, let codeLocation),
              .lowerError(_, let codeLocation),
             // Domain-Specific Errors
-             .notDeactivated(let codeLocation):
+             .notDeactivated(let codeLocation),
+             .alreadyLinked(let codeLocation):
             return codeLocation.failureReason
         }
     }
