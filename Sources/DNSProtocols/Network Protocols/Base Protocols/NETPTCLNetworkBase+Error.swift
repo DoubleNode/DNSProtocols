@@ -31,6 +31,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
     case adminRequired(_ codeLocation: DNSCodeLocation)
     case insufficientAccess(_ codeLocation: DNSCodeLocation)
     case expiredAccessToken(_ codeLocation: DNSCodeLocation)
+    case alreadyLinked(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "NETBASE"
     public enum Code: Int {
@@ -52,6 +53,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case adminRequired = 2009
         case insufficientAccess = 2010
         case expiredAccessToken = 2011
+        case alreadyLinked = 2012
     }
 
     public var nsError: NSError! {
@@ -161,6 +163,12 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.expiredAccessToken.rawValue,
                                 userInfo: userInfo)
+        case .alreadyLinked(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.alreadyLinked.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -225,6 +233,9 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case .expiredAccessToken:
             return String(format: NSLocalizedString("NETBASE-ExpiredAccessToken%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.expiredAccessToken.rawValue))")
+        case .alreadyLinked:
+            return String(format: NSLocalizedString("NETBASE-AlreadyLinked%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.alreadyLinked.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -246,7 +257,8 @@ public enum NETPTCLNetworkBaseError: DNSError {
              .upgradeClient(_, let codeLocation),
              .adminRequired(let codeLocation),
              .insufficientAccess(let codeLocation),
-             .expiredAccessToken(let codeLocation):
+             .expiredAccessToken(let codeLocation),
+             .alreadyLinked(let codeLocation):
             return codeLocation.failureReason
         }
     }
