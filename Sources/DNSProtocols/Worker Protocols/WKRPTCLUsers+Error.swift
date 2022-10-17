@@ -21,6 +21,7 @@ public enum WKRPTCLUsersError: DNSError {
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
     case notDeactivated(_ codeLocation: DNSCodeLocation)
+    case alreadyLinked(value: String, _ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRUSERS"
     public enum Code: Int {
@@ -32,6 +33,7 @@ public enum WKRPTCLUsersError: DNSError {
         case lowerError = 1005
         // Domain-Specific Errors
         case notDeactivated = 2001
+        case alreadyLinked = 2002
     }
 
     public var nsError: NSError! {
@@ -78,6 +80,13 @@ public enum WKRPTCLUsersError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notDeactivated.rawValue,
                                 userInfo: userInfo)
+        case .alreadyLinked(let value, let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo["value"] = value
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.alreadyLinked.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -109,6 +118,10 @@ public enum WKRPTCLUsersError: DNSError {
         case .notDeactivated:
             return String(format: NSLocalizedString("WKRUSERS-Not Deactivated%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notDeactivated.rawValue))")
+        case .alreadyLinked(let value, _):
+            return String(format: NSLocalizedString("WKRUSERS-User Already Linked%@%@", comment: ""),
+                          "\(value)",
+                          " (\(Self.domain):\(Self.Code.alreadyLinked.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -120,7 +133,8 @@ public enum WKRPTCLUsersError: DNSError {
              .invalidParameters(_, let codeLocation),
              .lowerError(_, let codeLocation),
             // Domain-Specific Errors
-             .notDeactivated(let codeLocation):
+             .notDeactivated(let codeLocation),
+             .alreadyLinked(_, let codeLocation):
             return codeLocation.failureReason
        }
     }
