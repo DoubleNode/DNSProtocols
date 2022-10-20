@@ -47,6 +47,10 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doDelete(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkVoid?)
+    func doLink(account: DAOAccount,
+                to user: DAOUser,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAccountBlkVoid?)
     func doLoadAccount(for id: String,
                        with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLAccountBlkAccount?)
@@ -58,6 +62,10 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doSearchAccounts(using parameters: DNSDataDictionary,
                           with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLAccountBlkAAccount?)
+    func doUnlink(account: DAOAccount,
+                  from user: DAOUser,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAccountBlkVoid?)
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkVoid?)
@@ -69,6 +77,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                       and block: WKRPTCLAccountBlkVoid?)
     func doDelete(account: DAOAccount,
                   and block: WKRPTCLAccountBlkVoid?)
+    func doLink(account: DAOAccount,
+                to user: DAOUser,
+                with block: WKRPTCLAccountBlkVoid?)
     func doLoadAccount(for id: String,
                        with block: WKRPTCLAccountBlkAccount?)
     func doLoadAccounts(for user: DAOUser,
@@ -76,6 +87,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
     func doSearchAccounts(using parameters: DNSDataDictionary,
                           with block: WKRPTCLAccountBlkAAccount?)
+    func doUnlink(account: DAOAccount,
+                  from user: DAOUser,
+                  with block: WKRPTCLAccountBlkVoid?)
     func doUpdate(account: DAOAccount,
                   with block: WKRPTCLAccountBlkVoid?)
 }
