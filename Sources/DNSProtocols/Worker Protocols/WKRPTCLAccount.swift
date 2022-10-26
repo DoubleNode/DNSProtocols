@@ -71,6 +71,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadLinkRequests(for user: DAOUser,
                             with progress: DNSPTCLProgressBlock?,
                             and block: WKRPTCLAccountBlkAAccountLinkRequest?)
+    func doLoadUnverifiedAccounts(for user: DAOUser,
+                                  with progress: DNSPTCLProgressBlock?,
+                                  and block: WKRPTCLAccountBlkAAccount?)
     func doSearchAccounts(using parameters: DNSDataDictionary,
                           with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLAccountBlkAAccount?)
@@ -81,7 +84,10 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doUpdate(account: DAOAccount,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAccountBlkVoid?)
-    
+    func doVerify(account: DAOAccount,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAccountBlkVoid?)
+
     // MARK: - Worker Logic (Shortcuts) -
     func doActivate(account: DAOAccount,
                     and block: WKRPTCLAccountBlkBool?)
@@ -103,11 +109,15 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
     func doLoadLinkRequests(for user: DAOUser,
                             with block: WKRPTCLAccountBlkAAccountLinkRequest?)
+    func doLoadUnverifiedAccounts(for user: DAOUser,
+                                  with block: WKRPTCLAccountBlkAAccount?)
     func doSearchAccounts(using parameters: DNSDataDictionary,
                           with block: WKRPTCLAccountBlkAAccount?)
     func doUnlink(account: DAOAccount,
                   from user: DAOUser,
                   with block: WKRPTCLAccountBlkVoid?)
     func doUpdate(account: DAOAccount,
+                  with block: WKRPTCLAccountBlkVoid?)
+    func doVerify(account: DAOAccount,
                   with block: WKRPTCLAccountBlkVoid?)
 }
