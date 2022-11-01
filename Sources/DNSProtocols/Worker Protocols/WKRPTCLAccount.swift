@@ -84,6 +84,10 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadUnverifiedAccounts(for user: DAOUser,
                                   with progress: DNSPTCLProgressBlock?,
                                   and block: WKRPTCLAccountBlkAAccount?)
+    func doRename(accountId: String,
+                  to newAccountId: String,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAccountBlkVoid?)
     func doSearchAccounts(using parameters: DNSDataDictionary,
                           with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLAccountBlkAAccount?)
@@ -130,6 +134,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                       with block: WKRPTCLAccountBlkAPlace?)
     func doLoadUnverifiedAccounts(for user: DAOUser,
                                   with block: WKRPTCLAccountBlkAAccount?)
+    func doRename(accountId: String,
+                  to newAccountId: String,
+                  with block: WKRPTCLAccountBlkVoid?)
     func doSearchAccounts(using parameters: DNSDataDictionary,
                           with block: WKRPTCLAccountBlkAAccount?)
     func doUnlink(account: DAOAccount,
