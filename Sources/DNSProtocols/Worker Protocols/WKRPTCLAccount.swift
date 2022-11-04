@@ -16,6 +16,7 @@ public typealias WKRPTCLAccountRtnAAccount = [DAOAccount]
 public typealias WKRPTCLAccountRtnAccount = DAOAccount
 public typealias WKRPTCLAccountRtnBool = Bool
 public typealias WKRPTCLAccountRtnAPlace = [DAOPlace]
+public typealias WKRPTCLAccountRtnAUser = [DAOUser]
 public typealias WKRPTCLAccountRtnVoid = Void
 
 // Protocol Result Types
@@ -24,6 +25,7 @@ public typealias WKRPTCLAccountResAAccount = Result<WKRPTCLAccountRtnAAccount, E
 public typealias WKRPTCLAccountResAccount = Result<WKRPTCLAccountRtnAccount, Error>
 public typealias WKRPTCLAccountResBool = Result<WKRPTCLAccountRtnBool, Error>
 public typealias WKRPTCLAccountResAPlace = Result<WKRPTCLAccountRtnAPlace, Error>
+public typealias WKRPTCLAccountResAUser = Result<WKRPTCLAccountRtnAUser, Error>
 public typealias WKRPTCLAccountResVoid = Result<WKRPTCLAccountRtnVoid, Error>
 
 // Protocol Block Types
@@ -32,6 +34,7 @@ public typealias WKRPTCLAccountBlkAAccount = (WKRPTCLAccountResAAccount) -> Void
 public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
 public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
 public typealias WKRPTCLAccountBlkAPlace = (WKRPTCLAccountResAPlace) -> Void
+public typealias WKRPTCLAccountBlkAUser = (WKRPTCLAccountResAUser) -> Void
 public typealias WKRPTCLAccountBlkVoid = (WKRPTCLAccountResVoid) -> Void
 
 public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
@@ -78,6 +81,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadLinkRequests(for user: DAOUser,
                             with progress: DNSPTCLProgressBlock?,
                             and block: WKRPTCLAccountBlkAAccountLinkRequest?)
+    func doLoadPendingUsers(for user: DAOUser,
+                            with progress: DNSPTCLProgressBlock?,
+                            and block: WKRPTCLAccountBlkAUser?)
     func doLoadPlaces(for account: DAOAccount,
                       with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLAccountBlkAPlace?)
@@ -130,6 +136,8 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
     func doLoadLinkRequests(for user: DAOUser,
                             with block: WKRPTCLAccountBlkAAccountLinkRequest?)
+    func doLoadPendingUsers(for user: DAOUser,
+                            with block: WKRPTCLAccountBlkAUser?)
     func doLoadPlaces(for account: DAOAccount,
                       with block: WKRPTCLAccountBlkAPlace?)
     func doLoadUnverifiedAccounts(for user: DAOUser,
