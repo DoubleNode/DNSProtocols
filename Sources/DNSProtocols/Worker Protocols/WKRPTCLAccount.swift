@@ -53,6 +53,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doApprove(linkRequest: DAOAccountLinkRequest,
                    with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLAccountBlkVoid?)
+    func doConfirm(pendingUser: DAOUser,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLAccountBlkVoid?)
     func doDeactivate(account: DAOAccount,
                       with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLAccountBlkVoid?)
@@ -116,6 +119,8 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doActivate(account: DAOAccount,
                     and block: WKRPTCLAccountBlkBool?)
     func doApprove(linkRequest: DAOAccountLinkRequest,
+                   with block: WKRPTCLAccountBlkVoid?)
+    func doConfirm(pendingUser: DAOUser,
                    with block: WKRPTCLAccountBlkVoid?)
     func doDeactivate(account: DAOAccount,
                       and block: WKRPTCLAccountBlkVoid?)
