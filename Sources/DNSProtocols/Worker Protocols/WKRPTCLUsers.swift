@@ -48,8 +48,14 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doConfirm(pendingUser: DAOUser,
                    with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLUsersBlkVoid?)
+    func doConsent(childUser: DAOUser,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLUsersBlkVoid?)
     func doLoadCurrentUser(with progress: DNSPTCLProgressBlock?,
                            and block: WKRPTCLUsersBlkUser?)
+    func doLoadChildUsers(for user: DAOUser,
+                          with progress: DNSPTCLProgressBlock?,
+                          and block: WKRPTCLUsersBlkAUser?)
     func doLoadLinkRequests(for user: DAOUser,
                             with progress: DNSPTCLProgressBlock?,
                             and block: WKRPTCLUsersBlkAAccountLinkRequest?)
@@ -77,7 +83,11 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                     with block: WKRPTCLUsersBlkBool?)
     func doConfirm(pendingUser: DAOUser,
                    with block: WKRPTCLUsersBlkVoid?)
+    func doConsent(childUser: DAOUser,
+                   with block: WKRPTCLUsersBlkVoid?)
     func doLoadCurrentUser(with block: WKRPTCLUsersBlkUser?)
+    func doLoadChildUsers(for user: DAOUser,
+                          with block: WKRPTCLUsersBlkAUser?)
     func doLoadUser(for id: String,
                     with progress: WKRPTCLUsersBlkUser?)
     func doLoadLinkRequests(for user: DAOUser,
