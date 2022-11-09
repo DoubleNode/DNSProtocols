@@ -11,7 +11,6 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
-public typealias WKRPTCLAccountRtnAAccountLinkRequest = [DAOAccountLinkRequest]
 public typealias WKRPTCLAccountRtnAAccount = [DAOAccount]
 public typealias WKRPTCLAccountRtnAccount = DAOAccount
 public typealias WKRPTCLAccountRtnBool = Bool
@@ -20,7 +19,6 @@ public typealias WKRPTCLAccountRtnAUser = [DAOUser]
 public typealias WKRPTCLAccountRtnVoid = Void
 
 // Protocol Result Types
-public typealias WKRPTCLAccountResAAccountLinkRequest = Result<WKRPTCLAccountRtnAAccountLinkRequest, Error>
 public typealias WKRPTCLAccountResAAccount = Result<WKRPTCLAccountRtnAAccount, Error>
 public typealias WKRPTCLAccountResAccount = Result<WKRPTCLAccountRtnAccount, Error>
 public typealias WKRPTCLAccountResBool = Result<WKRPTCLAccountRtnBool, Error>
@@ -29,7 +27,6 @@ public typealias WKRPTCLAccountResAUser = Result<WKRPTCLAccountRtnAUser, Error>
 public typealias WKRPTCLAccountResVoid = Result<WKRPTCLAccountRtnVoid, Error>
 
 // Protocol Block Types
-public typealias WKRPTCLAccountBlkAAccountLinkRequest = (WKRPTCLAccountResAAccountLinkRequest) -> Void
 public typealias WKRPTCLAccountBlkAAccount = (WKRPTCLAccountResAAccount) -> Void
 public typealias WKRPTCLAccountBlkAccount = (WKRPTCLAccountResAccount) -> Void
 public typealias WKRPTCLAccountBlkBool = (WKRPTCLAccountResBool) -> Void
@@ -51,9 +48,6 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLAccountBlkBool?)
     func doApprove(linkRequest: DAOAccountLinkRequest,
-                   with progress: DNSPTCLProgressBlock?,
-                   and block: WKRPTCLAccountBlkVoid?)
-    func doConfirm(pendingUser: DAOUser,
                    with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLAccountBlkVoid?)
     func doDeactivate(account: DAOAccount,
@@ -81,18 +75,9 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                         and block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with progress: DNSPTCLProgressBlock?,
                               and block: WKRPTCLAccountBlkAAccount?)
-    func doLoadLinkRequests(for user: DAOUser,
-                            with progress: DNSPTCLProgressBlock?,
-                            and block: WKRPTCLAccountBlkAAccountLinkRequest?)
-    func doLoadPendingUsers(for user: DAOUser,
-                            with progress: DNSPTCLProgressBlock?,
-                            and block: WKRPTCLAccountBlkAUser?)
     func doLoadPlaces(for account: DAOAccount,
                       with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLAccountBlkAPlace?)
-    func doLoadUnverifiedAccounts(for user: DAOUser,
-                                  with progress: DNSPTCLProgressBlock?,
-                                  and block: WKRPTCLAccountBlkAAccount?)
     func doRename(accountId: String,
                   to newAccountId: String,
                   with progress: DNSPTCLProgressBlock?,
@@ -139,14 +124,8 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
-    func doLoadLinkRequests(for user: DAOUser,
-                            with block: WKRPTCLAccountBlkAAccountLinkRequest?)
-    func doLoadPendingUsers(for user: DAOUser,
-                            with block: WKRPTCLAccountBlkAUser?)
     func doLoadPlaces(for account: DAOAccount,
                       with block: WKRPTCLAccountBlkAPlace?)
-    func doLoadUnverifiedAccounts(for user: DAOUser,
-                                  with block: WKRPTCLAccountBlkAAccount?)
     func doRename(accountId: String,
                   to newAccountId: String,
                   with block: WKRPTCLAccountBlkVoid?)

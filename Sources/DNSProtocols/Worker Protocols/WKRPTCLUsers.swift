@@ -10,18 +10,24 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
+public typealias WKRPTCLUsersRtnAAccountLinkRequest = [DAOAccountLinkRequest]
+public typealias WKRPTCLUsersRtnAAccount = [DAOAccount]
 public typealias WKRPTCLUsersRtnBool = Bool
 public typealias WKRPTCLUsersRtnAUser = [DAOUser]
 public typealias WKRPTCLUsersRtnUser = DAOUser
 public typealias WKRPTCLUsersRtnVoid = Void
 
 // Protocol Result Types
+public typealias WKRPTCLUsersResAAccountLinkRequest = Result<WKRPTCLUsersRtnAAccountLinkRequest, Error>
+public typealias WKRPTCLUsersResAAccount = Result<WKRPTCLUsersRtnAAccount, Error>
 public typealias WKRPTCLUsersResBool = Result<WKRPTCLUsersRtnBool, Error>
 public typealias WKRPTCLUsersResAUser = Result<WKRPTCLUsersRtnAUser, Error>
 public typealias WKRPTCLUsersResUser = Result<WKRPTCLUsersRtnUser, Error>
 public typealias WKRPTCLUsersResVoid = Result<WKRPTCLUsersRtnVoid, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLUsersBlkAAccountLinkRequest = (WKRPTCLUsersResAAccountLinkRequest) -> Void
+public typealias WKRPTCLUsersBlkAAccount = (WKRPTCLUsersResAAccount) -> Void
 public typealias WKRPTCLUsersBlkBool = (WKRPTCLUsersResBool) -> Void
 public typealias WKRPTCLUsersBlkAUser = (WKRPTCLUsersResAUser) -> Void
 public typealias WKRPTCLUsersBlkUser = (WKRPTCLUsersResUser) -> Void
@@ -39,8 +45,20 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doActivate(_ user: DAOUser,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLUsersBlkBool?)
+    func doConfirm(pendingUser: DAOUser,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLUsersBlkVoid?)
     func doLoadCurrentUser(with progress: DNSPTCLProgressBlock?,
                            and block: WKRPTCLUsersBlkUser?)
+    func doLoadLinkRequests(for user: DAOUser,
+                            with progress: DNSPTCLProgressBlock?,
+                            and block: WKRPTCLUsersBlkAAccountLinkRequest?)
+    func doLoadPendingUsers(for user: DAOUser,
+                            with progress: DNSPTCLProgressBlock?,
+                            and block: WKRPTCLUsersBlkAUser?)
+    func doLoadUnverifiedAccounts(for user: DAOUser,
+                                  with progress: DNSPTCLProgressBlock?,
+                                  and block: WKRPTCLUsersBlkAAccount?)
     func doLoadUser(for id: String,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLUsersBlkUser?)
@@ -57,9 +75,17 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     // MARK: - Worker Logic (Shortcuts) -
     func doActivate(_ user: DAOUser,
                     with block: WKRPTCLUsersBlkBool?)
+    func doConfirm(pendingUser: DAOUser,
+                   with block: WKRPTCLUsersBlkVoid?)
     func doLoadCurrentUser(with block: WKRPTCLUsersBlkUser?)
     func doLoadUser(for id: String,
                     with progress: WKRPTCLUsersBlkUser?)
+    func doLoadLinkRequests(for user: DAOUser,
+                            with block: WKRPTCLUsersBlkAAccountLinkRequest?)
+    func doLoadPendingUsers(for user: DAOUser,
+                            with block: WKRPTCLUsersBlkAUser?)
+    func doLoadUnverifiedAccounts(for user: DAOUser,
+                                  with block: WKRPTCLUsersBlkAAccount?)
     func doLoadUsers(for account: DAOAccount,
                      with block: WKRPTCLUsersBlkAUser?)
     func doRemove(_ user: DAOUser,
