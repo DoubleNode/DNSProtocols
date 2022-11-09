@@ -105,8 +105,6 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                     and block: WKRPTCLAccountBlkBool?)
     func doApprove(linkRequest: DAOAccountLinkRequest,
                    with block: WKRPTCLAccountBlkVoid?)
-    func doConfirm(pendingUser: DAOUser,
-                   with block: WKRPTCLAccountBlkVoid?)
     func doDeactivate(account: DAOAccount,
                       and block: WKRPTCLAccountBlkVoid?)
     func doDecline(linkRequest: DAOAccountLinkRequest,
