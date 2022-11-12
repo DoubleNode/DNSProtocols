@@ -6,6 +6,7 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import DNSDataObjects
 import Foundation
 
@@ -57,6 +58,7 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                           with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLUsersBlkAUser?)
     func doLoadLinkRequests(for user: DAOUser,
+                            using parameters: DNSDataDictionary,
                             with progress: DNSPTCLProgressBlock?,
                             and block: WKRPTCLUsersBlkAAccountLinkRequest?)
     func doLoadPendingUsers(for user: DAOUser,
@@ -90,6 +92,9 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                           with block: WKRPTCLUsersBlkAUser?)
     func doLoadUser(for id: String,
                     with progress: WKRPTCLUsersBlkUser?)
+    func doLoadLinkRequests(for user: DAOUser,
+                            using parameters: DNSDataDictionary,
+                            with block: WKRPTCLUsersBlkAAccountLinkRequest?)
     func doLoadLinkRequests(for user: DAOUser,
                             with block: WKRPTCLUsersBlkAAccountLinkRequest?)
     func doLoadPendingUsers(for user: DAOUser,
