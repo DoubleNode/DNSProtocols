@@ -70,14 +70,14 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     func doLoadAccount(for id: String,
                        with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLAccountBlkAccount?)
+    func doLoadAccounts(for place: DAOPlace,
+                        with progress: DNSPTCLProgressBlock?,
+                        and block: WKRPTCLAccountBlkAAccount?)
     func doLoadAccounts(for user: DAOUser,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with progress: DNSPTCLProgressBlock?,
                               and block: WKRPTCLAccountBlkAAccount?)
-    func doLoadPlaces(for account: DAOAccount,
-                      with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLAccountBlkAPlace?)
     func doRename(accountId: String,
                   to newAccountId: String,
                   with progress: DNSPTCLProgressBlock?,
@@ -119,11 +119,11 @@ public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
                 with block: WKRPTCLAccountBlkVoid?)
     func doLoadAccount(for id: String,
                        with block: WKRPTCLAccountBlkAccount?)
+    func doLoadAccounts(for place: DAOPlace,
+                        with block: WKRPTCLAccountBlkAAccount?)
     func doLoadAccounts(for user: DAOUser,
                         with block: WKRPTCLAccountBlkAAccount?)
     func doLoadCurrentAccounts(with block: WKRPTCLAccountBlkAAccount?)
-    func doLoadPlaces(for account: DAOAccount,
-                      with block: WKRPTCLAccountBlkAPlace?)
     func doRename(accountId: String,
                   to newAccountId: String,
                   with block: WKRPTCLAccountBlkVoid?)
