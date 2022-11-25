@@ -13,16 +13,19 @@ import Foundation
 // Protocol Return Types
 public typealias WKRPTCLAnnouncementsRtnAAnnouncement = [DAOAnnouncement]
 public typealias WKRPTCLAnnouncementsRtnAnnouncement = DAOAnnouncement
+public typealias WKRPTCLAnnouncementsRtnAAnnouncementPlace = ([DAOAnnouncement], [DAOPlace])
 public typealias WKRPTCLAnnouncementsRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLAnnouncementsResAAnnouncement = Result<WKRPTCLAnnouncementsRtnAAnnouncement, Error>
 public typealias WKRPTCLAnnouncementsResAnnouncement = Result<WKRPTCLAnnouncementsRtnAnnouncement, Error>
+public typealias WKRPTCLAnnouncementsResAAnnouncementPlace = Result<WKRPTCLAnnouncementsRtnAAnnouncementPlace, Error>
 public typealias WKRPTCLAnnouncementsResVoid = Result<WKRPTCLAnnouncementsRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLAnnouncementsBlkAAnnouncement = (WKRPTCLAnnouncementsResAAnnouncement) -> Void
 public typealias WKRPTCLAnnouncementsBlkAnnouncement = (WKRPTCLAnnouncementsResAnnouncement) -> Void
+public typealias WKRPTCLAnnouncementsBlkAAnnouncementPlace = (WKRPTCLAnnouncementsResAAnnouncementPlace) -> Void
 public typealias WKRPTCLAnnouncementsBlkVoid = (WKRPTCLAnnouncementsResVoid) -> Void
 
 public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
@@ -40,8 +43,16 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
     func doLoadAnnouncements(for place: DAOPlace,
                              with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLAnnouncementsBlkAAnnouncement?)
+    func doLoadCurrentAnnouncements(with progress: DNSPTCLProgressBlock?,
+                                    and block: WKRPTCLAnnouncementsBlkAAnnouncementPlace?)
+    func doRemove(_ announcement: DAOAnnouncement,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAnnouncementsBlkVoid?)
     func doRemove(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUpdate(_ announcement: DAOAnnouncement,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
     func doUpdate(_ announcement: DAOAnnouncement,
@@ -53,8 +64,13 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
     func doLoadAnnouncements(with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
     func doLoadAnnouncements(for place: DAOPlace,
                              with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
+    func doLoadCurrentAnnouncements(with block: WKRPTCLAnnouncementsBlkAAnnouncementPlace?)
+    func doRemove(_ announcement: DAOAnnouncement,
+                  with block: WKRPTCLAnnouncementsBlkVoid?)
     func doRemove(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
+                  with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUpdate(_ announcement: DAOAnnouncement,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
