@@ -8,6 +8,7 @@
 
 import Combine
 import DNSDataObjects
+import PDFKit
 import UIKit
 
 // Protocol Return Types
@@ -38,10 +39,20 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
     func doUpload(_ image: UIImage,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkMedia?)
+    func doUpload(_ pdfDocument: PDFDocument,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLMediaBlkMedia?)
+    func doUpload(_ text: String,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLMediaBlkMedia?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doRemove(_ media: DAOMedia,
                   with block: WKRPTCLMediaBlkVoid?)
     func doUpload(_ image: UIImage,
+                  with block: WKRPTCLMediaBlkMedia?)
+    func doUpload(_ pdfDocument: PDFDocument,
+                  with block: WKRPTCLMediaBlkMedia?)
+    func doUpload(_ text: String,
                   with block: WKRPTCLMediaBlkMedia?)
 }
