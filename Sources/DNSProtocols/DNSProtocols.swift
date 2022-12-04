@@ -10,8 +10,8 @@ import DNSError
 
 public typealias DNSPTCLCallBlock = () -> Any?
 public typealias DNSPTCLCallResultBlock = (DNSPTCLResultBlock?) -> Any?
-// ProgressBlock: (currentStep: Int, totalSteps: Int, precentCompleted: Float, statusText: String)
-public typealias DNSPTCLProgressBlock = (Int, Int, Float, String) -> Void
+// ProgressBlock: (currentStep: Int64, totalSteps: Int64, precentCompleted: Double, statusText: String)
+public typealias DNSPTCLProgressBlock = (Int64, Int64, Double, String) -> Void
 public typealias DNSPTCLResultBlock = (DNSPTCLWorker.Call.Result) -> Any?
 
 public protocol DNSPTCLWorker {
