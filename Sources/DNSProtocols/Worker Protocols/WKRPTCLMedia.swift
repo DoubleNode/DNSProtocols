@@ -37,12 +37,15 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkVoid?)
     func doUpload(_ image: UIImage,
+                  to path: String,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkMedia?)
     func doUpload(_ pdfDocument: PDFDocument,
+                  to path: String,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkMedia?)
     func doUpload(_ text: String,
+                  to path: String,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkMedia?)
 
@@ -50,9 +53,12 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
     func doRemove(_ media: DAOMedia,
                   with block: WKRPTCLMediaBlkVoid?)
     func doUpload(_ image: UIImage,
+                  to path: String,
                   with block: WKRPTCLMediaBlkMedia?)
     func doUpload(_ pdfDocument: PDFDocument,
+                  to path: String,
                   with block: WKRPTCLMediaBlkMedia?)
     func doUpload(_ text: String,
+                  to path: String,
                   with block: WKRPTCLMediaBlkMedia?)
 }
