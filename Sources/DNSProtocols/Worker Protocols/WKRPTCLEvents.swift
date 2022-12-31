@@ -35,6 +35,10 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
+    func doLike(_ event: DAOEvent,
+                for place: DAOPlace,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLEventsBlkVoid?)
     func doLoadEvents(with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLEventsBlkAEvent?)
     func doLoadEvents(for place: DAOPlace,
@@ -48,8 +52,23 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLEventsBlkVoid?)
+    func doUnlike(_ event: DAOEvent,
+                  for place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLEventsBlkVoid?)
+    func doUnview(_ event: DAOEvent,
+                  for place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLEventsBlkVoid?)
+    func doView(_ event: DAOEvent,
+                for place: DAOPlace,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLEventsBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    func doLike(_ event: DAOEvent,
+                for place: DAOPlace,
+                with block: WKRPTCLEventsBlkVoid?)
     func doLoadEvents(with block: WKRPTCLEventsBlkAEvent?)
     func doLoadEvents(for place: DAOPlace,
                              with block: WKRPTCLEventsBlkAEvent?)
@@ -59,4 +78,13 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
     func doUpdate(_ event: DAOEvent,
                   for place: DAOPlace,
                   with block: WKRPTCLEventsBlkVoid?)
+    func doUnlike(_ event: DAOEvent,
+                  for place: DAOPlace,
+                  with block: WKRPTCLEventsBlkVoid?)
+    func doUnview(_ event: DAOEvent,
+                  for place: DAOPlace,
+                  with block: WKRPTCLEventsBlkVoid?)
+    func doView(_ event: DAOEvent,
+                for place: DAOPlace,
+                with block: WKRPTCLEventsBlkVoid?)
 }

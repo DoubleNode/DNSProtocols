@@ -38,6 +38,13 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
+    func doLike(_ announcement: DAOAnnouncement,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doLike(_ announcement: DAOAnnouncement,
+                for place: DAOPlace,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAnnouncementsBlkVoid?)
     func doLoadAnnouncements(with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLAnnouncementsBlkAAnnouncement?)
     func doLoadAnnouncements(for place: DAOPlace,
@@ -59,8 +66,34 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnlike(_ announcement: DAOAnnouncement,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnlike(_ announcement: DAOAnnouncement,
+                  for place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnview(_ announcement: DAOAnnouncement,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnview(_ announcement: DAOAnnouncement,
+                  for place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                for place: DAOPlace,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAnnouncementsBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    func doLike(_ announcement: DAOAnnouncement,
+                with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doLike(_ announcement: DAOAnnouncement,
+                for place: DAOPlace,
+                with block: WKRPTCLAnnouncementsBlkVoid?)
     func doLoadAnnouncements(with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
     func doLoadAnnouncements(for place: DAOPlace,
                              with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
@@ -75,4 +108,19 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
     func doUpdate(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnlike(_ announcement: DAOAnnouncement,
+                  with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnlike(_ announcement: DAOAnnouncement,
+                  for place: DAOPlace,
+                  with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnview(_ announcement: DAOAnnouncement,
+                  with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnview(_ announcement: DAOAnnouncement,
+                  for place: DAOPlace,
+                  with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                for place: DAOPlace,
+                with block: WKRPTCLAnnouncementsBlkVoid?)
 }
