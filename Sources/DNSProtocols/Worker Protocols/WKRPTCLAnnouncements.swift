@@ -45,6 +45,15 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                              and block: WKRPTCLAnnouncementsBlkAAnnouncement?)
     func doLoadCurrentAnnouncements(with progress: DNSPTCLProgressBlock?,
                                     and block: WKRPTCLAnnouncementsBlkAAnnouncementPlace?)
+    func doReact(with reaction: DNSReactionType,
+                 to announcement: DAOAnnouncement,
+                 for place: DAOPlace,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doReact(with reaction: DNSReactionType,
+                 to announcement: DAOAnnouncement,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLAnnouncementsBlkVoid?)
     func doRemove(_ announcement: DAOAnnouncement,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
@@ -52,6 +61,15 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to announcement: DAOAnnouncement,
+                   for place: DAOPlace,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to announcement: DAOAnnouncement,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLAnnouncementsBlkVoid?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
@@ -59,20 +77,46 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                for place: DAOPlace,
+                with progress: DNSPTCLProgressBlock?,
+                and block: WKRPTCLAnnouncementsBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadAnnouncements(with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
     func doLoadAnnouncements(for place: DAOPlace,
                              with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
     func doLoadCurrentAnnouncements(with block: WKRPTCLAnnouncementsBlkAAnnouncementPlace?)
+    func doReact(with reaction: DNSReactionType,
+                 to announcement: DAOAnnouncement,
+                 for place: DAOPlace,
+                 with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doReact(with reaction: DNSReactionType,
+                 to announcement: DAOAnnouncement,
+                 with block: WKRPTCLAnnouncementsBlkVoid?)
     func doRemove(_ announcement: DAOAnnouncement,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doRemove(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to announcement: DAOAnnouncement,
+                   for place: DAOPlace,
+                   with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to announcement: DAOAnnouncement,
+                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                with block: WKRPTCLAnnouncementsBlkVoid?)
+    func doView(_ announcement: DAOAnnouncement,
+                for place: DAOPlace,
+                with block: WKRPTCLAnnouncementsBlkVoid?)
 }
