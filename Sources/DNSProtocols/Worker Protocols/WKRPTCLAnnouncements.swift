@@ -14,18 +14,21 @@ import Foundation
 public typealias WKRPTCLAnnouncementsRtnAAnnouncement = [DAOAnnouncement]
 public typealias WKRPTCLAnnouncementsRtnAnnouncement = DAOAnnouncement
 public typealias WKRPTCLAnnouncementsRtnAAnnouncementPlace = ([DAOAnnouncement], [DAOPlace])
+public typealias WKRPTCLAnnouncementsRtnMeta = DNSMetadata
 public typealias WKRPTCLAnnouncementsRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLAnnouncementsResAAnnouncement = Result<WKRPTCLAnnouncementsRtnAAnnouncement, Error>
 public typealias WKRPTCLAnnouncementsResAnnouncement = Result<WKRPTCLAnnouncementsRtnAnnouncement, Error>
 public typealias WKRPTCLAnnouncementsResAAnnouncementPlace = Result<WKRPTCLAnnouncementsRtnAAnnouncementPlace, Error>
+public typealias WKRPTCLAnnouncementsResMeta = Result<WKRPTCLAnnouncementsRtnMeta, Error>
 public typealias WKRPTCLAnnouncementsResVoid = Result<WKRPTCLAnnouncementsRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLAnnouncementsBlkAAnnouncement = (WKRPTCLAnnouncementsResAAnnouncement) -> Void
 public typealias WKRPTCLAnnouncementsBlkAnnouncement = (WKRPTCLAnnouncementsResAnnouncement) -> Void
 public typealias WKRPTCLAnnouncementsBlkAAnnouncementPlace = (WKRPTCLAnnouncementsResAAnnouncementPlace) -> Void
+public typealias WKRPTCLAnnouncementsBlkMeta = (WKRPTCLAnnouncementsResMeta) -> Void
 public typealias WKRPTCLAnnouncementsBlkVoid = (WKRPTCLAnnouncementsResVoid) -> Void
 
 public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
@@ -49,11 +52,11 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                  to announcement: DAOAnnouncement,
                  for place: DAOPlace,
                  with progress: DNSPTCLProgressBlock?,
-                 and block: WKRPTCLAnnouncementsBlkVoid?)
+                 and block: WKRPTCLAnnouncementsBlkMeta?)
     func doReact(with reaction: DNSReactionType,
                  to announcement: DAOAnnouncement,
                  with progress: DNSPTCLProgressBlock?,
-                 and block: WKRPTCLAnnouncementsBlkVoid?)
+                 and block: WKRPTCLAnnouncementsBlkMeta?)
     func doRemove(_ announcement: DAOAnnouncement,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
@@ -65,11 +68,11 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                    to announcement: DAOAnnouncement,
                    for place: DAOPlace,
                    with progress: DNSPTCLProgressBlock?,
-                   and block: WKRPTCLAnnouncementsBlkVoid?)
+                   and block: WKRPTCLAnnouncementsBlkMeta?)
     func doUnreact(with reaction: DNSReactionType,
                    to announcement: DAOAnnouncement,
                    with progress: DNSPTCLProgressBlock?,
-                   and block: WKRPTCLAnnouncementsBlkVoid?)
+                   and block: WKRPTCLAnnouncementsBlkMeta?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLAnnouncementsBlkVoid?)
@@ -79,11 +82,11 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
                   and block: WKRPTCLAnnouncementsBlkVoid?)
     func doView(_ announcement: DAOAnnouncement,
                 with progress: DNSPTCLProgressBlock?,
-                and block: WKRPTCLAnnouncementsBlkVoid?)
+                and block: WKRPTCLAnnouncementsBlkMeta?)
     func doView(_ announcement: DAOAnnouncement,
                 for place: DAOPlace,
                 with progress: DNSPTCLProgressBlock?,
-                and block: WKRPTCLAnnouncementsBlkVoid?)
+                and block: WKRPTCLAnnouncementsBlkMeta?)
 
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadAnnouncements(with block: WKRPTCLAnnouncementsBlkAAnnouncement?)
@@ -93,10 +96,10 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
     func doReact(with reaction: DNSReactionType,
                  to announcement: DAOAnnouncement,
                  for place: DAOPlace,
-                 with block: WKRPTCLAnnouncementsBlkVoid?)
+                 with block: WKRPTCLAnnouncementsBlkMeta?)
     func doReact(with reaction: DNSReactionType,
                  to announcement: DAOAnnouncement,
-                 with block: WKRPTCLAnnouncementsBlkVoid?)
+                 with block: WKRPTCLAnnouncementsBlkMeta?)
     func doRemove(_ announcement: DAOAnnouncement,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doRemove(_ announcement: DAOAnnouncement,
@@ -105,18 +108,18 @@ public protocol WKRPTCLAnnouncements: WKRPTCLWorkerBase {
     func doUnreact(with reaction: DNSReactionType,
                    to announcement: DAOAnnouncement,
                    for place: DAOPlace,
-                   with block: WKRPTCLAnnouncementsBlkVoid?)
+                   with block: WKRPTCLAnnouncementsBlkMeta?)
     func doUnreact(with reaction: DNSReactionType,
                    to announcement: DAOAnnouncement,
-                   with block: WKRPTCLAnnouncementsBlkVoid?)
+                   with block: WKRPTCLAnnouncementsBlkMeta?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doUpdate(_ announcement: DAOAnnouncement,
                   for place: DAOPlace,
                   with block: WKRPTCLAnnouncementsBlkVoid?)
     func doView(_ announcement: DAOAnnouncement,
-                with block: WKRPTCLAnnouncementsBlkVoid?)
+                with block: WKRPTCLAnnouncementsBlkMeta?)
     func doView(_ announcement: DAOAnnouncement,
                 for place: DAOPlace,
-                with block: WKRPTCLAnnouncementsBlkVoid?)
+                with block: WKRPTCLAnnouncementsBlkMeta?)
 }
