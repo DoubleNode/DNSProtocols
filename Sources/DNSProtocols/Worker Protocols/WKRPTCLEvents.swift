@@ -38,8 +38,8 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
-    func doLoadEvents(with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLEventsBlkAEvent?)
+    func doLoadCurrentEvents(with progress: DNSPTCLProgressBlock?,
+                             and block: WKRPTCLEventsBlkAEvent?)
     func doLoadEvents(for place: DAOPlace,
                       with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLEventsBlkAEvent?)
@@ -52,6 +52,11 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLEventsBlkVoid?)
+    func doRemove(_ eventDay: DAOEventDay,
+                  for event: DAOEvent,
+                  and place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLEventsBlkVoid?)
     func doUnreact(with reaction: DNSReactionType,
                    to event: DAOEvent,
                    for place: DAOPlace,
@@ -61,15 +66,20 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
                   for place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLEventsBlkVoid?)
+    func doUpdate(_ eventDay: DAOEventDay,
+                  for event: DAOEvent,
+                  and place: DAOPlace,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLEventsBlkVoid?)
     func doView(_ event: DAOEvent,
                 for place: DAOPlace,
                 with progress: DNSPTCLProgressBlock?,
                 and block: WKRPTCLEventsBlkMeta?)
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadEvents(with block: WKRPTCLEventsBlkAEvent?)
+    func doLoadCurrentEvents(with block: WKRPTCLEventsBlkAEvent?)
     func doLoadEvents(for place: DAOPlace,
-                             with block: WKRPTCLEventsBlkAEvent?)
+                      with block: WKRPTCLEventsBlkAEvent?)
     func doReact(with reaction: DNSReactionType,
                  to event: DAOEvent,
                  for place: DAOPlace,
@@ -77,12 +87,20 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
     func doRemove(_ event: DAOEvent,
                   for place: DAOPlace,
                   with block: WKRPTCLEventsBlkVoid?)
+    func doRemove(_ eventDay: DAOEventDay,
+                  for event: DAOEvent,
+                  and place: DAOPlace,
+                  with block: WKRPTCLEventsBlkVoid?)
     func doUnreact(with reaction: DNSReactionType,
                    to event: DAOEvent,
                    for place: DAOPlace,
                    with block: WKRPTCLEventsBlkMeta?)
     func doUpdate(_ event: DAOEvent,
                   for place: DAOPlace,
+                  with block: WKRPTCLEventsBlkVoid?)
+    func doUpdate(_ eventDay: DAOEventDay,
+                  for event: DAOEvent,
+                  and place: DAOPlace,
                   with block: WKRPTCLEventsBlkVoid?)
     func doView(_ event: DAOEvent,
                 for place: DAOPlace,
