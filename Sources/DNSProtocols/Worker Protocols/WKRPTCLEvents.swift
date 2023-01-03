@@ -14,18 +14,21 @@ import Foundation
 public typealias WKRPTCLEventsRtnAEvent = [DAOEvent]
 public typealias WKRPTCLEventsRtnEvent = DAOEvent
 public typealias WKRPTCLEventsRtnMeta = DNSMetadata
+public typealias WKRPTCLEventsRtnAPlace = [DAOPlace]
 public typealias WKRPTCLEventsRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLEventsResAEvent = Result<WKRPTCLEventsRtnAEvent, Error>
 public typealias WKRPTCLEventsResEvent = Result<WKRPTCLEventsRtnEvent, Error>
 public typealias WKRPTCLEventsResMeta = Result<WKRPTCLEventsRtnMeta, Error>
+public typealias WKRPTCLEventsResAPlace = Result<WKRPTCLEventsRtnAPlace, Error>
 public typealias WKRPTCLEventsResVoid = Result<WKRPTCLEventsRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLEventsBlkAEvent = (WKRPTCLEventsResAEvent) -> Void
 public typealias WKRPTCLEventsBlkEvent = (WKRPTCLEventsResEvent) -> Void
 public typealias WKRPTCLEventsBlkMeta = (WKRPTCLEventsResMeta) -> Void
+public typealias WKRPTCLEventsBlkAPlace = (WKRPTCLEventsResAPlace) -> Void
 public typealias WKRPTCLEventsBlkVoid = (WKRPTCLEventsResVoid) -> Void
 
 public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
@@ -39,7 +42,7 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doLoadCurrentEvents(with progress: DNSPTCLProgressBlock?,
-                             and block: WKRPTCLEventsBlkAEvent?)
+                             and block: WKRPTCLEventsBlkAPlace?)
     func doLoadEvents(for place: DAOPlace,
                       with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLEventsBlkAEvent?)
@@ -77,7 +80,7 @@ public protocol WKRPTCLEvents: WKRPTCLWorkerBase {
                 and block: WKRPTCLEventsBlkMeta?)
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doLoadCurrentEvents(with block: WKRPTCLEventsBlkAEvent?)
+    func doLoadCurrentEvents(with block: WKRPTCLEventsBlkAPlace?)
     func doLoadEvents(for place: DAOPlace,
                       with block: WKRPTCLEventsBlkAEvent?)
     func doReact(with reaction: DNSReactionType,
