@@ -11,16 +11,19 @@ import Foundation
 
 // Protocol Return Types
 public typealias WKRPTCLProductsRtnAProduct = [DAOProduct]
+public typealias WKRPTCLProductsRtnPricing = DAOPricing
 public typealias WKRPTCLProductsRtnProduct = DAOProduct
 public typealias WKRPTCLProductsRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLProductsResAProduct = Result<WKRPTCLProductsRtnAProduct, Error>
+public typealias WKRPTCLProductsResPricing = Result<WKRPTCLProductsRtnPricing, Error>
 public typealias WKRPTCLProductsResProduct = Result<WKRPTCLProductsRtnProduct, Error>
 public typealias WKRPTCLProductsResVoid = Result<WKRPTCLProductsRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLProductsBlkAProduct = (WKRPTCLProductsResAProduct) -> Void
+public typealias WKRPTCLProductsBlkPricing = (WKRPTCLProductsResPricing) -> Void
 public typealias WKRPTCLProductsBlkProduct = (WKRPTCLProductsResProduct) -> Void
 public typealias WKRPTCLProductsBlkVoid = (WKRPTCLProductsResVoid) -> Void
 
@@ -33,6 +36,9 @@ public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
+    func doLoadPricing(for product: DAOProduct,
+                       with progress: DNSPTCLProgressBlock?,
+                       and block: WKRPTCLProductsBlkPricing?)
     func doLoadProduct(for id: String,
                        with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLProductsBlkProduct?)
@@ -53,6 +59,8 @@ public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
                   and block: WKRPTCLProductsBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    func doLoadPricing(for product: DAOProduct,
+                       with block: WKRPTCLProductsBlkPricing?)
     func doLoadProduct(for id: String,
                        with block: WKRPTCLProductsBlkProduct?)
     func doLoadProduct(for id: String,

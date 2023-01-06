@@ -14,18 +14,21 @@ import Foundation
 public typealias WKRPTCLActivityTypesRtnActivityType = DAOActivityType
 public typealias WKRPTCLActivityTypesRtnAActivityType = [DAOActivityType]
 public typealias WKRPTCLActivityTypesRtnBool = Bool
+public typealias WKRPTCLActivityTypesRtnPricing = DAOPricing
 public typealias WKRPTCLActivityTypesRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLActivityTypesResActivityType = Result<WKRPTCLActivityTypesRtnActivityType, Error>
 public typealias WKRPTCLActivityTypesResAActivityType = Result<WKRPTCLActivityTypesRtnAActivityType, Error>
 public typealias WKRPTCLActivityTypesResBool = Result<WKRPTCLActivityTypesRtnBool, Error>
+public typealias WKRPTCLActivityTypesResPricing = Result<WKRPTCLActivityTypesRtnPricing, Error>
 public typealias WKRPTCLActivityTypesResVoid = Result<WKRPTCLActivityTypesRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLActivityTypesBlkActivityType = (WKRPTCLActivityTypesResActivityType) -> Void
 public typealias WKRPTCLActivityTypesBlkAActivityType = (WKRPTCLActivityTypesResAActivityType) -> Void
 public typealias WKRPTCLActivityTypesBlkBool = (WKRPTCLActivityTypesResBool) -> Void
+public typealias WKRPTCLActivityTypesBlkPricing = (WKRPTCLActivityTypesResPricing) -> Void
 public typealias WKRPTCLActivityTypesBlkVoid = (WKRPTCLActivityTypesResVoid) -> Void
 
 public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
@@ -54,6 +57,9 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                             and block: WKRPTCLActivityTypesBlkActivityType?)
     func doLoadActivityTypes(with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLActivityTypesBlkAActivityType?)
+    func doLoadPricing(for activityType: DAOActivityType,
+                       with progress: DNSPTCLProgressBlock?,
+                       and block: WKRPTCLActivityTypesBlkPricing?)
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
                       with progress: DNSPTCLProgressBlock?,
@@ -74,6 +80,8 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     func doLoadActivityType(for tag: DNSString,
                             with block: WKRPTCLActivityTypesBlkActivityType?)
     func doLoadActivityTypes(with block: WKRPTCLActivityTypesBlkAActivityType?)
+    func doLoadPricing(for activityType: DAOActivityType,
+                       with block: WKRPTCLActivityTypesBlkPricing?)
     func doUnfavorite(_ activityType: DAOActivityType,
                       for user: DAOUser,
                       with block: WKRPTCLActivityTypesBlkVoid?)
