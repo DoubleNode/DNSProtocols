@@ -67,7 +67,11 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     func doUpdate(_ activityType: DAOActivityType,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLActivityTypesBlkVoid?)
-    
+    func doUpdate(_ pricing: DAOPricing,
+                  for activityType: DAOActivityType,
+                  with progress: DNSPTCLProgressBlock?,
+                  and block: WKRPTCLActivityTypesBlkVoid?)
+
     // MARK: - Worker Logic (Shortcuts) -
     func doFavorite(_ activityType: DAOActivityType,
                     for user: DAOUser,
@@ -86,5 +90,8 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                       for user: DAOUser,
                       with block: WKRPTCLActivityTypesBlkVoid?)
     func doUpdate(_ activityType: DAOActivityType,
+                  with block: WKRPTCLActivityTypesBlkVoid?)
+    func doUpdate(_ pricing: DAOPricing,
+                  for activityType: DAOActivityType,
                   with block: WKRPTCLActivityTypesBlkVoid?)
 }
