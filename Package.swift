@@ -29,7 +29,7 @@ let package = Package(
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.4"),
         .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.32"),
         .package(url: "https://github.com/DoubleNode/DNSCoreThreading.git", from: "1.10.1"),
-        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.10.63"),
+        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.10.65"),
         .package(url: "https://github.com/DoubleNode/DNSError.git", from: "1.10.0"),
     ],
     targets: [
