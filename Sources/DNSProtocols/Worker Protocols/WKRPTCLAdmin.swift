@@ -11,10 +11,17 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
+public typealias WKRPTCLAdminRtnAAccount = [DAOAccount]
 public typealias WKRPTCLAdminRtnAString = [String]
 public typealias WKRPTCLAdminRtnBool = Bool
 public typealias WKRPTCLAdminRtnUserChangeRequest = (DAOUserChangeRequest?, [DAOUserChangeRequest])
 public typealias WKRPTCLAdminRtnVoid = Void
+
+// Protocol Result Types
+public typealias WKRPTCLAdminResAAccount = Result<WKRPTCLAdminRtnAAccount, Error>
+
+// Protocol Block Types
+public typealias WKRPTCLAdminBlkAAccount = (WKRPTCLAdminResAAccount) -> Void
 
 // Protocol Publisher Types
 public typealias WKRPTCLAdminPubAString = AnyPublisher<WKRPTCLAdminRtnAString, Error>
@@ -42,9 +49,16 @@ public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
                   to role: DNSUserRole,
                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubVoid
     func doCheckAdmin(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubBool
+    func doCompleteDeleted(account: DAOAccount,
+                           with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubVoid
     func doDenyChangeRequest(for user: DAOUser,
                              with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubVoid
     func doLoadChangeRequests(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubUserChangeRequest
+    func doLoadDeletedAccounts(thatAre status: DNSPTCLDeletedStatus,
+                               with progress: DNSPTCLProgressBlock?,
+                               and block: WKRPTCLAdminBlkAAccount?)
+    func doLoadDeletedStatus(with progress: DNSPTCLProgressBlock?,
+                             and block: WKRPTCLAdminBlkAAccount?)
     func doLoadTabs(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubAString
     func doRequestChange(to role: DNSUserRole,
                          with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubVoid
@@ -53,8 +67,12 @@ public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
     func doChange(_ user: DAOUser,
                   to role: DNSUserRole) -> WKRPTCLAdminPubVoid
     func doCheckAdmin() -> WKRPTCLAdminPubBool
+    func doCompleteDeleted(account: DAOAccount) -> WKRPTCLAdminPubVoid
     func doDenyChangeRequest(for user: DAOUser) -> WKRPTCLAdminPubVoid
     func doLoadChangeRequests() -> WKRPTCLAdminPubUserChangeRequest
+    func doLoadDeletedAccounts(thatAre status: DNSPTCLDeletedStatus,
+                               with block: WKRPTCLAdminBlkAAccount?)
+    func doLoadDeletedStatus(with block: WKRPTCLAdminBlkAAccount?)
     func doLoadTabs() -> WKRPTCLAdminPubAString
     func doRequestChange(to role: DNSUserRole) -> WKRPTCLAdminPubVoid
 }

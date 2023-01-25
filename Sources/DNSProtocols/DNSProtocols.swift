@@ -32,3 +32,8 @@ public enum DNSPTCLCall {
         case unhandled
     }
 }
+public enum DNSPTCLDeletedStatus: String {
+    case queued
+    case ready
+    case done
+}
