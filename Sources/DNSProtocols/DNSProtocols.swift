@@ -32,3 +32,23 @@ public enum DNSPTCLCall {
         case unhandled
     }
 }
+public enum DNSPTCLDeletedStates: String {
+    case queued
+    case ready
+    case done
+}
+public struct DNSPTCLDeletedStatus {
+    public struct Counts {
+        public var total: Int = 0
+        public var last24hrs: Int = 0
+        public var last3days: Int = 0
+        public var last7days: Int = 0
+        public var last14days: Int = 0
+        public var last21days: Int = 0
+        public init() { }
+    }
+    
+    public var done: Counts = Counts()
+    public var queued: Counts = Counts()
+    public var ready: Counts = Counts()
+}
