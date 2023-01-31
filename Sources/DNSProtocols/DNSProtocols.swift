@@ -7,6 +7,7 @@
 //
 
 import DNSError
+import Foundation
 
 public typealias DNSPTCLCallBlock = () -> Any?
 public typealias DNSPTCLCallResultBlock = (DNSPTCLResultBlock?) -> Any?
@@ -33,6 +34,7 @@ public enum DNSPTCLCall {
     }
 }
 public enum DNSPTCLDeletedStates: String {
+    case unknown
     case queued
     case ready
     case done
@@ -52,5 +54,15 @@ public struct DNSPTCLDeletedStatus {
     public var queued: Counts = Counts()
     public var ready: Counts = Counts()
     
+    public init() { }
+}
+public struct DNSPTCLDeletedAccount {
+    public var accountId = ""
+    public var deviceId = ""
+    public var purgedTime: Date?
+    public var queuedTime: Date?
+    public var state = DNSPTCLDeletedStates.unknown
+    public var stateTime: Date?
+
     public init() { }
 }
