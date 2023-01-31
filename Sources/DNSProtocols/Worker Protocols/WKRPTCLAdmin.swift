@@ -14,16 +14,19 @@ import Foundation
 public typealias WKRPTCLAdminRtnAAccount = [DAOAccount]
 public typealias WKRPTCLAdminRtnAString = [String]
 public typealias WKRPTCLAdminRtnBool = Bool
+public typealias WKRPTCLAdminRtnADeletedAccount = [DNSPTCLDeletedAccount]
 public typealias WKRPTCLAdminRtnDeletedStatus = DNSPTCLDeletedStatus
 public typealias WKRPTCLAdminRtnUserChangeRequest = (DAOUserChangeRequest?, [DAOUserChangeRequest])
 public typealias WKRPTCLAdminRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLAdminResAAccount = Result<WKRPTCLAdminRtnAAccount, Error>
+public typealias WKRPTCLAdminResADeletedAccount = Result<WKRPTCLAdminRtnADeletedAccount, Error>
 public typealias WKRPTCLAdminResDeletedStatus = Result<WKRPTCLAdminRtnDeletedStatus, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLAdminBlkAAccount = (WKRPTCLAdminResAAccount) -> Void
+public typealias WKRPTCLAdminBlkADeletedAccount = (WKRPTCLAdminResADeletedAccount) -> Void
 public typealias WKRPTCLAdminBlkDeletedStatus = (WKRPTCLAdminResDeletedStatus) -> Void
 
 // Protocol Publisher Types
@@ -59,7 +62,7 @@ public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
     func doLoadChangeRequests(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubUserChangeRequest
     func doLoadDeletedAccounts(thatAre state: DNSPTCLDeletedStates,
                                with progress: DNSPTCLProgressBlock?,
-                               and block: WKRPTCLAdminBlkAAccount?)
+                               and block: WKRPTCLAdminBlkADeletedAccount?)
     func doLoadDeletedStatus(with progress: DNSPTCLProgressBlock?,
                              and block: WKRPTCLAdminBlkDeletedStatus?)
     func doLoadTabs(with progress: DNSPTCLProgressBlock?) -> WKRPTCLAdminPubAString
@@ -74,7 +77,7 @@ public protocol WKRPTCLAdmin: WKRPTCLWorkerBase {
     func doDenyChangeRequest(for user: DAOUser) -> WKRPTCLAdminPubVoid
     func doLoadChangeRequests() -> WKRPTCLAdminPubUserChangeRequest
     func doLoadDeletedAccounts(thatAre state: DNSPTCLDeletedStates,
-                               with block: WKRPTCLAdminBlkAAccount?)
+                               with block: WKRPTCLAdminBlkADeletedAccount?)
     func doLoadDeletedStatus(with block: WKRPTCLAdminBlkDeletedStatus?)
     func doLoadTabs() -> WKRPTCLAdminPubAString
     func doRequestChange(to role: DNSUserRole) -> WKRPTCLAdminPubVoid
