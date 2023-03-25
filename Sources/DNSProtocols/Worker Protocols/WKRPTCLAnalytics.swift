@@ -21,6 +21,7 @@ public enum WKRPTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case applyPromoToCart
     case beacon
     case beginCheckout
+    case locationCheck
     case locationEnter
     case locationExit
     case login
