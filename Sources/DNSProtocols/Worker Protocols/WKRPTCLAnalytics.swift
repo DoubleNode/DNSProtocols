@@ -36,12 +36,14 @@ public enum WKRPTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case selectContent
     case selectItem
     case selectPromotion
+    case selectPromotionDetail
     case signUp
     case viewCart
     case viewCategory
     case viewItem
     case viewItemList
     case viewPromotion
+    case viewPromotionDetail
     case viewSearchResults
     case other
 }
