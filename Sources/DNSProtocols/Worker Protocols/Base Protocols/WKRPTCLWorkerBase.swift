@@ -7,20 +7,30 @@
 //
 
 import DNSCore
+import DNSDataObjects
 import Foundation
+
+// Protocol Return Types
+public typealias WKRPTCLWorkerBaseRtnAAnalyticsData = [DAOAnalyticsData]
+
+// Protocol Result Types
+public typealias WKRPTCLWorkerBaseResAAnalyticsData = Result<WKRPTCLWorkerBaseRtnAAnalyticsData, Error>
+
+// Protocol Block Types
+public typealias WKRPTCLWorkerBaseBlkAAnalyticsData = (WKRPTCLWorkerBaseResAAnalyticsData) -> Void
 
 public protocol WKRPTCLWorkerBase: AnyObject {
     static var xlt: DNSDataTranslation { get }
-
+    
     var netConfig: NETPTCLConfig { get set }
     var netRouter: NETPTCLRouter { get set }
-
+    
     func configure()
-
+    
     func checkOption(_ option: String) -> Bool
     func disableOption(_ option: String)
     func enableOption(_ option: String)
-
+    
     // MARK: - UIWindowSceneDelegate methods
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
@@ -35,4 +45,13 @@ public protocol WKRPTCLWorkerBase: AnyObject {
     // Use this method to save data, release shared resources, and store enough scene-specific state information
     // to restore the scene back to its current state.
     func didEnterBackground()
+    
+    // MARK: - Worker Logic (Public) -
+    func doAnalytics(for object: DAOBaseObject,
+                     with progress: DNSPTCLProgressBlock?,
+                     and block: WKRPTCLWorkerBaseBlkAAnalyticsData?)
+    
+    // MARK: - Worker Logic (Shortcuts) -
+    func doAnalytics(for object: DAOBaseObject,
+                     and block: WKRPTCLWorkerBaseBlkAAnalyticsData?)
 }
