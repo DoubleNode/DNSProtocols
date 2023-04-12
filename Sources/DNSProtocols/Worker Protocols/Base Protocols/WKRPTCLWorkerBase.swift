@@ -48,10 +48,12 @@ public protocol WKRPTCLWorkerBase: AnyObject {
     
     // MARK: - Worker Logic (Public) -
     func doAnalytics(for object: DAOBaseObject,
+                     using data: DNSDataDictionary,
                      with progress: DNSPTCLProgressBlock?,
                      and block: WKRPTCLWorkerBaseBlkAAnalyticsData?)
     
     // MARK: - Worker Logic (Shortcuts) -
     func doAnalytics(for object: DAOBaseObject,
+                     using data: DNSDataDictionary,
                      and block: WKRPTCLWorkerBaseBlkAAnalyticsData?)
 }
