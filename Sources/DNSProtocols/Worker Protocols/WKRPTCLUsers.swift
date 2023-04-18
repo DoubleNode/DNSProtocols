@@ -83,6 +83,10 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doRemove(_ user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLUsersBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to user: DAOUser,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLUsersBlkMeta?)
     func doUpdate(_ user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLUsersBlkVoid?)
@@ -115,6 +119,9 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                  with block: WKRPTCLUsersBlkMeta?)
     func doRemove(_ user: DAOUser,
                   with block: WKRPTCLUsersBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to user: DAOUser,
+                   with block: WKRPTCLUsersBlkMeta?)
     func doUpdate(_ user: DAOUser,
                   with block: WKRPTCLUsersBlkVoid?)
 }

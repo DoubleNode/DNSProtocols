@@ -61,6 +61,10 @@ public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
     func doRemove(_ product: DAOProduct,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLProductsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to product: DAOProduct,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLProductsBlkMeta?)
     func doUpdate(_ pricing: DAOPricing,
                   for product: DAOProduct,
                   with progress: DNSPTCLProgressBlock?,
@@ -85,6 +89,9 @@ public protocol WKRPTCLProducts: WKRPTCLWorkerBase {
                  with block: WKRPTCLProductsBlkMeta?)
     func doRemove(_ product: DAOProduct,
                   with block: WKRPTCLProductsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to product: DAOProduct,
+                   with block: WKRPTCLProductsBlkMeta?)
     func doUpdate(_ pricing: DAOPricing,
                   for product: DAOProduct,
                   with block: WKRPTCLProductsBlkVoid?)

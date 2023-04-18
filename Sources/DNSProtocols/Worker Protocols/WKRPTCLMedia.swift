@@ -43,6 +43,10 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
     func doRemove(_ media: DAOMedia,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to media: DAOMedia,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLMediaBlkMeta?)
     func doUpload(from fileUrl: URL,
                   to path: String,
                   with progress: DNSPTCLProgressBlock?,
@@ -66,6 +70,9 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
                  with block: WKRPTCLMediaBlkMeta?)
     func doRemove(_ media: DAOMedia,
                   with block: WKRPTCLMediaBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to media: DAOMedia,
+                   with block: WKRPTCLMediaBlkMeta?)
     func doUpload(from fileUrl: URL,
                   to path: String,
                   with block: WKRPTCLMediaBlkMedia?)

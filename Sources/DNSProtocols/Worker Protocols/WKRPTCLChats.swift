@@ -51,6 +51,10 @@ public protocol WKRPTCLChats: WKRPTCLWorkerBase {
     func doRemove(_ message: DAOChatMessage,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLChatsBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to chat: DAOChat,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLChatsBlkMeta?)
     func doUpdate(_ message: DAOChatMessage,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLChatsBlkVoid?)
@@ -63,6 +67,9 @@ public protocol WKRPTCLChats: WKRPTCLWorkerBase {
     func doReact(with reaction: DNSReactionType,
                  to chat: DAOChat,
                  with block: WKRPTCLChatsBlkMeta?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to chat: DAOChat,
+                   with block: WKRPTCLChatsBlkMeta?)
     func doRemove(_ message: DAOChatMessage,
                   with block: WKRPTCLChatsBlkVoid?)
     func doUpdate(_ message: DAOChatMessage,

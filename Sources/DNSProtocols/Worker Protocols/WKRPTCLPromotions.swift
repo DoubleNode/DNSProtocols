@@ -61,6 +61,10 @@ public protocol WKRPTCLPromotions: WKRPTCLWorkerBase {
                  to promotion: DAOPromotion,
                  with progress: DNSPTCLProgressBlock?,
                  and block: WKRPTCLPromotionsBlkMeta?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to promotion: DAOPromotion,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLPromotionsBlkMeta?)
     func doUpdate(_ promotion: DAOPromotion,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLPromotionsBlkPromotion?)
@@ -83,6 +87,9 @@ public protocol WKRPTCLPromotions: WKRPTCLWorkerBase {
     func doReact(with reaction: DNSReactionType,
                  to promotion: DAOPromotion,
                  with block: WKRPTCLPromotionsBlkMeta?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to promotion: DAOPromotion,
+                   with block: WKRPTCLPromotionsBlkMeta?)
     func doUpdate(_ promotion: DAOPromotion,
                   and block: WKRPTCLPromotionsBlkPromotion?)
 }

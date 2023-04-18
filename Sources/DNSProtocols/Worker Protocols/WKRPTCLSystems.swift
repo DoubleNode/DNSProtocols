@@ -107,7 +107,11 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
                   for systemId: String,
                   and endPointId: String,
                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLSystemsPubVoid
-    
+    func doUnreact(with reaction: DNSReactionType,
+                   to system: DAOSystem,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLSystemsBlkMeta?)
+
     // MARK: - Worker Logic (Shortcuts) -
     func doLoadSystem(for id: String,
                       with block: WKRPTCLSystemsBlkSystem?)
@@ -139,4 +143,7 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
                   and debugString: String,
                   for systemId: String,
                   and endPointId: String) -> WKRPTCLSystemsPubVoid
+    func doUnreact(with reaction: DNSReactionType,
+                   to system: DAOSystem,
+                   with block: WKRPTCLSystemsBlkMeta?)
 }

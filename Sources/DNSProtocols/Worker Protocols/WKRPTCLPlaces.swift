@@ -84,6 +84,10 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     func doSearchPlace(for geohash: String,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLPlacesBlkPlace?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to place: DAOPlace,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLPlacesBlkMeta?)
     func doUpdate(_ place: DAOPlace,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLPlacesBlkVoid?)
@@ -113,6 +117,9 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
                  with block: WKRPTCLPlacesBlkMeta?)
     func doSearchPlace(for geohash: String,
                         with block: WKRPTCLPlacesBlkPlace?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to place: DAOPlace,
+                   with block: WKRPTCLPlacesBlkMeta?)
     func doUpdate(_ place: DAOPlace,
                   with block: WKRPTCLPlacesBlkVoid?)
     func doUpdate(_ hours: DAOPlaceHours,

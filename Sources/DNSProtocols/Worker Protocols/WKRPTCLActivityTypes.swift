@@ -44,14 +44,6 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
     
     // MARK: - Worker Logic (Public) -
-    func doFavorite(_ activityType: DAOActivityType,
-                    for user: DAOUser,
-                    with progress: DNSPTCLProgressBlock?,
-                    and block: WKRPTCLActivityTypesBlkVoid?)
-    func doIsFavorited(_ activityType: DAOActivityType,
-                       for user: DAOUser,
-                       with progress: DNSPTCLProgressBlock?,
-                       and block: WKRPTCLActivityTypesBlkBool?)
     func doLoadActivityType(for code: String,
                             with progress: DNSPTCLProgressBlock?,
                             and block: WKRPTCLActivityTypesBlkActivityType?)
@@ -67,10 +59,10 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                  to activityType: DAOActivityType,
                  with progress: DNSPTCLProgressBlock?,
                  and block: WKRPTCLActivityTypesBlkMeta?)
-    func doUnfavorite(_ activityType: DAOActivityType,
-                      for user: DAOUser,
-                      with progress: DNSPTCLProgressBlock?,
-                      and block: WKRPTCLActivityTypesBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to activityType: DAOActivityType,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLActivityTypesBlkMeta?)
     func doUpdate(_ activityType: DAOActivityType,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLActivityTypesBlkVoid?)
@@ -80,12 +72,6 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
                   and block: WKRPTCLActivityTypesBlkVoid?)
 
     // MARK: - Worker Logic (Shortcuts) -
-    func doFavorite(_ activityType: DAOActivityType,
-                    for user: DAOUser,
-                    with block: WKRPTCLActivityTypesBlkVoid?)
-    func doIsFavorited(_ activityType: DAOActivityType,
-                       for user: DAOUser,
-                       with block: WKRPTCLActivityTypesBlkBool?)
     func doLoadActivityType(for code: String,
                             with block: WKRPTCLActivityTypesBlkActivityType?)
     func doLoadActivityType(for tag: DNSString,
@@ -96,9 +82,9 @@ public protocol WKRPTCLActivityTypes: WKRPTCLWorkerBase {
     func doReact(with reaction: DNSReactionType,
                  to activityType: DAOActivityType,
                  with block: WKRPTCLActivityTypesBlkMeta?)
-    func doUnfavorite(_ activityType: DAOActivityType,
-                      for user: DAOUser,
-                      with block: WKRPTCLActivityTypesBlkVoid?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to activityType: DAOActivityType,
+                   with block: WKRPTCLActivityTypesBlkMeta?)
     func doUpdate(_ activityType: DAOActivityType,
                   with block: WKRPTCLActivityTypesBlkVoid?)
     func doUpdate(_ pricing: DAOPricing,

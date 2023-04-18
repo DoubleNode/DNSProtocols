@@ -56,6 +56,10 @@ public protocol WKRPTCLSections: WKRPTCLWorkerBase {
                  to section: DAOSection,
                  with progress: DNSPTCLProgressBlock?,
                  and block: WKRPTCLSectionsBlkMeta?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to section: DAOSection,
+                   with progress: DNSPTCLProgressBlock?,
+                   and block: WKRPTCLSectionsBlkMeta?)
     func doUpdate(_ section: DAOSection,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLSectionsBlkVoid?)
@@ -71,6 +75,9 @@ public protocol WKRPTCLSections: WKRPTCLWorkerBase {
     func doReact(with reaction: DNSReactionType,
                  to section: DAOSection,
                  with block: WKRPTCLSectionsBlkMeta?)
+    func doUnreact(with reaction: DNSReactionType,
+                   to section: DAOSection,
+                   with block: WKRPTCLSectionsBlkMeta?)
     func doUpdate(_ section: DAOSection,
                   with block: WKRPTCLSectionsBlkVoid?)
 }
