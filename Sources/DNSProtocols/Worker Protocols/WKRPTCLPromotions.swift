@@ -10,16 +10,19 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
+public typealias WKRPTCLPromotionsRtnMeta = DNSMetadata
 public typealias WKRPTCLPromotionsRtnAPromotion = [DAOPromotion]
 public typealias WKRPTCLPromotionsRtnPromotion = DAOPromotion
 public typealias WKRPTCLPromotionsRtnVoid = Void
 
 // Protocol Result Types
+public typealias WKRPTCLPromotionsResMeta = Result<WKRPTCLPromotionsRtnMeta, Error>
 public typealias WKRPTCLPromotionsResAPromotion = Result<WKRPTCLPromotionsRtnAPromotion, Error>
 public typealias WKRPTCLPromotionsResPromotion = Result<WKRPTCLPromotionsRtnPromotion, Error>
 public typealias WKRPTCLPromotionsResVoid = Result<WKRPTCLPromotionsRtnVoid, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLPromotionsBlkMeta = (WKRPTCLPromotionsResMeta) -> Void
 public typealias WKRPTCLPromotionsBlkAPromotion = (WKRPTCLPromotionsResAPromotion) -> Void
 public typealias WKRPTCLPromotionsBlkPromotion = (WKRPTCLPromotionsResPromotion) -> Void
 public typealias WKRPTCLPromotionsBlkVoid = (WKRPTCLPromotionsResVoid) -> Void
@@ -54,6 +57,10 @@ public protocol WKRPTCLPromotions: WKRPTCLWorkerBase {
     func doLoadPromotions(for path: String,
                           with progress: DNSPTCLProgressBlock?,
                           and block: WKRPTCLPromotionsBlkAPromotion?)
+    func doReact(with reaction: DNSReactionType,
+                 to promotion: DAOPromotion,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLPromotionsBlkMeta?)
     func doUpdate(_ promotion: DAOPromotion,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLPromotionsBlkPromotion?)
@@ -73,6 +80,9 @@ public protocol WKRPTCLPromotions: WKRPTCLWorkerBase {
                           and block: WKRPTCLPromotionsBlkAPromotion?)
     func doLoadPromotions(for path: String,
                           and block: WKRPTCLPromotionsBlkAPromotion?)
+    func doReact(with reaction: DNSReactionType,
+                 to promotion: DAOPromotion,
+                 with block: WKRPTCLPromotionsBlkMeta?)
     func doUpdate(_ promotion: DAOPromotion,
                   and block: WKRPTCLPromotionsBlkPromotion?)
 }

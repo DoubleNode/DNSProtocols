@@ -12,6 +12,7 @@ import Foundation
 
 // Protocol Return Types
 public typealias WKRPTCLPlacesRtnAlertEventStatus = ([DAOAlert], [DAOPlaceEvent], [DAOPlaceStatus])
+public typealias WKRPTCLPlacesRtnMeta = DNSMetadata
 public typealias WKRPTCLPlacesRtnAPlace = [DAOPlace]
 public typealias WKRPTCLPlacesRtnPlace = DAOPlace
 public typealias WKRPTCLPlacesRtnAPlaceHoliday = [DAOPlaceHoliday]
@@ -26,6 +27,7 @@ public typealias WKRPTCLPlacesPubAlertEventStatus = AnyPublisher<WKRPTCLPlacesRt
 public typealias WKRPTCLPlacesFutAlertEventStatus = Future<WKRPTCLPlacesRtnAlertEventStatus, Error>
 
 // Protocol Result Types
+public typealias WKRPTCLPlacesResMeta = Result<WKRPTCLPlacesRtnMeta, Error>
 public typealias WKRPTCLPlacesResAPlace = Result<WKRPTCLPlacesRtnAPlace, Error>
 public typealias WKRPTCLPlacesResPlace = Result<WKRPTCLPlacesRtnPlace, Error>
 public typealias WKRPTCLPlacesResAPlaceHoliday = Result<WKRPTCLPlacesRtnAPlaceHoliday, Error>
@@ -34,6 +36,7 @@ public typealias WKRPTCLPlacesResAPlaceState = Result<WKRPTCLPlacesRtnAPlaceStat
 public typealias WKRPTCLPlacesResVoid = Result<WKRPTCLPlacesRtnVoid, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLPlacesBlkMeta = (WKRPTCLPlacesResMeta) -> Void
 public typealias WKRPTCLPlacesBlkAPlace = (WKRPTCLPlacesResAPlace) -> Void
 public typealias WKRPTCLPlacesBlkPlace = (WKRPTCLPlacesResPlace) -> Void
 public typealias WKRPTCLPlacesBlkAPlaceHoliday = (WKRPTCLPlacesResAPlaceHoliday) -> Void
@@ -74,6 +77,10 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
                      and block: WKRPTCLPlacesBlkPlaceHours?)
     func doLoadState(for place: DAOPlace,
                      with progress: DNSPTCLProgressBlock?) -> WKRPTCLPlacesPubAlertEventStatus
+    func doReact(with reaction: DNSReactionType,
+                 to place: DAOPlace,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLPlacesBlkMeta?)
     func doSearchPlace(for geohash: String,
                         with progress: DNSPTCLProgressBlock?,
                         and block: WKRPTCLPlacesBlkPlace?)
@@ -101,6 +108,9 @@ public protocol WKRPTCLPlaces: WKRPTCLWorkerBase {
     func doLoadHours(for place: DAOPlace,
                      with block: WKRPTCLPlacesBlkPlaceHours?)
     func doLoadState(for place: DAOPlace) -> WKRPTCLPlacesPubAlertEventStatus
+    func doReact(with reaction: DNSReactionType,
+                 to place: DAOPlace,
+                 with block: WKRPTCLPlacesBlkMeta?)
     func doSearchPlace(for geohash: String,
                         with block: WKRPTCLPlacesBlkPlace?)
     func doUpdate(_ place: DAOPlace,

@@ -11,18 +11,21 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
+public typealias WKRPTCLSectionsRtnMeta = DNSMetadata
 public typealias WKRPTCLSectionsRtnAPlace = [DAOPlace]
 public typealias WKRPTCLSectionsRtnASection = [DAOSection]
 public typealias WKRPTCLSectionsRtnSection = DAOSection
 public typealias WKRPTCLSectionsRtnVoid = Void
 
 // Protocol Result Types
+public typealias WKRPTCLSectionsResMeta = Result<WKRPTCLSectionsRtnMeta, Error>
 public typealias WKRPTCLSectionsResAPlace = Result<WKRPTCLSectionsRtnAPlace, Error>
 public typealias WKRPTCLSectionsResASection = Result<WKRPTCLSectionsRtnASection, Error>
 public typealias WKRPTCLSectionsResSection = Result<WKRPTCLSectionsRtnSection, Error>
 public typealias WKRPTCLSectionsResVoid = Result<WKRPTCLSectionsRtnVoid, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLSectionsBlkMeta = (WKRPTCLSectionsResMeta) -> Void
 public typealias WKRPTCLSectionsBlkAPlace = (WKRPTCLSectionsResAPlace) -> Void
 public typealias WKRPTCLSectionsBlkASection = (WKRPTCLSectionsResASection) -> Void
 public typealias WKRPTCLSectionsBlkSection = (WKRPTCLSectionsResSection) -> Void
@@ -49,6 +52,10 @@ public protocol WKRPTCLSections: WKRPTCLWorkerBase {
                        and block: WKRPTCLSectionsBlkSection?)
     func doLoadSections(with progress: DNSPTCLProgressBlock?,
                        and block: WKRPTCLSectionsBlkASection?)
+    func doReact(with reaction: DNSReactionType,
+                 to section: DAOSection,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLSectionsBlkMeta?)
     func doUpdate(_ section: DAOSection,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLSectionsBlkVoid?)
@@ -61,6 +68,9 @@ public protocol WKRPTCLSections: WKRPTCLWorkerBase {
     func doLoadSection(for id: String,
                        with block: WKRPTCLSectionsBlkSection?)
     func doLoadSections(with block: WKRPTCLSectionsBlkASection?)
+    func doReact(with reaction: DNSReactionType,
+                 to section: DAOSection,
+                 with block: WKRPTCLSectionsBlkMeta?)
     func doUpdate(_ section: DAOSection,
                   with block: WKRPTCLSectionsBlkVoid?)
 }

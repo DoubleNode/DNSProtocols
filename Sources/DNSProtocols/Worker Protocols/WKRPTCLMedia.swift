@@ -13,14 +13,17 @@ import UIKit
 
 // Protocol Return Types
 public typealias WKRPTCLMediaRtnMedia = DAOMedia
+public typealias WKRPTCLMediaRtnMeta = DNSMetadata
 public typealias WKRPTCLMediaRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLMediaResMedia = Result<WKRPTCLMediaRtnMedia, Error>
+public typealias WKRPTCLMediaResMeta = Result<WKRPTCLMediaRtnMeta, Error>
 public typealias WKRPTCLMediaResVoid = Result<WKRPTCLMediaRtnVoid, Error>
 
 // Protocol Block Types
 public typealias WKRPTCLMediaBlkMedia = (WKRPTCLMediaResMedia) -> Void
+public typealias WKRPTCLMediaBlkMeta = (WKRPTCLMediaResMeta) -> Void
 public typealias WKRPTCLMediaBlkVoid = (WKRPTCLMediaResVoid) -> Void
 
 public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
@@ -33,6 +36,10 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
+    func doReact(with reaction: DNSReactionType,
+                 to media: DAOMedia,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLMediaBlkMeta?)
     func doRemove(_ media: DAOMedia,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLMediaBlkVoid?)
@@ -54,6 +61,9 @@ public protocol WKRPTCLMedia: WKRPTCLWorkerBase {
                   and block: WKRPTCLMediaBlkMedia?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    func doReact(with reaction: DNSReactionType,
+                 to media: DAOMedia,
+                 with block: WKRPTCLMediaBlkMeta?)
     func doRemove(_ media: DAOMedia,
                   with block: WKRPTCLMediaBlkVoid?)
     func doUpload(from fileUrl: URL,

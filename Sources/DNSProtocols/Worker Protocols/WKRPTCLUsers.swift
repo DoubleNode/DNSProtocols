@@ -14,6 +14,7 @@ import Foundation
 public typealias WKRPTCLUsersRtnAAccountLinkRequest = [DAOAccountLinkRequest]
 public typealias WKRPTCLUsersRtnAAccount = [DAOAccount]
 public typealias WKRPTCLUsersRtnBool = Bool
+public typealias WKRPTCLUsersRtnMeta = DNSMetadata
 public typealias WKRPTCLUsersRtnAUser = [DAOUser]
 public typealias WKRPTCLUsersRtnUser = DAOUser
 public typealias WKRPTCLUsersRtnVoid = Void
@@ -22,6 +23,7 @@ public typealias WKRPTCLUsersRtnVoid = Void
 public typealias WKRPTCLUsersResAAccountLinkRequest = Result<WKRPTCLUsersRtnAAccountLinkRequest, Error>
 public typealias WKRPTCLUsersResAAccount = Result<WKRPTCLUsersRtnAAccount, Error>
 public typealias WKRPTCLUsersResBool = Result<WKRPTCLUsersRtnBool, Error>
+public typealias WKRPTCLUsersResMeta = Result<WKRPTCLUsersRtnMeta, Error>
 public typealias WKRPTCLUsersResAUser = Result<WKRPTCLUsersRtnAUser, Error>
 public typealias WKRPTCLUsersResUser = Result<WKRPTCLUsersRtnUser, Error>
 public typealias WKRPTCLUsersResVoid = Result<WKRPTCLUsersRtnVoid, Error>
@@ -30,6 +32,7 @@ public typealias WKRPTCLUsersResVoid = Result<WKRPTCLUsersRtnVoid, Error>
 public typealias WKRPTCLUsersBlkAAccountLinkRequest = (WKRPTCLUsersResAAccountLinkRequest) -> Void
 public typealias WKRPTCLUsersBlkAAccount = (WKRPTCLUsersResAAccount) -> Void
 public typealias WKRPTCLUsersBlkBool = (WKRPTCLUsersResBool) -> Void
+public typealias WKRPTCLUsersBlkMeta = (WKRPTCLUsersResMeta) -> Void
 public typealias WKRPTCLUsersBlkAUser = (WKRPTCLUsersResAUser) -> Void
 public typealias WKRPTCLUsersBlkUser = (WKRPTCLUsersResUser) -> Void
 public typealias WKRPTCLUsersBlkVoid = (WKRPTCLUsersResVoid) -> Void
@@ -73,6 +76,10 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     func doLoadUsers(for account: DAOAccount,
                      with progress: DNSPTCLProgressBlock?,
                      and block: WKRPTCLUsersBlkAUser?)
+    func doReact(with reaction: DNSReactionType,
+                 to user: DAOUser,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLUsersBlkMeta?)
     func doRemove(_ user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLUsersBlkVoid?)
@@ -103,6 +110,9 @@ public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
                                   with block: WKRPTCLUsersBlkAAccount?)
     func doLoadUsers(for account: DAOAccount,
                      with block: WKRPTCLUsersBlkAUser?)
+    func doReact(with reaction: DNSReactionType,
+                 to user: DAOUser,
+                 with block: WKRPTCLUsersBlkMeta?)
     func doRemove(_ user: DAOUser,
                   with block: WKRPTCLUsersBlkVoid?)
     func doUpdate(_ user: DAOUser,

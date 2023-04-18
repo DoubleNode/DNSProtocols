@@ -11,6 +11,7 @@ import DNSDataObjects
 import Foundation
 
 // Protocol Return Types
+public typealias WKRPTCLSystemsRtnMeta = DNSMetadata
 public typealias WKRPTCLSystemsRtnASystem = [DAOSystem]
 public typealias WKRPTCLSystemsRtnSystem = DAOSystem
 public typealias WKRPTCLSystemsRtnASystemEndPoint = [DAOSystemEndPoint]
@@ -24,12 +25,14 @@ public typealias WKRPTCLSystemsPubVoid = AnyPublisher<WKRPTCLSystemsRtnVoid, Err
 public typealias WKRPTCLSystemsFutVoid = Future<WKRPTCLSystemsRtnVoid, Error>
 
 // Protocol Result Types
+public typealias WKRPTCLSystemsResMeta = Result<WKRPTCLSystemsRtnMeta, Error>
 public typealias WKRPTCLSystemsResASystem = Result<WKRPTCLSystemsRtnASystem, Error>
 public typealias WKRPTCLSystemsResSystem = Result<WKRPTCLSystemsRtnSystem, Error>
 public typealias WKRPTCLSystemsResASystemEndPoint = Result<WKRPTCLSystemsRtnASystemEndPoint, Error>
 public typealias WKRPTCLSystemsResASystemState = Result<WKRPTCLSystemsRtnASystemState, Error>
 
 // Protocol Block Types
+public typealias WKRPTCLSystemsBlkMeta = (WKRPTCLSystemsResMeta) -> Void
 public typealias WKRPTCLSystemsBlkASystem = (WKRPTCLSystemsResASystem) -> Void
 public typealias WKRPTCLSystemsBlkSystem = (WKRPTCLSystemsResSystem) -> Void
 public typealias WKRPTCLSystemsBlkASystemEndPoint = (WKRPTCLSystemsResASystemEndPoint) -> Void
@@ -85,6 +88,10 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
                     with state: DNSSystemState,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLSystemsBlkSystem?)
+    func doReact(with reaction: DNSReactionType,
+                 to system: DAOSystem,
+                 with progress: DNSPTCLProgressBlock?,
+                 and block: WKRPTCLSystemsBlkMeta?)
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String,
@@ -117,6 +124,9 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     func doOverride(system: DAOSystem,
                     with state: DNSSystemState,
                     with block: WKRPTCLSystemsBlkSystem?)// Protocol Return Types
+    func doReact(with reaction: DNSReactionType,
+                 to system: DAOSystem,
+                 with block: WKRPTCLSystemsBlkMeta?)
     func doReport(result: WKRPTCLSystemsData.Result,
                   for systemId: String,
                   and endPointId: String) -> WKRPTCLSystemsPubVoid
