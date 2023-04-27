@@ -37,6 +37,12 @@ public protocol WKRPTCLPromotions: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     @available(iOS 15.0.0, *)
+    func doActivate(_ id: String,
+                    with progress: DNSPTCLProgressBlock?) async -> WKRPTCLPromotionsResVoid
+    func doActivate(_ id: String,
+                    with progress: DNSPTCLProgressBlock?,
+                    and block: WKRPTCLPromotionsBlkVoid?)
+    @available(iOS 15.0.0, *)
     func doDelete(_ promotion: DAOPromotion,
                   with progress: DNSPTCLProgressBlock?) async -> WKRPTCLPromotionsResVoid
     func doDelete(_ promotion: DAOPromotion,
@@ -70,6 +76,10 @@ public protocol WKRPTCLPromotions: WKRPTCLWorkerBase {
                   and block: WKRPTCLPromotionsBlkPromotion?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    @available(iOS 15.0.0, *)
+    func doActivate(_ id: String) async -> WKRPTCLPromotionsResVoid
+    func doActivate(_ id: String,
+                    and block: WKRPTCLPromotionsBlkVoid?)
     @available(iOS 15.0.0, *)
     func doDelete(_ promotion: DAOPromotion) async -> WKRPTCLPromotionsResVoid
     func doDelete(_ promotion: DAOPromotion,
