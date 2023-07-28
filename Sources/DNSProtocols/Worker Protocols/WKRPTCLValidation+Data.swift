@@ -17,43 +17,13 @@ public struct WKRPTCLValidationData {
         public static let postalCode = "[0-9]{5}"
     }
     public enum Config {
-        public enum Address {
-            public struct Address {
-                public var fieldName: String
-                public var minimumLength: Int32?
-                public var maximumLength: Int32?
-                public var regex: String?
-                public var required: Bool
-                public init(fieldName: String = "Address",
-                            minimumLength: Int32? = 2,
-                            maximumLength: Int32? = 250,
-                            regex: String? = nil,
-                            required: Bool = true) {
-                    self.fieldName = fieldName
-                    self.minimumLength = minimumLength
-                    self.maximumLength = maximumLength
-                    self.regex = regex
-                    self.required = required
-                }
-            }
-            public struct Address2 {
-                public var fieldName: String
-                public var minimumLength: Int32?
-                public var maximumLength: Int32?
-                public var regex: String?
-                public var required: Bool
-                public init(fieldName: String = "Apartment/Suite/Building (Optional)",
-                            minimumLength: Int32? = 0,
-                            maximumLength: Int32? = 250,
-                            regex: String? = nil,
-                            required: Bool = false) {
-                    self.fieldName = fieldName
-                    self.minimumLength = minimumLength
-                    self.maximumLength = maximumLength
-                    self.regex = regex
-                    self.required = required
-                }
-            }
+        public struct Address {
+            public var city: City = City()
+            public var postalCode: PostalCode = PostalCode()
+            public var state: State = State()
+            public var street: Street = Street()
+            public var street2: Street2 = Street2()
+
             public struct City {
                 public var fieldName: String
                 public var minimumLength: Int32?
@@ -101,6 +71,42 @@ public struct WKRPTCLValidationData {
                             maximumLength: Int32? = 2,
                             regex: String? = WKRPTCLValidationData.Regex.state,
                             required: Bool = true) {
+                    self.fieldName = fieldName
+                    self.minimumLength = minimumLength
+                    self.maximumLength = maximumLength
+                    self.regex = regex
+                    self.required = required
+                }
+            }
+            public struct Street {
+                public var fieldName: String
+                public var minimumLength: Int32?
+                public var maximumLength: Int32?
+                public var regex: String?
+                public var required: Bool
+                public init(fieldName: String = "Street Address",
+                            minimumLength: Int32? = 2,
+                            maximumLength: Int32? = 250,
+                            regex: String? = nil,
+                            required: Bool = true) {
+                    self.fieldName = fieldName
+                    self.minimumLength = minimumLength
+                    self.maximumLength = maximumLength
+                    self.regex = regex
+                    self.required = required
+                }
+            }
+            public struct Street2 {
+                public var fieldName: String
+                public var minimumLength: Int32?
+                public var maximumLength: Int32?
+                public var regex: String?
+                public var required: Bool
+                public init(fieldName: String = "Street Address 2",
+                            minimumLength: Int32? = 0,
+                            maximumLength: Int32? = 250,
+                            regex: String? = nil,
+                            required: Bool = false) {
                     self.fieldName = fieldName
                     self.minimumLength = minimumLength
                     self.maximumLength = maximumLength

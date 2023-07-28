@@ -6,6 +6,7 @@
 //  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import DNSDataObjects
 import Foundation
 
@@ -28,6 +29,18 @@ public protocol WKRPTCLValidation: WKRPTCLWorkerBase {
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
 
     // MARK: - Worker Logic (Public) -
+    func doValidateAddress(for address: DNSPostalAddress?,
+                           with config: Config.Address) -> WKRPTCLValidationResVoid
+    func doValidateAddressCity(for city: String?,
+                                 with config: Config.Address.City) -> WKRPTCLValidationResVoid
+    func doValidateAddressPostalCode(for postalCode: String?,
+                                     with config: Config.Address.PostalCode) -> WKRPTCLValidationResVoid
+    func doValidateAddressState(for state: String?,
+                                with config: Config.Address.State) -> WKRPTCLValidationResVoid
+    func doValidateAddressStreet(for street: String?,
+                                 with config: Config.Address.Street) -> WKRPTCLValidationResVoid
+    func doValidateAddressStreet2(for street2: String?,
+                                  with config: Config.Address.Street2) -> WKRPTCLValidationResVoid
     func doValidateBirthdate(for birthdate: Date?,
                              with config: Config.Birthdate) -> WKRPTCLValidationResVoid
     func doValidateCalendarDate(for calendarDate: Date?,
