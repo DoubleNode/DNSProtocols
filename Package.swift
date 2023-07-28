@@ -27,7 +27,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.6.4"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.48"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.51"),
         .package(url: "https://github.com/DoubleNode/DNSCoreThreading.git", from: "1.10.1"),
         .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.10.81"),
         .package(url: "https://github.com/DoubleNode/DNSError.git", from: "1.10.0"),
