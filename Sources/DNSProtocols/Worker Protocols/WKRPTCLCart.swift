@@ -41,6 +41,7 @@ public protocol WKRPTCLCart: WKRPTCLWorkerBase {
                with progress: DNSPTCLProgressBlock?,
                and block: WKRPTCLCartBlkBasket?)
     func doCheckout(for basket: DAOBasket,
+                    using card: DAOCard,
                     with progress: DNSPTCLProgressBlock?,
                     and block: WKRPTCLCartBlkOrder?)
     func doCreate(with progress: DNSPTCLProgressBlock?,
@@ -76,6 +77,7 @@ public protocol WKRPTCLCart: WKRPTCLWorkerBase {
                to basket: DAOBasket,
                with block: WKRPTCLCartBlkBasket?)
     func doCheckout(for basket: DAOBasket,
+                    using card: DAOCard,
                     with block: WKRPTCLCartBlkOrder?)
     func doCreate(with block: WKRPTCLCartBlkBasket?)
     func doCreate(and add: DAOBasketItem,

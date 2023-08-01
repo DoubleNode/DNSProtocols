@@ -20,6 +20,7 @@ public enum WKRPTCLCartError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case cardDeclined(_ codeLocation: DNSCodeLocation)
     case emptyBasket(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRCART"
@@ -31,7 +32,8 @@ public enum WKRPTCLCartError: DNSError {
         case invalidParameters = 1004
         case lowerError = 1005
         // Domain-Specific Errors
-        case emptyBasket = 2001
+        case cardDeclined = 2001
+        case emptyBasket = 2002
     }
 
     public var nsError: NSError! {
@@ -72,6 +74,12 @@ public enum WKRPTCLCartError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .cardDeclined(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.cardDeclined.rawValue,
+                                userInfo: userInfo)
         case .emptyBasket(let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
@@ -106,6 +114,9 @@ public enum WKRPTCLCartError: DNSError {
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
+        case .cardDeclined:
+            return String(format: NSLocalizedString("WKRCART-Card Declined%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.emptyBasket.rawValue))")
         case .emptyBasket:
             return String(format: NSLocalizedString("WKRCART-Empty Basket%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.emptyBasket.rawValue))")
@@ -120,6 +131,7 @@ public enum WKRPTCLCartError: DNSError {
              .invalidParameters(_, let codeLocation),
              .lowerError(_, let codeLocation),
             // Domain-Specific Errors
+             .cardDeclined(let codeLocation),
              .emptyBasket(let codeLocation):
                 return codeLocation.failureReason
        }
