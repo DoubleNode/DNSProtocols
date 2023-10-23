@@ -24,7 +24,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
     case dataError(_ codeLocation: DNSCodeLocation)
     case invalidUrl(_ codeLocation: DNSCodeLocation)
     case networkError(error: Error, _ codeLocation: DNSCodeLocation)
-    case serverError(statusCode: Int, _ codeLocation: DNSCodeLocation)
+    case serverError(statusCode: Int, status: String = "", _ codeLocation: DNSCodeLocation)
     case unauthorized(_ codeLocation: DNSCodeLocation)
     case forbidden(_ codeLocation: DNSCodeLocation)
     case upgradeClient(message: String, _ codeLocation: DNSCodeLocation)
@@ -119,9 +119,10 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.networkError.rawValue,
                                 userInfo: userInfo)
-        case .serverError(let statusCode, let codeLocation):
+        case .serverError(let statusCode, let status, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["StatusCode"] = statusCode
+            userInfo["Status"] = status
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.serverError.rawValue,
@@ -210,9 +211,9 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return String(format: NSLocalizedString("NETBASE-Network Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.networkError.rawValue))")
-        case .serverError(let statusCode, _):
+        case .serverError(let statusCode, let status, _):
             return String(format: NSLocalizedString("NETBASE-Server Error%@%@", comment: ""),
-                          "\(statusCode)",
+                          "\(statusCode)", "\(status)",
                           " (\(Self.domain):\(Self.Code.serverError.rawValue))")
         case .unauthorized:
             return String(format: NSLocalizedString("NETBASE-Unauthorized%@", comment: ""),
@@ -251,7 +252,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
              .dataError(let codeLocation),
              .invalidUrl(let codeLocation),
              .networkError(_, let codeLocation),
-             .serverError(_, let codeLocation),
+             .serverError(_, _, let codeLocation),
              .unauthorized(let codeLocation),
              .forbidden(let codeLocation),
              .upgradeClient(_, let codeLocation),
