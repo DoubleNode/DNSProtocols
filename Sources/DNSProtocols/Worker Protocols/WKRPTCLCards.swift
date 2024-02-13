@@ -57,6 +57,7 @@ public protocol WKRPTCLCards: WKRPTCLWorkerBase {
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLCardsBlkVoid?)
     func doUpdate(_ card: DAOCard,
+                  for user: DAOUser,
                   with progress: DNSPTCLProgressBlock?,
                   and block: WKRPTCLCardsBlkVoid?)
 
