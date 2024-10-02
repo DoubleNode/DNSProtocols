@@ -32,6 +32,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
     case insufficientAccess(_ codeLocation: DNSCodeLocation)
     case expiredAccessToken(_ codeLocation: DNSCodeLocation)
     case alreadyLinked(_ codeLocation: DNSCodeLocation)
+    case missingData(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "NETBASE"
     public enum Code: Int {
@@ -54,6 +55,7 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case insufficientAccess = 2010
         case expiredAccessToken = 2011
         case alreadyLinked = 2012
+        case missingData = 2013
     }
 
     public var nsError: NSError! {
@@ -170,6 +172,12 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.alreadyLinked.rawValue,
                                 userInfo: userInfo)
+        case .missingData(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.missingData.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -237,6 +245,9 @@ public enum NETPTCLNetworkBaseError: DNSError {
         case .alreadyLinked:
             return String(format: NSLocalizedString("NETBASE-AlreadyLinked%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.alreadyLinked.rawValue))")
+        case .missingData:
+            return String(format: NSLocalizedString("NETBASE-MissingData%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.missingData.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -259,7 +270,8 @@ public enum NETPTCLNetworkBaseError: DNSError {
              .adminRequired(let codeLocation),
              .insufficientAccess(let codeLocation),
              .expiredAccessToken(let codeLocation),
-             .alreadyLinked(let codeLocation):
+             .alreadyLinked(let codeLocation),
+             .missingData(let codeLocation):
             return codeLocation.failureReason
         }
     }
