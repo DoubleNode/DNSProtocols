@@ -11,7 +11,7 @@ import Foundation
 public struct WKRPTCLValidationData {
     public enum Regex
     {
-        public static let email = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        public static let email = "^((?!\\.)[\\w\\-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$"
         public static let phone = "^[0-9]{10}$"
         public static let state = "[A-Z][A-Z]"
         public static let postalCode = "[0-9]{5}"
