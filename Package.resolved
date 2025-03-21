@@ -59,8 +59,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCore.git",
       "state" : {
-        "revision" : "6ae42e7423029031d27c53702554e86eed6a055e",
-        "version" : "1.11.8"
+        "revision" : "b2db7908f11f202a3321ea3c18eb731a5f00512e",
+        "version" : "1.11.9"
       }
     },
     {
@@ -106,6 +106,15 @@
       "state" : {
         "revision" : "7e24e26cf3a844ee0dbcdbcc8c78ed45f9570e69",
         "version" : "3.1.2"
+      }
+    },
+    {
+      "identity" : "phonenumberkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/PhoneNumberKit",
+      "state" : {
+        "revision" : "288b99e9e99926bc8be41220802df83c059fac9b",
+        "version" : "4.0.2"
       }
     },
     {
