@@ -3,9 +3,10 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
+import DNSCore
 import Foundation
 
 // Protocol Return Types
@@ -14,9 +15,11 @@ public typealias WKRPTCLAppReviewRtnVoid = Void
 // Protocol Result Types
 public typealias WKRPTCLAppReviewResVoid = Result<WKRPTCLAppReviewRtnVoid, Error>
 
+// Protocol Block Types
+public typealias WKRPTCLAppReviewBlkVoid = (WKRPTCLAppReviewResVoid) -> Void
+
 public protocol WKRPTCLAppReview: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLAppReview? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     init()
@@ -39,4 +42,10 @@ public protocol WKRPTCLAppReview: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doReview() -> WKRPTCLAppReviewResVoid
+    func doReview(with progress: DNSPTCLProgressBlock?, and block: WKRPTCLAppReviewBlkVoid?)
+    func doReview(using parameters: DNSDataDictionary, with progress: DNSPTCLProgressBlock?, and block: WKRPTCLAppReviewBlkVoid?)
+    
+    // MARK: - Worker Logic (Shortcuts) -
+    func doReview(and block: WKRPTCLAppReviewBlkVoid?)
+    func doReview(using parameters: DNSDataDictionary, and block: WKRPTCLAppReviewBlkVoid?)
 }

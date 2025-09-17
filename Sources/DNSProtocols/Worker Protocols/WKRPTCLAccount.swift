@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSCore
@@ -36,7 +36,6 @@ public typealias WKRPTCLAccountBlkVoid = (WKRPTCLAccountResVoid) -> Void
 
 public protocol WKRPTCLAccount: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLAccount? { get }
     var wkrSystems: WKRPTCLSystems? { get }
     
     init()

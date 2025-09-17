@@ -3,11 +3,12 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import Combine
 import DNSDataObjects
+import DNSDataTypes
 import Foundation
 
 // Protocol Return Types
@@ -37,6 +38,7 @@ public typealias WKRPTCLSystemsBlkASystem = (WKRPTCLSystemsResASystem) -> Void
 public typealias WKRPTCLSystemsBlkSystem = (WKRPTCLSystemsResSystem) -> Void
 public typealias WKRPTCLSystemsBlkASystemEndPoint = (WKRPTCLSystemsResASystemEndPoint) -> Void
 public typealias WKRPTCLSystemsBlkASystemState = (WKRPTCLSystemsResASystemState) -> Void
+public typealias WKRPTCLSystemsBlkVoid = (Result<WKRPTCLSystemsRtnVoid, Error>) -> Void
 
 public struct WKRPTCLSystemsData {
     public enum Result: String {
@@ -60,13 +62,13 @@ public struct WKRPTCLSystemsStateData {
 
 public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLSystems,
                   for callNextWhen: DNSPTCLWorker.Call.NextWhen)
     
     // MARK: - Worker Logic (Public) -
+    func doConfigure(with progress: DNSPTCLProgressBlock?, and block: WKRPTCLSystemsBlkVoid?)
     func doLoadSystem(for id: String,
                       with progress: DNSPTCLProgressBlock?,
                       and block: WKRPTCLSystemsBlkSystem?)
@@ -113,6 +115,7 @@ public protocol WKRPTCLSystems: WKRPTCLWorkerBase {
                    and block: WKRPTCLSystemsBlkMeta?)
 
     // MARK: - Worker Logic (Shortcuts) -
+    func doConfigure(and block: WKRPTCLSystemsBlkVoid?)
     func doLoadSystem(for id: String,
                       with block: WKRPTCLSystemsBlkSystem?)
     func doLoadEndPoints(for system: DAOSystem,

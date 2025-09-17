@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
@@ -20,6 +20,10 @@ public enum WKRPTCLBeaconsError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case beaconNotFound(_ codeLocation: DNSCodeLocation)
+    case scanningFailed(_ codeLocation: DNSCodeLocation)
+    case bluetoothUnavailable(_ codeLocation: DNSCodeLocation)
+    case locationPermissionDenied(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRBEACONS"
     public enum Code: Int {
@@ -30,6 +34,10 @@ public enum WKRPTCLBeaconsError: DNSError {
         case invalidParameters = 1004
         case lowerError = 1005
         // Domain-Specific Errors
+        case beaconNotFound = 2001
+        case scanningFailed = 2002
+        case bluetoothUnavailable = 2003
+        case locationPermissionDenied = 2004
     }
     
     public var nsError: NSError! {
@@ -70,6 +78,30 @@ public enum WKRPTCLBeaconsError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .beaconNotFound(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.beaconNotFound.rawValue,
+                                userInfo: userInfo)
+        case .scanningFailed(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.scanningFailed.rawValue,
+                                userInfo: userInfo)
+        case .bluetoothUnavailable(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.bluetoothUnavailable.rawValue,
+                                userInfo: userInfo)
+        case .locationPermissionDenied(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.locationPermissionDenied.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -98,6 +130,19 @@ public enum WKRPTCLBeaconsError: DNSError {
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
+        case .beaconNotFound:
+            return String(format: NSLocalizedString("WKRBEACONS-Beacon Not Found%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.beaconNotFound.rawValue))")
+        case .scanningFailed:
+            return String(format: NSLocalizedString("WKRBEACONS-Scanning Failed%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.scanningFailed.rawValue))")
+        case .bluetoothUnavailable:
+            return String(format: NSLocalizedString("WKRBEACONS-Bluetooth Unavailable%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.bluetoothUnavailable.rawValue))")
+        case .locationPermissionDenied:
+            return String(format: NSLocalizedString("WKRBEACONS-Location Permission Denied%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.locationPermissionDenied.rawValue))")
+            // Domain-Specific Errors
         }
     }
     public var failureReason: String? {
@@ -107,7 +152,11 @@ public enum WKRPTCLBeaconsError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
-             .lowerError(_, let codeLocation):
+             .lowerError(_, let codeLocation),
+             .beaconNotFound(let codeLocation),
+             .scanningFailed(let codeLocation),
+             .bluetoothUnavailable(let codeLocation),
+             .locationPermissionDenied(let codeLocation):
             // Domain-Specific Errors
             return codeLocation.failureReason
         }

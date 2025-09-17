@@ -34,17 +34,19 @@ Once you have your Swift package set up, adding Alamofire as a dependency is as 
 
 ```swift
 dependencies: [
-.package(url: "https://github.com/DoubleNode/DNSProtocols.git", from: "1.11.17")
+.package(url: "https://github.com/DoubleNode/DNSProtocols.git", from: "1.12.0")
 ]
 ```
 
 ## Dependencies
 
 -   Alamofire v5.10.2+
--   DNSCore v1.11.10+
--   DNSCoreThreading v1.11.1+
--   DNSDataObjects v1.11.11+
--   DNSError v1.11.1+
+-   DNSCore v1.12.0+
+-   DNSCoreThreading v1.12.0+
+-   DNSDataContracts v1.12.0+
+-   DNSDataObjects v1.12.0+
+-   DNSDataUIObjects v1.12.0+
+-   DNSError v1.12.0+
 
 ## Credits
 
@@ -52,4 +54,4 @@ DNSProtocols and the DNSFramework are owned and maintained by Darren Ehlers and 
 
 ## License
 
-DNSProtocols and the DNSFramework are Copyright © 2022 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.
+DNSProtocols and the DNSFramework are Copyright © 2025 - 2016 Darren Ehlers and DoubleNode, LLC. All rights reserved.

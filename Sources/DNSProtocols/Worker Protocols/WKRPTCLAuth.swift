@@ -3,12 +3,12 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSCore
-import DNSDataObjects
-import UIKit
+import DNSDataContracts
+import Foundation
 
 public protocol WKRPTCLAuthAccessData {
     var accessToken: String { get }
@@ -33,7 +33,6 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
     typealias AccessData = WKRPTCLAuthAccessData
     
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLAuth? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
 
@@ -62,7 +61,7 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
     func doSignOut(using parameters: DNSDataDictionary,
                    with progress: DNSPTCLProgressBlock?,
                    and block: WKRPTCLAuthBlkVoid?)
-    func doSignUp(from user: DAOUser?,
+    func doSignUp(from user: (any DAOUserProtocol)?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
                   with progress: DNSPTCLProgressBlock?,
@@ -84,7 +83,7 @@ public protocol WKRPTCLAuth: WKRPTCLWorkerBase {
                   with block: WKRPTCLAuthBlkBoolAccessData?)
     func doSignOut(using parameters: DNSDataDictionary,
                    with block: WKRPTCLAuthBlkVoid?)
-    func doSignUp(from user: DAOUser?,
+    func doSignUp(from user: (any DAOUserProtocol)?,
                   and password: String?,
                   using parameters: DNSDataDictionary,
                   with block: WKRPTCLAuthBlkBoolAccessData?)

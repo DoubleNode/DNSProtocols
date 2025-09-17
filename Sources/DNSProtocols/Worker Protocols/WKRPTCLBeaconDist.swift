@@ -3,10 +3,11 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSDataObjects
+import DNSDataTypes
 import Foundation
 
 // Protocol Return Types
@@ -20,7 +21,6 @@ public typealias WKRPTCLBeaconDistBlkABeaconDistance = (WKRPTCLBeaconDistResABea
 
 public protocol WKRPTCLBeaconDist: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLBeaconDist? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     init()

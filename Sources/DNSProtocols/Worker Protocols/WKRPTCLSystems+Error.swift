@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
@@ -20,6 +20,8 @@ public enum WKRPTCLSystemsError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case systemUnavailable(_ codeLocation: DNSCodeLocation)
+    case configurationError(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRSYSTEMS"
     public enum Code: Int {
@@ -30,6 +32,8 @@ public enum WKRPTCLSystemsError: DNSError {
         case invalidParameters = 1004
         case lowerError = 1005
         // Domain-Specific Errors
+        case systemUnavailable = 2001
+        case configurationError = 2002
     }
 
     public var nsError: NSError! {
@@ -70,6 +74,18 @@ public enum WKRPTCLSystemsError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .systemUnavailable(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.systemUnavailable.rawValue,
+                                userInfo: userInfo)
+        case .configurationError(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.configurationError.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -98,6 +114,12 @@ public enum WKRPTCLSystemsError: DNSError {
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
+        case .systemUnavailable:
+            return String(format: NSLocalizedString("WKRSYSTEMS-System Unavailable%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.systemUnavailable.rawValue))")
+        case .configurationError:
+            return String(format: NSLocalizedString("WKRSYSTEMS-Configuration Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.configurationError.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -107,8 +129,10 @@ public enum WKRPTCLSystemsError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
-             .lowerError(_, let codeLocation):
-            // Domain-Specific Errors
+             .lowerError(_, let codeLocation),
+             // Domain-Specific Errors
+             .systemUnavailable(let codeLocation),
+             .configurationError(let codeLocation):
             return codeLocation.failureReason
         }
     }

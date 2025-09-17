@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
@@ -61,19 +61,19 @@ public enum NETPTCLNetworkBaseError: DNSError {
     public var nsError: NSError! {
         switch self {
             // Common Errors
-        case .unknown(let transactionId, let codeLocation):
+        case .unknown(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unknown.rawValue,
                                 userInfo: userInfo)
-        case .notImplemented(let transactionId, let codeLocation):
+        case .notImplemented(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notImplemented.rawValue,
                                 userInfo: userInfo)
-        case .notFound(let field, let value, let transactionId, let codeLocation):
+        case .notFound(let field, let value, _/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["field"] = field
             userInfo["value"] = value
@@ -81,14 +81,14 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.notFound.rawValue,
                                 userInfo: userInfo)
-        case .invalidParameters(let parameters, let transactionId, let codeLocation):
+        case .invalidParameters(let parameters, _/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             userInfo["Parameters"] = parameters
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidParameters.rawValue,
                                 userInfo: userInfo)
-        case .lowerError(let error, let transactionId, let codeLocation):
+        case .lowerError(let error, _/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["Error"] = error
             userInfo[NSLocalizedDescriptionKey] = self.errorString
@@ -96,32 +96,32 @@ public enum NETPTCLNetworkBaseError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
-        case .noConnection(let transactionId, let codeLocation):
+        case .noConnection(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.noConnection.rawValue,
                                 userInfo: userInfo)
-        case .dataError(let transactionId, let codeLocation):
+        case .dataError(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.dataError.rawValue,
                                 userInfo: userInfo)
-        case .invalidUrl(let transactionId, let codeLocation):
+        case .invalidUrl(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.invalidUrl.rawValue,
                                 userInfo: userInfo)
-        case .networkError(let error, let transactionId, let codeLocation):
+        case .networkError(let error, _/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["Error"] = error
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.networkError.rawValue,
                                 userInfo: userInfo)
-        case .serverError(let statusCode, let status, let transactionId, let codeLocation):
+        case .serverError(let statusCode, let status, _/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["StatusCode"] = statusCode
             userInfo["Status"] = status
@@ -129,50 +129,50 @@ public enum NETPTCLNetworkBaseError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.serverError.rawValue,
                                 userInfo: userInfo)
-        case .unauthorized(let transactionId, let codeLocation):
+        case .unauthorized(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.unauthorized.rawValue,
                                 userInfo: userInfo)
-        case .forbidden(let transactionId, let codeLocation):
+        case .forbidden(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.forbidden.rawValue,
                                 userInfo: userInfo)
-        case .upgradeClient(let message, let transactionId, let codeLocation):
+        case .upgradeClient(let message, _/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["Message"] = message
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.upgradeClient.rawValue,
                                 userInfo: userInfo)
-        case .adminRequired(let transactionId, let codeLocation):
+        case .adminRequired(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.adminRequired.rawValue,
                                 userInfo: userInfo)
-        case .insufficientAccess(let transactionId, let codeLocation):
+        case .insufficientAccess(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.insufficientAccess.rawValue,
                                 userInfo: userInfo)
-        case .expiredAccessToken(let transactionId, let codeLocation):
+        case .expiredAccessToken(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.expiredAccessToken.rawValue,
                                 userInfo: userInfo)
-        case .alreadyLinked(let transactionId, let codeLocation):
+        case .alreadyLinked(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.alreadyLinked.rawValue,
                                 userInfo: userInfo)
-        case .missingData(let transactionId, let codeLocation):
+        case .missingData(_/*transactionId*/, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
@@ -186,66 +186,66 @@ public enum NETPTCLNetworkBaseError: DNSError {
     public var errorString: String {
         switch self {
             // Common Errors
-        case .unknown(let transactionId, _):
+        case .unknown(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Unknown Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unknown.rawValue))")
-        case .notImplemented(let transactionId, _):
+        case .notImplemented(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Not Implemented%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.notImplemented.rawValue))")
-        case .notFound(let field, let value, let transactionId, _):
+        case .notFound(let field, let value, _/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Not Found%@%@%@", comment: ""),
                           "\(field)", "\(value)",
                           "(\(Self.domain):\(Self.Code.notFound.rawValue))")
-        case .invalidParameters(let parameters, let transactionId, _):
+        case .invalidParameters(let parameters, _/*transactionId*/, _):
             let parametersString = parameters.reduce("") { $0 + ($0.isEmpty ? "" : ", ") + $1 }
             return String(format: NSLocalizedString("NETBASE-Invalid Parameters%@%@", comment: ""),
                           "\(parametersString)",
                           " (\(Self.domain):\(Self.Code.invalidParameters.rawValue))")
-        case .lowerError(let error, let transactionId, _):
+        case .lowerError(let error, _/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Lower Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
-        case .noConnection(let transactionId, _):
+        case .noConnection(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-No Connection%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.noConnection.rawValue))")
-        case .dataError(let transactionId, _):
+        case .dataError(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Data Error%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.dataError.rawValue))")
-        case .invalidUrl(let transactionId, _):
+        case .invalidUrl(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Invalid URL%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.invalidUrl.rawValue))")
-        case .networkError(let error, let transactionId, _):
+        case .networkError(let error, _/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Network Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.networkError.rawValue))")
-        case .serverError(let statusCode, let status, let transactionId, _):
+        case .serverError(let statusCode, let status, _/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Server Error%@%@", comment: ""),
                           "\(statusCode)", "\(status)",
                           " (\(Self.domain):\(Self.Code.serverError.rawValue))")
-        case .unauthorized(let transactionId, _):
+        case .unauthorized(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Unauthorized%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.unauthorized.rawValue))")
-        case .forbidden(let transactionId, _):
+        case .forbidden(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-Forbidden%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.forbidden.rawValue))")
-        case .upgradeClient(let message, let transactionId, _):
+        case .upgradeClient(let message, _/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-UpgradeClient%@%@", comment: ""),
                           message,
                           " (\(Self.domain):\(Self.Code.upgradeClient.rawValue))")
-        case .adminRequired(let transactionId, _):
+        case .adminRequired(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-AdminRequired%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.adminRequired.rawValue))")
-        case .insufficientAccess(let transactionId, _):
+        case .insufficientAccess(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-InsufficientAccess%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.insufficientAccess.rawValue))")
-        case .expiredAccessToken(let transactionId, _):
+        case .expiredAccessToken(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-ExpiredAccessToken%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.expiredAccessToken.rawValue))")
-        case .alreadyLinked(let transactionId, _):
+        case .alreadyLinked(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-AlreadyLinked%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.alreadyLinked.rawValue))")
-        case .missingData(let transactionId, _):
+        case .missingData(_/*transactionId*/, _):
             return String(format: NSLocalizedString("NETBASE-MissingData%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.missingData.rawValue))")
         }

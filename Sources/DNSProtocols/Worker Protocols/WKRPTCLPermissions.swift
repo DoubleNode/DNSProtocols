@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSCoreThreading
@@ -38,7 +38,6 @@ public protocol WKRPTCLPermissions: WKRPTCLWorkerBase {
     typealias Action = WKRPTCLPermissionAction
     
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLPermissions? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     init()

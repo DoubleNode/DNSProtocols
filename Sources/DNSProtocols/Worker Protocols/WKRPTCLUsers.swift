@@ -3,11 +3,12 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSCore
 import DNSDataObjects
+import DNSDataTypes
 import Foundation
 
 // Protocol Return Types
@@ -39,7 +40,6 @@ public typealias WKRPTCLUsersBlkVoid = (WKRPTCLUsersResVoid) -> Void
 
 public protocol WKRPTCLUsers: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLUsers? { get }
 
     init()
     func register(nextWorker: WKRPTCLUsers,

@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSCore
@@ -14,6 +14,9 @@ public typealias WKRPTCLAnalyticsRtnVoid = Void
 
 // Protocol Result Types
 public typealias WKRPTCLAnalyticsResVoid = Result<WKRPTCLAnalyticsRtnVoid, Error>
+
+// Protocol Block Types
+public typealias WKRPTCLAnalyticsBlkVoid = (WKRPTCLAnalyticsResVoid) -> Void
 
 public enum WKRPTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case addToCart
@@ -46,14 +49,13 @@ public enum WKRPTCLAnalyticsEvents: Int8, CaseIterable, Codable {
     case viewPromotionDetail
     case viewSearchResults
     case other
+    case unknown
 }
 
 public protocol WKRPTCLAnalytics: WKRPTCLWorkerBase {
     typealias Events = WKRPTCLAnalyticsEvents
 
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLAnalytics? { get }
-    var wkrSystems: WKRPTCLSystems? { get }
 
     init()
     func register(nextWorker: WKRPTCLAnalytics,

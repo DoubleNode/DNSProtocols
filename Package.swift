@@ -4,7 +4,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import PackageDescription
@@ -14,6 +14,7 @@ let package = Package(
     platforms: [
         .iOS(.v16),
         .tvOS(.v16),
+        .macCatalyst(.v16),
         .macOS(.v13),
         .watchOS(.v9),
     ],
@@ -27,17 +28,26 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.10.2"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.11.10"),
-        .package(url: "https://github.com/DoubleNode/DNSCoreThreading.git", from: "1.11.1"),
-        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.11.11"),
-        .package(url: "https://github.com/DoubleNode/DNSError.git", from: "1.11.1"),
+//        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.12.0"),
+//        .package(url: "https://github.com/DoubleNode/DNSCoreThreading.git", from: "1.12.0"),
+//        .package(url: "https://github.com/DoubleNode/DNSDataContracts.git", from: "1.12.0"),
+//        .package(url: "https://github.com/DoubleNode/DNSDataObjects.git", from: "1.12.0"),
+//        .package(url: "https://github.com/DoubleNode/DNSDataUIObjects.git", from: "1.12.0"),
+//        .package(url: "https://github.com/DoubleNode/DNSError.git", from: "1.12.0"),
+        .package(path: "../DNSCore"),
+        .package(path: "../DNSCoreThreading"),
+        .package(path: "../DNSDataContracts"),
+        .package(path: "../DNSDataObjects"),
+        .package(path: "../DNSDataUIObjects"),
+        .package(path: "../DNSError"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "DNSProtocols",
-            dependencies: ["Alamofire", "DNSCore", "DNSCoreThreading", "DNSDataObjects", "DNSError"]),
+            dependencies: ["Alamofire", "DNSCore", "DNSCoreThreading", "DNSDataContracts", "DNSDataObjects",
+                           "DNSDataUIObjects", "DNSError"]),
         .testTarget(
             name: "DNSProtocolsTests",
             dependencies: ["DNSProtocols"]),

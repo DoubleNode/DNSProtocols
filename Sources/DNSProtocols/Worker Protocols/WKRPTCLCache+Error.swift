@@ -3,11 +3,11 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
-import UIKit
+import Foundation
 
 public extension DNSError {
     typealias Cache = WKRPTCLCacheError
@@ -20,8 +20,10 @@ public enum WKRPTCLCacheError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case cacheError(_ codeLocation: DNSCodeLocation)
     case createError(error: Error, _ codeLocation: DNSCodeLocation)
     case deleteError(error: Error, _ codeLocation: DNSCodeLocation)
+    case loadFailed(_ codeLocation: DNSCodeLocation)
     case readError(error: Error, _ codeLocation: DNSCodeLocation)
     case writeError(error: Error, _ codeLocation: DNSCodeLocation)
 
@@ -34,10 +36,12 @@ public enum WKRPTCLCacheError: DNSError {
         case invalidParameters = 1004
         case lowerError = 1005
         // Domain-Specific Errors
-        case createError = 2001
-        case deleteError = 2002
-        case readError = 2003
-        case writeError = 2004
+        case cacheError = 2001
+        case createError = 2002
+        case deleteError = 2003
+        case loadFailed = 2004
+        case readError = 2005
+        case writeError = 2006
     }
     
     public var nsError: NSError! {
@@ -78,6 +82,12 @@ public enum WKRPTCLCacheError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .cacheError(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.cacheError.rawValue,
+                                userInfo: userInfo)
         case .createError(let error, let codeLocation):
             var userInfo = codeLocation.userInfo
             userInfo["Error"] = error
@@ -91,6 +101,12 @@ public enum WKRPTCLCacheError: DNSError {
             userInfo[NSLocalizedDescriptionKey] = self.errorString
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.deleteError.rawValue,
+                                userInfo: userInfo)
+        case .loadFailed(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.loadFailed.rawValue,
                                 userInfo: userInfo)
         case .readError(let error, let codeLocation):
             var userInfo = codeLocation.userInfo
@@ -134,6 +150,9 @@ public enum WKRPTCLCacheError: DNSError {
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
+        case .cacheError:
+            return String(format: NSLocalizedString("WKRCACHE-Cache Error%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.cacheError.rawValue))")
         case .createError(let error, _):
             return String(format: NSLocalizedString("WKRCACHE-Object Create Error%@%@", comment: ""),
                           error.localizedDescription,
@@ -142,6 +161,9 @@ public enum WKRPTCLCacheError: DNSError {
             return String(format: NSLocalizedString("WKRCACHE-Object Delete Error%@%@", comment: ""),
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.deleteError.rawValue))")
+        case .loadFailed:
+            return String(format: NSLocalizedString("WKRCACHE-Load Failed%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.loadFailed.rawValue))")
         case .readError(let error, _):
             return String(format: NSLocalizedString("WKRCACHE-Object Read Error%@%@", comment: ""),
                           error.localizedDescription,
@@ -161,8 +183,10 @@ public enum WKRPTCLCacheError: DNSError {
              .invalidParameters(_, let codeLocation),
              .lowerError(_, let codeLocation),
             // Domain-Specific Errors
+             .cacheError(let codeLocation),
              .createError(_, let codeLocation),
              .deleteError(_, let codeLocation),
+             .loadFailed(let codeLocation),
              .readError(_, let codeLocation),
              .writeError(_, let codeLocation):
             return codeLocation.failureReason

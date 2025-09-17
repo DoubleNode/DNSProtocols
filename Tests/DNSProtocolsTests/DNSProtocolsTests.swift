@@ -3,21 +3,20 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocolsTests
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import XCTest
 @testable import DNSProtocols
 
 final class DNSProtocolsTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        //XCTAssertEqual(DNSProtocols().text, "Hello, World!")
+    func testProtocolsImportSuccessful() {
+        // Test that we can reference basic protocol types without initialization issues
+        XCTAssertNotNil(WKRPTCLAnalytics.self, "WKRPTCLAnalytics protocol should be accessible")
+        XCTAssertNotNil(WKRPTCLAuth.self, "WKRPTCLAuth protocol should be accessible")
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testProtocolsImportSuccessful", testProtocolsImportSuccessful),
     ]
 }

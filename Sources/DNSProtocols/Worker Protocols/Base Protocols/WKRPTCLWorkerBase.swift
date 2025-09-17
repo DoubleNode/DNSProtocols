@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSCore
@@ -19,11 +19,13 @@ public typealias WKRPTCLWorkerBaseResAAnalyticsData = Result<WKRPTCLWorkerBaseRt
 // Protocol Block Types
 public typealias WKRPTCLWorkerBaseBlkAAnalyticsData = (WKRPTCLWorkerBaseResAAnalyticsData) -> Void
 
-public protocol WKRPTCLWorkerBase: AnyObject {
+public protocol WKRPTCLWorkerBase: DNSPTCLWorker {
     static var xlt: DNSDataTranslation { get }
     
     var netConfig: NETPTCLConfig { get set }
     var netRouter: NETPTCLRouter { get set }
+    
+    var wkrSystems: WKRPTCLSystems? { get }
     
     func configure()
     

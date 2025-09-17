@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import CoreLocation
@@ -23,7 +23,6 @@ public typealias WKRPTCLGeoBlkStringLocation = (WKRPTCLGeoResStringLocation) -> 
 
 public protocol WKRPTCLGeo: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLGeo? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     init()

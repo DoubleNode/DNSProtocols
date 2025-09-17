@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
@@ -24,6 +24,7 @@ public enum WKRPTCLAuthError: DNSError {
     case lockedOut(_ codeLocation: DNSCodeLocation)
     case passwordExpired(_ codeLocation: DNSCodeLocation)
     case existingAccount(_ codeLocation: DNSCodeLocation)
+    case invalidCredentials(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRAUTH"
     public enum Code: Int {
@@ -38,6 +39,7 @@ public enum WKRPTCLAuthError: DNSError {
         case lockedOut = 2002
         case passwordExpired = 2003
         case existingAccount = 2004
+        case invalidCredentials = 2005
     }
 
     public var nsError: NSError! {
@@ -103,6 +105,12 @@ public enum WKRPTCLAuthError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.existingAccount.rawValue,
                                 userInfo: userInfo)
+        case .invalidCredentials(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.invalidCredentials.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -144,6 +152,9 @@ public enum WKRPTCLAuthError: DNSError {
         case .existingAccount:
             return String(format: NSLocalizedString("WKRAUTH-ExistingAccount%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.existingAccount.rawValue))")
+        case .invalidCredentials:
+            return String(format: NSLocalizedString("WKRAUTH-Invalid Credentials%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.invalidCredentials.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -158,7 +169,8 @@ public enum WKRPTCLAuthError: DNSError {
              .failure(_, let codeLocation),
              .lockedOut(let codeLocation),
              .passwordExpired(let codeLocation),
-             .existingAccount(let codeLocation):
+             .existingAccount(let codeLocation),
+             .invalidCredentials(let codeLocation):
             return codeLocation.failureReason
         }
     }

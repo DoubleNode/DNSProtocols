@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import Foundation
@@ -24,7 +24,6 @@ public protocol WKRPTCLPassStrength: WKRPTCLWorkerBase {
     typealias Level = WKRPTCLPassStrengthLevel
     
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLPassStrength? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     var minimumLength: Int32 { get set }

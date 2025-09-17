@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
@@ -15,8 +15,10 @@ public typealias DNSPTCLCallResultBlock = (DNSPTCLResultBlock?) -> Any?
 public typealias DNSPTCLProgressBlock = (Int64, Int64, Double, String) -> Void
 public typealias DNSPTCLResultBlock = (DNSPTCLWorker.Call.Result) -> Any?
 
-public protocol DNSPTCLWorker {
+public protocol DNSPTCLWorker: AnyObject {
     typealias Call = DNSPTCLCall
+    
+    var nextWorker: DNSPTCLWorker? { get }
 }
 public enum DNSPTCLCall {
     public enum NextWhen {

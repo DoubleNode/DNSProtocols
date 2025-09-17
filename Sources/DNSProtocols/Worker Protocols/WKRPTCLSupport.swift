@@ -3,19 +3,28 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import Combine
+#if canImport(UIKit)
 import UIKit
+#endif
 
 public struct WKRPTCLSupportAttachment: Hashable {
     public var attachment: AnyHashable?
     public var token: String = ""
+#if canImport(UIKit)
     public var image: UIImage
     public init(image: UIImage) {
         self.image = image
     }
+#else
+    public var image: Any
+    public init(image: Any) {
+        self.image = image
+    }
+#endif
     public static func == (lhs: WKRPTCLSupportAttachment, rhs: WKRPTCLSupportAttachment) -> Bool {
         return lhs.image == rhs.image
     }
@@ -38,7 +47,6 @@ public typealias WKRPTCLSupportFutVoid = Future<WKRPTCLSupportRtnVoid, Error>
 
 public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLSupport? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     init()
@@ -47,8 +55,13 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Public) -
     func doGetUpdatedCount(with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubInt
+#if canImport(UIKit)
     func doPrepare(attachment image: UIImage,
                    with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubAttach
+#else
+    func doPrepare(attachment image: Any,
+                   with progress: DNSPTCLProgressBlock?) -> WKRPTCLSupportPubAttach
+#endif
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],
@@ -58,7 +71,11 @@ public protocol WKRPTCLSupport: WKRPTCLWorkerBase {
 
     // MARK: - Worker Logic (Shortcuts) -
     func doGetUpdatedCount() -> WKRPTCLSupportPubInt
+#if canImport(UIKit)
     func doPrepare(attachment image: UIImage) -> WKRPTCLSupportPubAttach
+#else
+    func doPrepare(attachment image: Any) -> WKRPTCLSupportPubAttach
+#endif
     func doSendRequest(subject: String,
                        body: String,
                        tags: [String],

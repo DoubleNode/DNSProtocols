@@ -3,15 +3,21 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import Combine
+#if canImport(UIKit)
 import UIKit
+#endif
 
 // Protocol Return Types
 public typealias WKRPTCLCacheRtnAny = Any
+#if canImport(UIKit)
 public typealias WKRPTCLCacheRtnImage = UIImage
+#else
+public typealias WKRPTCLCacheRtnImage = Any
+#endif
 public typealias WKRPTCLCacheRtnString = String
 public typealias WKRPTCLCacheRtnVoid = Void
 
@@ -30,7 +36,6 @@ public typealias WKRPTCLCacheFutVoid = Future<WKRPTCLCacheRtnVoid, Error>
 public protocol WKRPTCLCache: WKRPTCLWorkerBase
 {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen { get }
-    var nextWorker: WKRPTCLCache? { get }
     var wkrSystems: WKRPTCLSystems? { get }
 
     init()

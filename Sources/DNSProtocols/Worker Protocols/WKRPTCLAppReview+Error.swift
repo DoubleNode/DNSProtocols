@@ -3,7 +3,7 @@
 //  DoubleNode Swift Framework (DNSFramework) - DNSProtocols
 //
 //  Created by Darren Ehlers.
-//  Copyright © 2022 - 2016 DoubleNode.com. All rights reserved.
+//  Copyright © 2025 - 2016 DoubleNode.com. All rights reserved.
 //
 
 import DNSError
@@ -20,6 +20,8 @@ public enum WKRPTCLAppReviewError: DNSError {
     case invalidParameters(parameters: [String], _ codeLocation: DNSCodeLocation)
     case lowerError(error: Error, _ codeLocation: DNSCodeLocation)
     // Domain-Specific Errors
+    case reviewNotAvailable(_ codeLocation: DNSCodeLocation)
+    case userDeclined(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRAPPREVIEW"
     public enum Code: Int {
@@ -30,6 +32,8 @@ public enum WKRPTCLAppReviewError: DNSError {
         case invalidParameters = 1004
         case lowerError = 1005
         // Domain-Specific Errors
+        case reviewNotAvailable = 2001
+        case userDeclined = 2002
     }
     
     public var nsError: NSError! {
@@ -70,6 +74,18 @@ public enum WKRPTCLAppReviewError: DNSError {
                                 code: Self.Code.lowerError.rawValue,
                                 userInfo: userInfo)
             // Domain-Specific Errors
+        case .reviewNotAvailable(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.reviewNotAvailable.rawValue,
+                                userInfo: userInfo)
+        case .userDeclined(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.userDeclined.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -98,6 +114,12 @@ public enum WKRPTCLAppReviewError: DNSError {
                           error.localizedDescription,
                           " (\(Self.domain):\(Self.Code.lowerError.rawValue))")
             // Domain-Specific Errors
+        case .reviewNotAvailable:
+            return String(format: NSLocalizedString("WKRAPPREVIEW-Review Not Available%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.reviewNotAvailable.rawValue))")
+        case .userDeclined:
+            return String(format: NSLocalizedString("WKRAPPREVIEW-User Declined%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.userDeclined.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -107,7 +129,9 @@ public enum WKRPTCLAppReviewError: DNSError {
              .notImplemented(let codeLocation),
              .notFound(_, _, let codeLocation),
              .invalidParameters(_, let codeLocation),
-             .lowerError(_, let codeLocation):
+             .lowerError(_, let codeLocation),
+             .reviewNotAvailable(let codeLocation),
+             .userDeclined(let codeLocation):
             // Domain-Specific Errors
             return codeLocation.failureReason
         }
