@@ -267,15 +267,9 @@ private class MockBeaconsWorker: MockWorker, WKRPTCLBeacons {
     var scanningFailed = false
     
     // MARK: - WKRPTCLBeacons Protocol Conformance
-    
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker }
-        set { super.nextWorker = newValue }
-    }
-    
-    var nextWKRPTCLBeacons: WKRPTCLBeacons? {
-        get { return nextWorker as? WKRPTCLBeacons }
-        set { nextWorker = newValue }
+    var nextWorker: WKRPTCLBeacons? {
+        get { return nextBaseWorker as? WKRPTCLBeacons }
+        set { nextBaseWorker = newValue }
     }
     
     override var wkrSystems: WKRPTCLSystems? {

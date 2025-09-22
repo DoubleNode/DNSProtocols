@@ -476,9 +476,10 @@ private class MockValidationWorker: MockWorker, WKRPTCLValidation {
     // MARK: - WKRPTCLValidation Protocol Conformance
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
     
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLValidation }
-        set { super.nextWorker = newValue }
+    // MARK: - WKRPTCLValidation Protocol Properties
+    var nextWorker: WKRPTCLValidation? {
+        get { return nextBaseWorker as? WKRPTCLValidation }
+        set { nextBaseWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLValidation, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {

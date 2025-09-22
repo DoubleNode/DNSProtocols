@@ -139,9 +139,10 @@ private class MockMediaWorker: MockWorker, WKRPTCLMedia {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
     var shouldFail = false
     
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLMedia }
-        set { super.nextWorker = newValue }
+    // MARK: - WKRPTCLMedia Protocol Properties
+    var nextWorker: WKRPTCLMedia? {
+        get { return nextBaseWorker as? WKRPTCLMedia }
+        set { nextBaseWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLMedia, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {

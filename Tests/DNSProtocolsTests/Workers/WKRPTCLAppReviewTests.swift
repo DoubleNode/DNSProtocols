@@ -292,16 +292,15 @@ class WKRPTCLAppReviewTests: ProtocolTestBase {
 
 private class MockAppReviewWorker: MockWorker, WKRPTCLAppReview {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
+    // MARK: - WKRPTCLAppReview Conformance
+    var nextWorker: WKRPTCLAppReview? {
+        get { return nextBaseWorker as? WKRPTCLAppReview }
+        set { nextBaseWorker = newValue }
+    }
+    
     var shouldFail = false
     var userDeclined = false
     var reviewNotAvailable = false
-    
-    // MARK: - WKRPTCLAppReview Protocol Conformance
-    
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLAppReview }
-        set { super.nextWorker = newValue }
-    }
     
     func register(nextWorker: WKRPTCLAppReview, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker

@@ -246,11 +246,12 @@ private class MockGeoWorker: MockWorker, WKRPTCLGeo {
     var serviceDisabled = false
     var locationUnavailable = false
 
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLGeo }
-        set { super.nextWorker = newValue }
+    // MARK: - WKRPTCLGeo Protocol Properties
+    var nextWorker: WKRPTCLGeo? {
+        get { return nextBaseWorker as? WKRPTCLGeo }
+        set { nextBaseWorker = newValue }
     }
-
+    
     func register(nextWorker: WKRPTCLGeo, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker
     }

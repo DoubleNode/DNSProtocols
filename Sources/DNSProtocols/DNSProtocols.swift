@@ -18,7 +18,7 @@ public typealias DNSPTCLResultBlock = (DNSPTCLWorker.Call.Result) -> Any?
 public protocol DNSPTCLWorker: AnyObject {
     typealias Call = DNSPTCLCall
     
-    var nextWorker: DNSPTCLWorker? { get }
+    var nextBaseWorker: DNSPTCLWorker? { get }
 }
 public enum DNSPTCLCall {
     public enum NextWhen {

@@ -403,9 +403,10 @@ private class MockUsersWorker: MockWorker, WKRPTCLUsers {
     
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
     
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLUsers }
-        set { super.nextWorker = newValue }
+    // MARK: - WKRPTCLUsers Protocol Properties
+    var nextWorker: WKRPTCLUsers? {
+        get { return nextBaseWorker as? WKRPTCLUsers }
+        set { nextBaseWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLUsers, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {

@@ -556,10 +556,10 @@ class WKRPTCLAccountTests: ProtocolTestBase {
 private class MockAccountWorker: MockWorkerBaseImplementation, WKRPTCLAccount {
     var shouldFail = false
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenUnhandled
-    
-    var nextWKRPTCLAccount: WKRPTCLAccount? {
-        get { return nextWorker as? WKRPTCLAccount }
-        set { nextWorker = newValue }
+    // MARK: - WKRPTCLAccount Conformance
+    var nextWorker: WKRPTCLAccount? {
+        get { return nextBaseWorker as? WKRPTCLAccount }
+        set { nextBaseWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLAccount, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {

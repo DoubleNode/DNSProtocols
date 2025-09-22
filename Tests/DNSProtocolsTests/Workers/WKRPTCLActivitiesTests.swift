@@ -152,12 +152,12 @@ class WKRPTCLActivitiesTests: ProtocolTestBase {
 private class MockActivitiesWorker: MockWorkerBaseImplementation, WKRPTCLActivities {
     var shouldFail = false
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenUnhandled
-    
-    var nextWKRPTCLActivities: WKRPTCLActivities? {
-        get { return nextWorker as? WKRPTCLActivities }
-        set { nextWorker = newValue }
+    // MARK: - WKRPTCLActivities Conformance
+    var nextWorker: WKRPTCLActivities? {
+        get { return nextBaseWorker as? WKRPTCLActivities }
+        set { nextBaseWorker = newValue }
     }
-    
+
     func register(nextWorker: WKRPTCLActivities, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker
         self.callNextWhen = callNextWhen

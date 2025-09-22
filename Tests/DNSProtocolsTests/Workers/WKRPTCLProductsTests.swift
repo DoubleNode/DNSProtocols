@@ -156,9 +156,10 @@ private class MockProductsWorker: MockWorker, WKRPTCLProducts {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
     var shouldFail = false
     
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLProducts }
-        set { super.nextWorker = newValue }
+    // MARK: - WKRPTCLProducts Protocol Properties
+    var nextWorker: WKRPTCLProducts? {
+        get { return nextBaseWorker as? WKRPTCLProducts }
+        set { nextBaseWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLProducts, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {

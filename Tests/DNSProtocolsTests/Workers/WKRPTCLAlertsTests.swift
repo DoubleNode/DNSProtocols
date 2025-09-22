@@ -298,10 +298,10 @@ class WKRPTCLAlertsTests: ProtocolTestBase {
 private class MockAlertsWorker: MockWorkerBaseImplementation, WKRPTCLAlerts {
     var shouldFail = false
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenUnhandled
-    
-    var nextWKRPTCLAlerts: WKRPTCLAlerts? {
-        get { return nextWorker as? WKRPTCLAlerts }
-        set { nextWorker = newValue }
+    // MARK: - WKRPTCLAlerts Conformance
+    var nextWorker: WKRPTCLAlerts? {
+        get { return nextBaseWorker as? WKRPTCLAlerts }
+        set { nextBaseWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLAlerts, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {

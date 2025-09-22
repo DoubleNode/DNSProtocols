@@ -453,12 +453,11 @@ private class MockCacheWorker: MockWorker, WKRPTCLCache {
     var shouldFail = false
     
     // MARK: - WKRPTCLCache Protocol Conformance
-    
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLCache }
-        set { super.nextWorker = newValue }
+    var nextWorker: WKRPTCLCache? {
+        get { return nextBaseWorker as? WKRPTCLCache }
+        set { nextBaseWorker = newValue }
     }
-    
+
     func register(nextWorker: WKRPTCLCache, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker
     }

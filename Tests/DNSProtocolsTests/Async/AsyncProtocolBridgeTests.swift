@@ -371,19 +371,12 @@ private class MockAsyncAnalyticsWorker: MockAnalyticsWorker, WKRPTCLAnalyticsAsy
 }
 
 private class MockAsyncAuthWorker: MockWorker, WKRPTCLAuth, WKRPTCLAuthAsync {
-    
-    // MARK: - WKRPTCLAuth Conformance
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker }
-        set { super.nextWorker = newValue }
-    }
-    
-    var nextWKRPTCLAuth: WKRPTCLAuth? {
-        get { return nextWorker as? WKRPTCLAuth }
-        set { nextWorker = newValue }
-    }
-    
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
+    // MARK: - WKRPTCLAuth Conformance
+    var nextWorker: WKRPTCLAuth? {
+        get { return nextBaseWorker as? WKRPTCLAuth }
+        set { nextBaseWorker = newValue }
+    }
     
     func register(nextWorker: WKRPTCLAuth, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker

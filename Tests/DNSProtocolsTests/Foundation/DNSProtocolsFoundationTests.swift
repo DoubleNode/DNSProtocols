@@ -98,14 +98,14 @@ class DNSProtocolsFoundationTests: ProtocolTestBase {
         let mockWorker = MockWorker()
         
         // Test that required properties exist and can be set
-        XCTAssertNil(mockWorker.nextWorker, "NextWorker should initially be nil")
+        XCTAssertNil(mockWorker.nextBaseWorker, "NextWorker should initially be nil")
         let baseWorker = mockWorker as WKRPTCLWorkerBase
         XCTAssertNil(baseWorker.wkrSystems, "Systems worker should initially be nil")
         
         // Test property assignment
         let nextWorker = MockWorker()
-        mockWorker.nextWorker = nextWorker
-        XCTAssertNotNil(mockWorker.nextWorker, "NextWorker should be assignable")
+        mockWorker.nextBaseWorker = nextWorker
+        XCTAssertNotNil(mockWorker.nextBaseWorker, "NextWorker should be assignable")
     }
     
     func testDNSPTCLWorkerInitialization() {
@@ -182,7 +182,7 @@ class DNSProtocolsFoundationTests: ProtocolTestBase {
             for _ in 0..<10 {
                 group.addTask {
                     let nextWorker = MockWorker()
-                    worker.nextWorker = nextWorker
+                    worker.nextBaseWorker = nextWorker
                     worker.configure()
                 }
             }

@@ -142,15 +142,13 @@ private class MockAuthWorker: MockWorker, WKRPTCLAuth {
     var shouldFailSignIn = false
 
     // MARK: - WKRPTCLAuth Protocol Properties
-    
-    override var nextWorker: DNSPTCLWorker? {
-        get { return authNextWorker }
-        set { authNextWorker = newValue as? WKRPTCLAuth }
+    var nextWorker: WKRPTCLAuth? {
+        get { return nextBaseWorker as? WKRPTCLAuth }
+        set { nextBaseWorker = newValue }
     }
-    private var authNextWorker: WKRPTCLAuth?
     
     func register(nextWorker: WKRPTCLAuth, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
-        self.authNextWorker = nextWorker
+        self.nextWorker = nextWorker
         self.callNextWhen = callNextWhen
     }
     

@@ -102,7 +102,7 @@ class MockWorkerBaseImplementation: WKRPTCLWorkerBase {
     }
     private lazy var _netRouter: NETPTCLRouter = MockHelperNetRouter()
     
-    var nextWorker: DNSPTCLWorker?
+    var nextBaseWorker: DNSPTCLWorker?
     
     var shouldThrowError = false
     var wkrSystems: WKRPTCLSystems?
@@ -172,7 +172,11 @@ class MockWorker: MockWorkerBaseImplementation {
 
 class MockAnalyticsWorker: MockWorkerBaseImplementation, WKRPTCLAnalytics {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenUnhandled
-    
+    var nextWorker: WKRPTCLAnalytics? {
+        get { return nextBaseWorker as? WKRPTCLAnalytics }
+        set { nextBaseWorker = newValue }
+    }
+
     func register(nextWorker: WKRPTCLAnalytics, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker
         self.callNextWhen = callNextWhen
@@ -282,7 +286,12 @@ class MockAnalyticsWorker: MockWorkerBaseImplementation, WKRPTCLAnalytics {
 
 class MockSystemsWorker: MockWorkerBaseImplementation, WKRPTCLSystems {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenUnhandled
-    
+    // MARK: - WKRPTCLSystems Conformance
+    var nextWorker: WKRPTCLSystems? {
+        get { return nextBaseWorker as? WKRPTCLSystems }
+        set { nextBaseWorker = newValue }
+    }
+
     func register(nextWorker: WKRPTCLSystems, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
         self.nextWorker = nextWorker
         self.callNextWhen = callNextWhen

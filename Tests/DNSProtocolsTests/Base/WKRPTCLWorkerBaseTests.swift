@@ -43,16 +43,16 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
         let nextWorker = MockWorker()
         
         // Test initial nil state
-        XCTAssertNil(mockWorker.nextWorker)
+        XCTAssertNil(mockWorker.nextBaseWorker)
         
         // Test assignment
-        mockWorker.nextWorker = nextWorker
-        XCTAssertNotNil(mockWorker.nextWorker)
-        XCTAssertTrue(mockWorker.nextWorker === nextWorker)
+        mockWorker.nextBaseWorker = nextWorker
+        XCTAssertNotNil(mockWorker.nextBaseWorker)
+        XCTAssertTrue(mockWorker.nextBaseWorker === nextWorker)
         
         // Test reassignment to nil
-        mockWorker.nextWorker = nil
-        XCTAssertNil(mockWorker.nextWorker)
+        mockWorker.nextBaseWorker = nil
+        XCTAssertNil(mockWorker.nextBaseWorker)
     }
     
     func testSystemsWorkerProperty() {
@@ -81,13 +81,13 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
         let tertiaryWorker = MockWorker()
         
         // Build chain: primary -> secondary -> tertiary
-        primaryWorker.nextWorker = secondaryWorker
-        secondaryWorker.nextWorker = tertiaryWorker
+        primaryWorker.nextBaseWorker = secondaryWorker
+        secondaryWorker.nextBaseWorker = tertiaryWorker
         
         // Verify chain structure
-        XCTAssertEqual(ObjectIdentifier(primaryWorker.nextWorker!), ObjectIdentifier(secondaryWorker))
-        XCTAssertEqual(ObjectIdentifier(secondaryWorker.nextWorker!), ObjectIdentifier(tertiaryWorker))
-        XCTAssertNil(tertiaryWorker.nextWorker)
+        XCTAssertEqual(ObjectIdentifier(primaryWorker.nextBaseWorker!), ObjectIdentifier(secondaryWorker))
+        XCTAssertEqual(ObjectIdentifier(secondaryWorker.nextBaseWorker!), ObjectIdentifier(tertiaryWorker))
+        XCTAssertNil(tertiaryWorker.nextBaseWorker)
     }
     
     func testChainTraversal() {
@@ -99,7 +99,7 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
         
         while let worker = currentWorker {
             workerCount += 1
-            currentWorker = worker.nextWorker as? MockWorker
+            currentWorker = worker.nextBaseWorker as? MockWorker
         }
         
         XCTAssertEqual(workerCount, 5, "Chain should contain exactly 5 workers")
@@ -111,8 +111,8 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
         let worker3 = MockWorker()
         
         // Create a potential circular chain
-        worker1.nextWorker = worker2
-        worker2.nextWorker = worker3
+        worker1.nextBaseWorker = worker2
+        worker2.nextBaseWorker = worker3
         // Intentionally NOT creating: worker3.nextWorker = worker1
         
         // Test that traversal terminates properly
@@ -128,7 +128,7 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
                 break
             }
             visitedWorkers.insert(identifier)
-            currentWorker = worker.nextWorker as? MockWorker
+            currentWorker = worker.nextBaseWorker as? MockWorker
             iterations += 1
         }
         
@@ -140,7 +140,7 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
         let primaryWorker = MockChainableWorkerBase("Primary")
         let secondaryWorker = MockChainableWorkerBase("Secondary")
         
-        primaryWorker.nextWorker = secondaryWorker
+        primaryWorker.nextBaseWorker = secondaryWorker
         primaryWorker.shouldHandleCall = false  // Force delegation
         secondaryWorker.shouldHandleCall = true
         
@@ -306,7 +306,7 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
                     
                     while let worker = currentWorker {
                         count += 1
-                        currentWorker = worker.nextWorker
+                        currentWorker = worker.nextBaseWorker
                     }
                     
                     XCTAssertEqual(count, 5, "Chain traversal should be thread-safe")
@@ -330,7 +330,7 @@ class WKRPTCLWorkerBaseTests: ProtocolTestBase {
                 
                 while let worker = currentWorker {
                     count += 1
-                    currentWorker = worker.nextWorker
+                    currentWorker = worker.nextBaseWorker
                 }
                 
                 XCTAssertEqual(count, 100)
@@ -365,7 +365,7 @@ private extension WKRPTCLWorkerBaseTests {
         
         // Link them together
         for i in 0..<(length - 1) {
-            workers[i].nextWorker = workers[i + 1]
+            workers[i].nextBaseWorker = workers[i + 1]
         }
         
         return workers
@@ -381,7 +381,7 @@ private extension WKRPTCLWorkerBaseTests {
         
         // Link them together
         for i in 0..<(length - 1) {
-            workers[i].nextWorker = workers[i + 1]
+            workers[i].nextBaseWorker = workers[i + 1]
         }
         
         return workers
@@ -402,7 +402,7 @@ private class MockChainableWorkerBase: MockWorkerBaseImplementation {
     let name: String
     var shouldHandleCall = true
     
-    override var nextWorker: DNSPTCLWorker? {
+    override var nextBaseWorker: DNSPTCLWorker? {
         get { return chainableNextWorker }
         set { chainableNextWorker = newValue }
     }
@@ -425,7 +425,7 @@ private class MockChainableWorkerBase: MockWorkerBaseImplementation {
             }
         } else {
             // Delegate to next worker
-            if let nextWorker = self.nextWorker as? MockChainableWorkerBase {
+            if let nextWorker = self.nextBaseWorker as? MockChainableWorkerBase {
                 nextWorker.performChainableOperation(data, completion: completion)
             } else {
                 DispatchQueue.main.async {

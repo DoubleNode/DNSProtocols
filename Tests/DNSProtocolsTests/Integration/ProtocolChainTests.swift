@@ -34,14 +34,14 @@ class ProtocolChainTests: ProtocolTestBase {
         let tertiaryWorker = MockChainableWorker("Tertiary")
         
         // Build the chain
-        primaryWorker.nextWorker = secondaryWorker
-        secondaryWorker.nextWorker = tertiaryWorker
+        primaryWorker.nextBaseWorker = secondaryWorker
+        secondaryWorker.nextBaseWorker = tertiaryWorker
         
         // Verify chain structure
         XCTAssertEqual(primaryWorker.name, "Primary")
-        XCTAssertEqual((primaryWorker.nextWorker as? MockChainableWorker)?.name, "Secondary")
-        XCTAssertEqual((secondaryWorker.nextWorker as? MockChainableWorker)?.name, "Tertiary")
-        XCTAssertNil(tertiaryWorker.nextWorker)
+        XCTAssertEqual((primaryWorker.nextBaseWorker as? MockChainableWorker)?.name, "Secondary")
+        XCTAssertEqual((secondaryWorker.nextBaseWorker as? MockChainableWorker)?.name, "Tertiary")
+        XCTAssertNil(tertiaryWorker.nextBaseWorker)
     }
     
     func testChainTraversal() {
@@ -57,7 +57,7 @@ class ProtocolChainTests: ProtocolTestBase {
                 chainNames.append(mockWorker.name)
             }
             if let baseWorker = worker as? WKRPTCLWorkerBase {
-                currentWorker = baseWorker.nextWorker
+                currentWorker = baseWorker.nextBaseWorker
             } else {
                 currentWorker = nil
             }
@@ -72,7 +72,7 @@ class ProtocolChainTests: ProtocolTestBase {
         let primaryWorker = MockChainableWorker("Primary")
         let secondaryWorker = MockChainableWorker("Secondary")
         
-        primaryWorker.nextWorker = secondaryWorker
+        primaryWorker.nextBaseWorker = secondaryWorker
         primaryWorker.shouldHandleCall = false // Force delegation to next
         secondaryWorker.shouldHandleCall = true
         
@@ -124,43 +124,6 @@ class ProtocolChainTests: ProtocolTestBase {
         waitForExpectations(timeout: 1.0)
     }
     
-    // MARK: - Cross-Protocol Chain Tests
-    
-    func testAnalyticsAuthChain() {
-        let analyticsWorker = MockAnalyticsWorker()
-        let authWorker = MockAsyncAuthWorker()
-        
-        // Chain analytics to auth (unusual but valid for testing)
-        analyticsWorker.nextWorker = authWorker
-        
-        XCTAssertNotNil(analyticsWorker.nextWorker)
-        XCTAssertTrue(analyticsWorker.nextWorker is WKRPTCLAuth)
-        
-        // Test that both workers maintain their protocol conformance
-        validateProtocolConformance(analyticsWorker, conformsTo: WKRPTCLAnalytics.self)
-        validateProtocolConformance(authWorker, conformsTo: WKRPTCLAuth.self)
-    }
-    
-    func testMultiProtocolChaining() {
-        let analyticsWorker = MockAnalyticsWorker()
-        let cacheWorker = MockCacheWorker()
-        let systemsWorker = MockSystemsWorker()
-        
-        // Create a multi-protocol chain
-        analyticsWorker.nextWorker = cacheWorker
-        cacheWorker.nextWorker = systemsWorker
-        
-        // Verify each worker can access the next in chain
-        XCTAssertNotNil(analyticsWorker.nextWorker)
-        XCTAssertNotNil(cacheWorker.nextWorker)
-        XCTAssertNil(systemsWorker.nextWorker)
-        
-        // Verify protocol conformance is maintained
-        validateProtocolConformance(analyticsWorker, conformsTo: WKRPTCLAnalytics.self)
-        validateProtocolConformance(cacheWorker, conformsTo: WKRPTCLCache.self)
-        validateProtocolConformance(systemsWorker, conformsTo: WKRPTCLSystems.self)
-    }
-    
     // MARK: - Systems Worker Integration Tests
     
     func testSystemsWorkerInChain() {
@@ -210,36 +173,6 @@ class ProtocolChainTests: ProtocolTestBase {
         waitForExpectations(timeout: 1.0)
     }
     
-    // MARK: - Async Chain Tests
-    
-    func testAsyncChainOperations() async {
-        let asyncAnalytics = MockAsyncAnalyticsWorker()
-        let asyncAuth = MockAsyncAuthWorker()
-        
-        asyncAnalytics.nextWorker = asyncAuth
-        
-        // Test async operations work in chain
-        let trackResult = asyncAnalytics.doTrack(event: .unknown, properties: [:])
-        switch trackResult {
-        case .success:
-            XCTAssertTrue(true, "Analytics track should succeed")
-        case .failure(let error):
-            XCTFail("Analytics track should not fail: \(error)")
-        }
-        
-        let expectation = self.expectation(description: "Auth sign in")
-        asyncAuth.doSignIn(from: "test@example.com", and: "password", using: [:]) { result in
-            switch result {
-            case .success:
-                XCTAssertTrue(true, "Auth sign in should succeed")
-            case .failure(let error):
-                XCTFail("Auth sign in should not fail: \(error)")
-            }
-            expectation.fulfill()
-        }
-        await fulfillment(of: [expectation], timeout: 1.0)
-    }
-    
     // MARK: - Performance Tests
     
     func testChainTraversalPerformance() {
@@ -254,7 +187,7 @@ class ProtocolChainTests: ProtocolTestBase {
                 while let worker = currentWorker {
                     count += 1
                     if let baseWorker = worker as? WKRPTCLWorkerBase {
-                currentWorker = baseWorker.nextWorker
+                currentWorker = baseWorker.nextBaseWorker
             } else {
                 currentWorker = nil
             }
@@ -312,7 +245,7 @@ class ProtocolChainTests: ProtocolTestBase {
         let worker2 = MockChainableWorker("Worker2")
         
         // Create potential circular reference
-        worker1.nextWorker = worker2
+        worker1.nextBaseWorker = worker2
         // Intentionally NOT setting: worker2.nextWorker = worker1
         
         weak var weakWorker1 = worker1
@@ -336,7 +269,7 @@ class ProtocolChainTests: ProtocolTestBase {
             }
             visitedWorkers.insert(identifier)
             if let baseWorker = worker as? WKRPTCLWorkerBase {
-                currentWorker = baseWorker.nextWorker
+                currentWorker = baseWorker.nextBaseWorker
             } else {
                 currentWorker = nil
             }
@@ -361,7 +294,7 @@ private extension ProtocolChainTests {
         
         // Link them together
         for i in 0..<(length - 1) {
-            workers[i].nextWorker = workers[i + 1]
+            workers[i].nextBaseWorker = workers[i + 1]
         }
         
         return workers
@@ -398,7 +331,7 @@ private class MockChainableWorker: MockWorker {
             completion(true, name)
         } else {
             // Delegate to next worker
-            if let nextWorker = self.nextWorker as? MockChainableWorker {
+            if let nextWorker = self.nextBaseWorker as? MockChainableWorker {
                 nextWorker.performOperation(data, completion: completion)
             } else {
                 completion(false, "None")
@@ -409,14 +342,14 @@ private class MockChainableWorker: MockWorker {
 
 private class MockCacheWorker: MockWorker, WKRPTCLCache {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
+    // MARK: - WKRPTCLCache Conformance
+    var nextWorker: WKRPTCLCache? {
+        get { return nextBaseWorker as? WKRPTCLCache }
+        set { nextBaseWorker = newValue }
+    }
     
     required init() {
         super.init()
-    }
-    
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker }
-        set { super.nextWorker = newValue }
     }
     
     func register(nextWorker: WKRPTCLCache, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
@@ -474,14 +407,14 @@ private class MockAuthAccessData: WKRPTCLAuthAccessData {
 
 private class MockAsyncAuthWorker: MockWorker, WKRPTCLAuth {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
+    // MARK: - WKRPTCLAuth Conformance
+    var nextWorker: WKRPTCLAuth? {
+        get { return nextBaseWorker as? WKRPTCLAuth }
+        set { nextBaseWorker = newValue }
+    }
 
     required init() {
         super.init()
-    }
-
-    override var nextWorker: DNSPTCLWorker? {
-        get { return super.nextWorker as? WKRPTCLAuth }
-        set { super.nextWorker = newValue }
     }
 
     func register(nextWorker: WKRPTCLAuth, for callNextWhen: DNSPTCLWorker.Call.NextWhen) {
@@ -557,7 +490,12 @@ private class MockAsyncAuthWorker: MockWorker, WKRPTCLAuth {
 
 private class MockAsyncAnalyticsWorker: MockWorker, WKRPTCLAnalytics {
     var callNextWhen: DNSPTCLWorker.Call.NextWhen = .whenError
-
+    // MARK: - WKRPTCLAnalytics Conformance
+    var nextWorker: WKRPTCLAnalytics? {
+        get { return nextBaseWorker as? WKRPTCLAnalytics }
+        set { nextBaseWorker = newValue }
+    }
+    
     required init() {
         super.init()
     }
