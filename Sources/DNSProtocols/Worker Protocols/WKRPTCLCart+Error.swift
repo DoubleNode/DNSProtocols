@@ -22,6 +22,7 @@ public enum WKRPTCLCartError: DNSError {
     // Domain-Specific Errors
     case cardDeclined(_ codeLocation: DNSCodeLocation)
     case emptyBasket(_ codeLocation: DNSCodeLocation)
+    case missingBooking(_ codeLocation: DNSCodeLocation)
 
     public static let domain = "WKRCART"
     public enum Code: Int {
@@ -34,6 +35,7 @@ public enum WKRPTCLCartError: DNSError {
         // Domain-Specific Errors
         case cardDeclined = 2001
         case emptyBasket = 2002
+        case missingBooking = 2003
     }
 
     public var nsError: NSError! {
@@ -86,6 +88,12 @@ public enum WKRPTCLCartError: DNSError {
             return NSError.init(domain: Self.domain,
                                 code: Self.Code.emptyBasket.rawValue,
                                 userInfo: userInfo)
+        case .missingBooking(let codeLocation):
+            var userInfo = codeLocation.userInfo
+            userInfo[NSLocalizedDescriptionKey] = self.errorString
+            return NSError.init(domain: Self.domain,
+                                code: Self.Code.missingBooking.rawValue,
+                                userInfo: userInfo)
         }
     }
     public var errorDescription: String? {
@@ -120,6 +128,9 @@ public enum WKRPTCLCartError: DNSError {
         case .emptyBasket:
             return String(format: NSLocalizedString("WKRCART-Empty Basket%@", comment: ""),
                           " (\(Self.domain):\(Self.Code.emptyBasket.rawValue))")
+        case .missingBooking:
+            return String(format: NSLocalizedString("WKRCART-Missing Booking%@", comment: ""),
+                          " (\(Self.domain):\(Self.Code.missingBooking.rawValue))")
         }
     }
     public var failureReason: String? {
@@ -132,7 +143,8 @@ public enum WKRPTCLCartError: DNSError {
              .lowerError(_, let codeLocation),
             // Domain-Specific Errors
              .cardDeclined(let codeLocation),
-             .emptyBasket(let codeLocation):
+             .emptyBasket(let codeLocation),
+             .missingBooking(let codeLocation):
                 return codeLocation.failureReason
        }
     }
